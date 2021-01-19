@@ -13,7 +13,7 @@ deepnotes is an ongoing series of notes for a ML pipeline. While I'm working tow
 can follow along, I plan to start with a gentle introduction and then progress into a working solution. This is bound to be imperfect so your suggestions are hugely appriciated.
 {: .fs-6 .fw-300 }
 
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/pmarsceill/just-the-docs){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/ganindu7/deepnotes){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
