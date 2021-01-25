@@ -17,3 +17,7 @@ deepnotes is an ongoing series of notes for a ML pipeline. This is bound to be i
 ---
 
 ## Getting started
+
+## Setting up communications 
+
+
