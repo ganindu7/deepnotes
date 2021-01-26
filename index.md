@@ -20,4 +20,6 @@ deepnotes is an ongoing series of notes for a ML pipeline. This is bound to be i
 
 ## Setting up communications 
 
+To communicate with our target boards we can either connet a display or use some sort of shell forwarding. Here I'm trying to use SSH.
+
 
