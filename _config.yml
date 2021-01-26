@@ -3,7 +3,7 @@ remote_theme: pmarsceill/just-the-docs
 title: Test ML Docs, Ganindu
 description: A DL primer to be used with Jetson 
 
-baseurl: "/deepnotes"
+#baseurl: "/deepnotes"
 url: "https://ganindu7.github.io/deepnotes/"
 
 permalink: pretty 
