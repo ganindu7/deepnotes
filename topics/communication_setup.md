@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Communicating with a target device
+title: Setting up Communications
 nav_order: 2
 ---
 
