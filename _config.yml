@@ -6,6 +6,8 @@ description: A DL primer to be used with Jetson
 baseurl: "/deepnotes"
 url: "https://ganindu7.github.io/deepnotes/"
 
+permalink: pretty 
 
+exclude: ["topics/tests", "*.gemspec", "*.gem"]
 
 ga_tracking_anonymise_ip: true
