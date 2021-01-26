@@ -1,6 +1,6 @@
 remote_theme: pmarsceill/just-the-docs
 
-title: Test ML Docs, Ganindu
+title: DL Docs
 description: A DL primer to be used with Jetson 
 
 #baseurl: "/deepnotes"
