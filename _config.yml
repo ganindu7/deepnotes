@@ -1,1 +1,11 @@
 remote_theme: pmarsceill/just-the-docs
+
+title: Test ML Docs, Ganindu
+description: A DL primer to be used with Jetson 
+
+baseurl: "/deepnotes"
+url: "https://ganindu7.github.io/deepnotes/"
+
+
+
+ga_tracking_anonymise_ip: true
