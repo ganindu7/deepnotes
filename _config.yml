@@ -1,3 +1,4 @@
+theme: just-the-docs
 remote_theme: pmarsceill/just-the-docs
 
 title: DL Docs
@@ -8,6 +9,6 @@ description: A DL primer to be used with Jetson
 
 permalink: pretty 
 
-exclude: ["topics/tests", "*.gemspec", "*.gem"]
+exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 
 ga_tracking_anonymise_ip: true
