@@ -9,6 +9,8 @@ description: A DL primer to be used with Jetson
 
 permalink: pretty 
 
+# exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
+
 
 ga_tracking_anonymise_ip: true
