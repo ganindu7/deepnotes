@@ -35,3 +35,7 @@ Note: If you don't have SSH working on the target you won't be able to tunnel in
 Before connecting we need to know the IP address, username and the password for the host. Also a quick word about my setup. 
 
 ![My initial network setup](/assets/network_setup_1.png)
+
+
+image test 
+![checking for SSH server](../assets/check-ssh-fail.png)
