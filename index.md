@@ -28,7 +28,9 @@ test with image:
 
 another method 
 
-<img src="/assets/check-ssh-fail.PNG" alt="https://raw.githubusercontent.com/ganindu7/deepnotes/gh-pages/assets/check-ssh-fail.png">
+<img src="/assets/check-ssh-fail.PNG" alt="">
+
+<img src="/assets/check-ssh-fail.PNG" alt='https://raw.githubusercontent.com/ganindu7/deepnotes/gh-pages/assets/check-ssh-fail.png'>
 
 
 
