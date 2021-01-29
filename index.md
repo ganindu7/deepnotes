@@ -22,9 +22,9 @@ deepnotes is an ongoing series of notes for a ML pipeline. This is bound to be i
 
 To communicate with our target boards we can either connet a display or use some sort of shell forwarding. Here I'm trying to use SSH.
 
-test with image:
+test with image 2 :
 ![checking for SSH server](/assets/check-ssh-fail.png)
 
-
+ 
 
 
