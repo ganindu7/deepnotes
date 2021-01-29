@@ -4,8 +4,8 @@ remote_theme: pmarsceill/just-the-docs
 title: DL Docs
 description: A DL primer to be used with Jetson 
 
-baseurl: '/deepnotes'
-#url: "https://ganindu7.github.io/deepnotes/"
+url: "https://ganindu7.github.io"
+baseurl: /deepnotes
 
 permalink: pretty 
 
