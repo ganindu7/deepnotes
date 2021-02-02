@@ -23,10 +23,10 @@ First we check if our target has a SSH server running, Usually you can SSH into 
 ### Checking the host side 
 
 If a server is not installed there won't be a `/etc/init.d/ssh` directory.  
-![checking for SSH server](../assets/check-ssh-fail.PNG)
+![checking for SSH server](check-ssh-fail.png)
 
 If ssh server installed you can test the status by `/etc/init.d/ssh status`
-![SSH server running](../assets/check-ssh-ok.png)
+<!-- ![SSH server running](../assets/check-ssh-ok.png) -->
 
 Note: If you don't have SSH working on the target you won't be able to tunnel into the device, therefore use the commendline `sudo apt install openssh-server` or use a package manager like synaptic.
 
@@ -34,7 +34,7 @@ Note: If you don't have SSH working on the target you won't be able to tunnel in
 
 Before connecting we need to know the IP address, username and the password for the host. Also a quick word about my setup. 
 
-![My initial network setup](../assets/network_setup_1.png)
+<!-- ![My initial network setup](../assets/network_setup_1.png) -->
 
 
 
