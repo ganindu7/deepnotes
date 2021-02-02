@@ -1,0 +1,30 @@
+<h1 class="no_toc" id="communicating-with-a-target-device">Communicating with a target device</h1>
+
+<p class="fs-6 fw-300">For our projects we will need to communicate with target hardware in various ways. Here we wil discuss using shell and HDMI cable.</p>
+<!--
+## Table of contents 
+{: .no_toc .text-delta}
+
+1. TOC
+{:toc}
+-->
+<hr />
+<h2 id="1-using-ssh">1. Using SSH</h2>
+<p>First we check if our target has a SSH server running, Usually you can SSH into a factory Jetson device and get started straight away. Here I’ve used ubuntu running on kernel <code class="language-plaintext highlighter-rouge">4.15.0-132-generic</code> ( you can check by typing  <code class="language-plaintext highlighter-rouge">uname -r</code> into the shell )</p>
+
+<h3 id="checking-the-host-side">Checking the host side</h3>
+
+<p>If a server is not installed there won’t be a <code class="language-plaintext highlighter-rouge">/etc/init.d/ssh</code> directory.<br />
+<img src="communication_setup/check-ssh-fail.png" alt="checking for SSH server" /></p>
+
+<p>If ssh server installed you can test the status by <code class="language-plaintext highlighter-rouge">/etc/init.d/ssh status</code>
+<img src="communication_setup/check-ssh-ok.png" alt="SSH server running" /></p>
+
+<p>Note: If you don’t have SSH working on the target you won’t be able to tunnel into the device, therefore use the commendline <code class="language-plaintext highlighter-rouge">sudo apt install openssh-server</code> or use a package manager like synaptic.</p>
+
+<h3 id="connecting-from-the-remote">Connecting from the remote</h3>
+
+<p>Before connecting we need to know the IP address, username and the password for the host. Also a quick word about my setup.</p>
+
+<p><img src="communication_setup/network_setup_1.png" alt="My initial network setup" /></p>
+
