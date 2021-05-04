@@ -1,7 +1,8 @@
+---
 layout: default
-title: Hardware tips
-nav_order: 2 
-permalink: /topics/utils/hardware_stuff
+title: Hardware Tips
+nav_order: 3 
+permalink: /topics/utils/hardware
 parent: Utilities
 ---
 
@@ -10,7 +11,6 @@ this is for stuff related to setting up device drivers for MIPI-CSI cameras with
 
 ### device Tree
 
-yfffy
 
 
 
