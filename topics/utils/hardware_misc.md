@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Hardware Tips
-nav_order: 3 
+nav_order: 4
 permalink: /topics/utils/hardware
 parent: Utilities
 ---

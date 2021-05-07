@@ -15,3 +15,4 @@ Extra Tip: Sometimes the Jetson can have issues with the RTC i.e. bad supercap s
 
 Open a terminal windo and type `$ systemctl status systemd-timesyncd.service` you should see the address of the NTP server and the revlent statistics. Some firewalls do not allow NTP sync from these servers then you'll have to manually provide non-blacklisted server details or create an alternate route.
 ![clock_sync_sucess_picture](clock_sync/time_sync_check.png)
+

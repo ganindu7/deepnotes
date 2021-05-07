@@ -1,4 +1,4 @@
-# theme: just-the-docs
+theme: just-the-docs
 remote_theme: pmarsceill/just-the-docs
 
 title: DL Docs
@@ -11,6 +11,7 @@ permalink: pretty
 
 # exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
+include: ["topics/utils/input_capture"]
 
 # addd ipv6 addresing thanks to this great post by @troyswanson (https://github.com/jekyll/jekyll/issues/1594)
 #  note: this :BindAddress to :: is a WEBrick service which should not be used in production
