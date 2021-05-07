@@ -20,6 +20,14 @@ make sure the host is connected to the target (SSH) and the target is connected 
 
 ```
 # this is if you have added a github key previously
+
+# Host github.com
+#	user git
+#	Hostname github.com
+#	PreferredAuthentications publickey
+#	IdentityFile ~/.ssh/github_desktop_linux
+#	#Port 446
+
 Host github.com
 	Hostname ssh.github.com
 	Port 446
