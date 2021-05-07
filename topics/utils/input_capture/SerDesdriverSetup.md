@@ -19,20 +19,7 @@ make sure the host is connected to the target (SSH) and the target is connected 
 * Edit the `~/.ssh/config` file
 
 ```
-# this is if you have added a github key previously
 
-# Host github.com
-#	user git
-#	Hostname github.com
-#	PreferredAuthentications publickey
-#	IdentityFile ~/.ssh/github_desktop_linux
-#	#Port 446
-
-Host github.com
-	Hostname ssh.github.com
-	Port 446
-
-# This is for the Jetson board
 Host Jetson 
 	# I'm using IPv6, note the double "%" before the interface name 
 	Hostname fe80::b444:7974:e88:53f1%%enp0s31f6
