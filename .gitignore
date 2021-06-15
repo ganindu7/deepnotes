@@ -4,3 +4,4 @@ secret.txt
 *.jekyll-cache/*
 Gemfile.lock
 *sass-cache/*
+topics/utils/d3_docs/*

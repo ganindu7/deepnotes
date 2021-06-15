@@ -7,8 +7,13 @@ parent: InputSetup
 grand_parent: Utilities
 ---
 
-### building a media server 
+<!-- ### building a media server  -->
 
-This article is inspired by [a blog post](https://developer.nvidia.com/blog/building-multi-camera-media-server-ai-processing-jetson/) on the Nvidia developers forum. 
+<!-- This article is inspired by [a blog post](https://developer.nvidia.com/blog/building-multi-camera-media-server-ai-processing-jetson/) on the Nvidia developers forum. 
 
+ -->
 
+ <br/> 
+ <br/>
+
+ &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <mark>  This section is under development or not public. </mark>

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Setting up Communications
+# permalink: /topics/comms_setup   # adding a permalink broke the internal linking to a topic 
 nav_order: 2
 ---
 
@@ -66,6 +67,27 @@ Note the use of the interface `enp0s31f6` in the command, it's slightly differen
 ![ssh_target_from_host](communication_setup/ssh_target_from_host.png) 
 
 
+#### set up ssh key and update ssh config file for easy access.  
+
+* create a keypair `ssh-keygen -t rsa -b 4096 -C 'ganindu@email.com'` and save the key as `~.ssh/Jetson`
+* Edit the `~/.ssh/config` file
+
+```
+Host Jetson 
+	# I'm using IPv6, note the double "%" before the interface name 
+	Hostname fe80::b444:7974:e88:53f1%%enp0s31f6
+	# Username for the Jetson board 
+	User a
+	IdentityFile ~/.ssh/Jetson
+```
+
+
+Then copy the newly minted ssh public key to the target <br>
+`ssh-copy-id -i ~/.ssh/Jetson a@fe80::b444:7974:e88:53f1%enp0s31f6`
+
+Then you can test this by typing `ssh Jetson` from the host, this will now drop a shell to the target.
+
+**more information on setting up a VNC (also is on the L4T readme file) can be found [here](https://gist.github.com/dusty-nv/0329cd330edb608673a7c016be901be8).**
 
 
 

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Driver setup
+title: Set for writing code
 nav_order: 1 
-permalink: /topics/utils/input_capture/drvSetup
-parent: InputSetup
-grand_parent: Utilities
+# permalink: /topics/utils/input_capture/drvSetup
+parent: Developing code
+# grand_parent: Utilities
 ---
 
 *This document is made in reference to this [README](https://github.com/D3Engineering/d3-jetson-bsp/tree/d3/4.0.0) from D3 Engineering*
@@ -38,7 +38,7 @@ Then copy the newly minted ssh public key to the target <br>
 
 Then you can test this by typing `ssh Jetson` from the host, this will now drop a shell to the target.
 
-![ssh_login_test](SerDesdriverSetup/ssh_login_remote.gif)
+![ssh_login_test](code_setup/ssh_login_remote.gif)
 
 <span style="background-color:LightYellow">
 <!-- note: relative links don't seem work when pages have permalinks -->
@@ -83,46 +83,26 @@ Check the Table below for the values I've used (note: I have used a different us
 
 
 
-**Note:** If you use a different username there are some scripts that run on the target (located in host `scripts/target` directory) with the default username `nvidia` baked in untouched by automake.
 
 
-#### install OS support  
 
-<span style="background-color:lightpink;">
-***Run this script only once*** because it creates a backup of the kernel present at the time. in the second time it may assign your updated kernel as the backup. If that's a concern you can edit the script to not do that but all you may need is `make sync` (discussed in context below) 
-</span>
 
-This will 
 
-	* Update and install dependencies, install helper packages such as "rsync" 
-	* update `/etc/sudoers` temporarily to enable sudo invocations from host.
-	* turn off screen-lock
-	* copy helper scripts to ~/@username@/debug 
+#### install OS support 
+
+setting up rsync 
+
+```
+ssh-copy-id @USERNAME_AT@"$TARGET"
+ssh @USERNAME_SSH@ -t "$TARGET" 'sudo apt-get -y update && sudo apt-get install -y rsync'
+make sync-debug
+ssh @USERNAME_SSH@ -t "$TARGET" 'debug/disable-screen-lock'
+```
+
+
 
 
 	
-
-
-#### Build the Kernel and install the device tree
-
-Step 0: <br/> 
-        &emsp; Configure the kernel using the `make linux-defconfig` *this is the D3 default config supported by the D3 mainstream L4T, <mark> if you want to use a new L4T('added a non D3 standard L4T') and use D3 features you may have to tweak kernel parameters* either by editing the provided defconfig or using `make linux-menuconfig`. </mark>
-
-
-Other steps: 
-
-* Build Kernel and device tree files: `make -j8` for verbose use `KBUILD_VERBOSE=1`.<br/>
-  you can check the build ID with, `make show-config`
-
-
-* `make-sync` to sync to target and "flash" the kernel.
-
-
-for instructions on recovery please check the source document. 
-
-
-
-
 
 
 

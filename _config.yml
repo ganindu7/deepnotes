@@ -1,3 +1,7 @@
+safe: False #Jekyll unsafe mode, can use symlinks 
+safe: unsafe
+
+
 # theme: just-the-docs  # Comment this out when pushing to github
 remote_theme: pmarsceill/just-the-docs
 
@@ -9,9 +13,11 @@ baseurl: /deepnotes
 
 permalink: pretty 
 
+
 # exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 include: ["topics/utils/input_capture"]
+# include: ["/topics/utils/d3_docs"]
 
 # addd ipv6 addresing thanks to this great post by @troyswanson (https://github.com/jekyll/jekyll/issues/1594)
 #  note: this :BindAddress to :: is a WEBrick service which should not be used in production
@@ -21,6 +27,5 @@ include: ["topics/utils/input_capture"]
 #  note: IPv6 link local address support is not available in browsers just yet (some have even gone back cough.. firefox.. cough..)
 
 #host: '::'
-
 
 ga_tracking_anonymise_ip: true
