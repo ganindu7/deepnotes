@@ -125,6 +125,21 @@ def Settings(**kwargs):
 
 
 
+Note: [Clangd for arm64 can be downloaded(/via apt) [here][CLANGD-LINK].
+
+
+for clangd to find the `compile_commands.json` we need it to be in a top-level directory relative to the source directory. 
+
+sadly fot this to work  
+
+```
+IF(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
+  EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" "${PROJECT_SOURCE_DIR}/compile_commands.json")
+message(STATUS "******* symlinks generated *******")
+ENDIF()
+
+```
+
 
 [YCM-URL]: https://github.com/ycm-core/YouCompleteMe/blob/master/README.md
 [CLANGD-LINK]: https://clangd.llvm.org/
@@ -133,5 +148,5 @@ def Settings(**kwargs):
 [YCM-WIKI]: https://github.com/ycm-core/YouCompleteMe/wiki/C-family-Semantic-Completion-through-libclang
 [SAMPLE-CONF-PY]:https://raw.githubusercontent.com/ycm-core/ycmd/66030cd94299114ae316796f3cad181cac8a007c/.ycm_extra_conf.py
 
-
+[CLANGD-LINK]: https://ubuntu.pkgs.org/20.04/ubuntu-universe-arm64/clangd-10_10.0.0-4ubuntu1_arm64.deb.html
 
