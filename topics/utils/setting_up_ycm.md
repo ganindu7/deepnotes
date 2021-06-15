@@ -130,7 +130,7 @@ Note: [Clangd for arm64 can be downloaded(/via apt) [here][CLANGD-LINK].
 
 for clangd to find the `compile_commands.json` we need it to be in a top-level directory relative to the source directory. 
 
-sadly fot this to work  
+Note: sadly for this to work you need to run cmake twice (otherwise it won't see the file) 
 
 ```
 IF(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
