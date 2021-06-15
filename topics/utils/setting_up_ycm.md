@@ -132,7 +132,7 @@ for clangd to find the `compile_commands.json` we need it to be in a top-level d
 
 Note: sadly for this to work you need to run cmake twice (otherwise it won't see the file) 
 
-```
+```CMake
 IF(EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
   EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" "${PROJECT_SOURCE_DIR}/compile_commands.json")
 message(STATUS "******* symlinks generated *******")
