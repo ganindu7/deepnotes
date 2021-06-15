@@ -19,11 +19,18 @@ From the [downloads](https://cmake.org/download/) page, get the latest cmake and
 then `cd` into the directory 
 
 
+```bash
+tar -xf cmake*.tar.gz
+cd cmake*
 ```
+
+I set the install prefix to local but I's upto you where you keep the installation files. 
+
+
+```bash
 ./configure --prefix=$HOME/.local
 make 
 make install
-
 ```
 
 reboot 

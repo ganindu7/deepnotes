@@ -26,5 +26,15 @@ This means you don't have to set `LD_LIBRARY_PATH` or `DYLD_LIBRARY_PATH` for
 the version(s) installed with `--enable-shared`.
 
 ```
-$ env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.9
+$ env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.x.y
 ```
+
+
+### Virtual Environments 
+
+Virtual environments are useful when you need to avoid touching the system python, (which is the recommended way for most development)
+pyenv plugin [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) provides this functionality. 
+
+
+once pyenv-virtualenv is set up `pyenv virtualenv  3.x.y name_of_vitualenv`
+
