@@ -25,7 +25,7 @@ permalink: /
 
 <!-- ## Getting started -->
 
-## [Setting up communications](./topics/communication_setup#Communicating-with-a-target-device)
+## [Setting up communications](./topics/utils/communication_setup#Communicating-with-a-target-device)
 
 
 when we develop machine learning systems for embedded (or remote) targets it is always convenient to have remote access to these machines, It will enable us to run/debug code remotely or even develop at the same time.       
@@ -34,7 +34,7 @@ when we develop machine learning systems for embedded (or remote) targets it is 
 <!-- <img src="./img/connectivity.svg" alt="drawing" width="450"/>  -->
 
 
-## [Enabling C/C++ development headers in a target](./topics/communication_setup#Communicating-with-a-target-device)
+## [Enabling C/C++ development headers in a target](./topics/utils/communication_setup#Communicating-with-a-target-device)
 
 According to the documentation for the [l4t-multimedia API](https://docs.nvidia.com/jetson/l4t-multimedia/index.html) 
 
