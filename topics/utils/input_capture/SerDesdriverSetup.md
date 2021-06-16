@@ -42,7 +42,7 @@ Then you can test this by typing `ssh Jetson` from the host, this will now drop 
 
 <span style="background-color:LightYellow">
 <!-- note: relative links don't seem work when pages have permalinks -->
-refer to this [**network topology**](../../communication_setup#connecting-from-the-remote) section fore more about IPv6 setup, This can be done with IPv4 too. In that case you can omit the network interface name e.g. `Hostname 192.168.55.1` and the copying is simply `ssh-copy-id -i ~/.ssh/Jetson a@192.168.55.1` </span>
+refer to this [**network topology**](../communication_setup#connecting-from-the-remote) section fore more about IPv6 setup, This can be done with IPv4 too. In that case you can omit the network interface name e.g. `Hostname 192.168.55.1` and the copying is simply `ssh-copy-id -i ~/.ssh/Jetson a@192.168.55.1` </span>
 
 Also you can try the full name like this as well. 
 

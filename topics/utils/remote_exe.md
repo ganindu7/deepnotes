@@ -2,7 +2,7 @@
 layout: default
 title: Execute on target device
 nav_order: 2 
-permalink: /topics/utils/execute_on_target
+permalink: /topics/utils/execute_on_target/ff
 parent: Utilities
 ---
 

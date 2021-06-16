@@ -1,13 +1,12 @@
 ---
 layout: default
-title: Developing code
-nav_order: 4
-has_children: true
-# permalink: /topics/utils
+title: Development
+#nav_order: 3
+#permalink: /topics/utils
 ---
 
-# Code
+# Software Development 
 {: .no_toc}
 
-A collection of helpful tips.
+For Developing Realtime controls systems with AI.
 {: .fs-6 .fw-300} 

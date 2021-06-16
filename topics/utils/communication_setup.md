@@ -1,8 +1,10 @@
 ---
 layout: default
 title: Setting up Communications
+parent: Utilities
+permalink: /topics/utils/communication_setup
 # permalink: /topics/comms_setup   # adding a permalink broke the internal linking to a topic 
-nav_order: 2
+# nav_order: 2
 ---
 
 # Communicating with a target device
