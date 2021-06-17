@@ -141,6 +141,8 @@ ENDIF()
 ```
 
 
+Note: read this [blog post][blog-post-1] for more info
+
 [YCM-URL]: https://github.com/ycm-core/YouCompleteMe/blob/master/README.md
 [CLANGD-LINK]: https://clangd.llvm.org/
 [LLVM-LINK]: https://apt.llvm.org/
@@ -149,4 +151,4 @@ ENDIF()
 [SAMPLE-CONF-PY]:https://raw.githubusercontent.com/ycm-core/ycmd/66030cd94299114ae316796f3cad181cac8a007c/.ycm_extra_conf.py
 
 [CLANGD-LINK]: https://ubuntu.pkgs.org/20.04/ubuntu-universe-arm64/clangd-10_10.0.0-4ubuntu1_arm64.deb.html
-
+[blog-post-1]: https://bastian.rieck.me/blog/posts/2015/ycm_cmake/
