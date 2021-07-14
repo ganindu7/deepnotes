@@ -32,7 +32,7 @@ Example setup in my remote arm target.
             "compilerPath": "/usr/bin/aarch64-linux-gnu-g++",
             "cStandard": "c11",
             "cppStandard": "c++14",
-            "intelliSenseMode": "linux-gcc-arm6",
+            "intelliSenseMode": "linux-gcc-arm64",
             "configurationProvider": "ms-vscode.cmake-tools",
             "compileCommands": "${fileWorkspaceFolder}/build/compile_commands.json"  
         }
