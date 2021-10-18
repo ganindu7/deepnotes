@@ -38,14 +38,14 @@ pip install Cython
 Then you can proceed to install torch.
 
 ```
-pip install pip install numpy==1.19.4 torch-1.9.0-cp36-cp36m-linux_aarch64.whl
+pip install pip install numpy==1.19.4 torch-1.9.0-cp36-cp36m-linux_aarch64.whl torchvideo
 
 ```
 
 To use latest  Numpy.
 
 ```
-pip install pip install numpy torch-1.9.0-cp36-cp36m-linux_aarch64.whl
+pip install pip install numpy torch-1.9.0-cp36-cp36m-linux_aarch64.whl torchvideo
 
 ```
 if you have numpy 1.19.5 and get a runtime error please try referring to this [forum answer](https://forums.developer.nvidia.com/t/illegal-instruction-core-dumped/165488/16) athat suggests adding `export OPENBLAS_CORETYPE=ARMV8` to your `.bashrc` file
