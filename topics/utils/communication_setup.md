@@ -71,6 +71,8 @@ Note the use of the interface `enp0s31f6` in the command, it's slightly differen
 
 #### set up ssh key and update ssh config file for easy access.  
 
+**[Do this on the Host]** 
+
 * create a keypair `ssh-keygen -t rsa -b 4096 -C 'ganindu@email.com'` and save the key as `~.ssh/Jetson`
 * Edit the `~/.ssh/config` file
 
