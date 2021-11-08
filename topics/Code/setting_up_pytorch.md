@@ -38,7 +38,7 @@ pip install Cython
 Then you can proceed to install torch.
 
 ```
-pip install pip install numpy==1.19.4 torch-1.9.0-cp36-cp36m-linux_aarch64.whl torchvideo
+pip install numpy==1.19.4 torch-1.9.0-cp36-cp36m-linux_aarch64.whl torchvideo
 
 ```
 

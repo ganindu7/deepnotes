@@ -73,7 +73,7 @@ Note the use of the interface `enp0s31f6` in the command, it's slightly differen
 
 **[Do this on the Host]** 
 
-* create a keypair `ssh-keygen -t rsa -b 4096 -C 'ganindu@email.com'` and save the key as `~.ssh/Jetson`
+* create a keypair `ssh-keygen -t rsa -b 4096 -C 'ganindu@email.com'` and save the key as `~.ssh/Jetson` (Note: Remember the check out the latest key algorithm, size etc [more info](https://stackoverflow.com/questions/51834225/why-use-t-rsa-b-4096-with-ssh-keygen)) 
 * Edit the `~/.ssh/config` file
 
 ```
@@ -92,6 +92,7 @@ Then copy the newly minted ssh public key to the target <br>
 Then you can test this by typing `ssh Jetson` from the host, this will now drop a shell to the target.
 
 **more information on setting up a VNC (also is on the L4T readme file) can be found [here](https://gist.github.com/dusty-nv/0329cd330edb608673a7c016be901be8).**
+
 
 
 
