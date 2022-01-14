@@ -2,6 +2,9 @@
 
 website url: https://ganindu7.github.io/deepnotes/
 
+## Important 
+For this to work locally internet connectivity is needed
+
 
 
 to setup locally:

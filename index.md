@@ -34,11 +34,31 @@ when we develop machine learning systems for embedded (or remote) targets it is 
 <!-- <img src="./img/connectivity.svg" alt="drawing" width="450"/>  -->
 
 
-## [Enabling C/C++ development headers in a target](./topics/utils/communication_setup#Communicating-with-a-target-device)
+<!-- ## [Enabling C/C++ development headers in a target](./topics/utils/communication_setup#Communicating-with-a-target-device)
 
-According to the documentation for the [l4t-multimedia API](https://docs.nvidia.com/jetson/l4t-multimedia/index.html) 
+According to the documentation for the [l4t-multimedia API](https://docs.nvidia.com/jetson/l4t-multimedia/index.html)  -->
+
+
+## [Maintaining Reproducibility](./topics/code/Reproducibility#Notes-on-Reproducibility) 
+
+Reproducibility of the training variable flow can help debug and improve networks.
+
+## [Leveraging GStreamer and DeepStream for deep learning pipelines](./topics/utils/gstreamer_and_deepstream#gstreamer-and-deepstream)
+GStreamer as a media flow backbone to make deep learning modular and DeepStream to get the best out of nvidia's hardware capabilities.  
+
+## [Using Docker containers](./topics/utils/docker_novice_experiences#why-docker)
+Working with docker containers helped me to fail-recover-improve with less overhead and make things more portable. 
+
+
 
  
+## [Nets for Image Processing]
+
+*upcoming..*
+
+
+
+
 
 
 <!-- <sup>[1](#myfootnote1)</sup> -->
