@@ -94,6 +94,52 @@ Then you can test this by typing `ssh Jetson` from the host, this will now drop 
 **more information on setting up a VNC (also is on the L4T readme file) can be found [here](https://gist.github.com/dusty-nv/0329cd330edb608673a7c016be901be8).**
 
 
+# A note for Microsoft Windows users 
+Date updated: 15/01/2022 | Tested on windows 10 
+
+
+```
+ssh command: ssh -6 user@<IPV6 address>
+
+e.g. ping -6 username@fe80::b444:7974:e88:53f1
+
+``` 
+
+ssh into the remote and add the public key to the end of the "authorized_keys" file (in a new line)
+
+Below here is an example entry for a ssh config file.
+
+Within WSL
+```
+Host DGX-ganindu
+  HostName fe80::4bac:e943:26d1:bf03
+  User	ganindu
+	ForwardAgent yes
+	IdentityFile ~/.ssh/DESKTOP-WSL-SSHKEY
+	StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 yes
+```
+Within Windows
+```
+Host DGX-ganindu
+  HostName fe80::4bac:e943:26d1:bf03
+  User	ganindu
+	ForwardAgent yes
+	IdentityFile C:\Users\Ganindu\.ssh\WINDOWS-DESKTOP
+	StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ForwardX11 yes
+```
+
+Note the difference is the absolute path for the keys. you can use powershell to add the keys to the client. I experienced a file permissions too open error when I tried to use an existing key 
+but it went away when I created a key within the respective system (bash in WSL or powershell in windows)
+
+If you want to have X forwarding install a X server (i.e. [XLaunch](https://x.cygwin.com/docs/xlaunch/display.html)) to forward magic cookies to hosts. 
+check out [xming](https://sourceforge.net/projects/xming/)
+
+Warning : These are representative for what worked for me but depending on your setup things may vary. 
+
 
 
 
