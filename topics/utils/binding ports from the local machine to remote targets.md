@@ -34,6 +34,9 @@ ssh -N -L 8887:localhost:8888 g@fe80::4bdc:e743:27d1:bf03%enp0s41f7
 `-L`: Local mapping setup (check manual entry for ssh)
 
 
+P.S. 
+
+Alternatively you can do something like `ssh -N -L localhost:8887:localhost:8888 username@computer1` or `ssh -N -L 8887:localhost:8888 username@computerx` too.
 
 
 
