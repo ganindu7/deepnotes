@@ -138,7 +138,71 @@ Anke-boot234.jpg, 9
         self.target_transform = target_transform
 ```
 
+### `__len__`
 
+The `__len__` function returns the number of samples in the dataset.
+
+```python
+    def __len__(self):
+        return len(self.img_labels)
+
+```
+
+### `__getitem__`
+
+the `__getitem__` loads and returns a sample from the dataset at the given index `index`. Based on the index, it identifies the image's location, reads it in and converts to a tensor using `read_image`,
+then retrieves the corresponding label from the csv data in self.img_labels. Afterwards calls the appropriate transform function on those that is read in an return the resulting image and the label in a tuple. 
+
+```
+
+    def __getitem__(self, index):
+        img_path = os.path.join(self.img_dir, self.img_labels.iloc[index, 0])
+        image = read_image(img_path)
+        label = self.img_labels.iloc[index, 1]
+        if self.transform:
+            image = self.transform(image)
+        if self.target_transform:
+            label = self.target_transform(label)
+        return image, label
+
+```
+
+### DataLoader
+
+The dataset objects we discussed above are then introduced to the model training, validation and testing process via dataloders. 
+While the Dataset retrieves one sample at a time we want to create "minibatches" with the ability to randomly shuffle data at each epoch to mix up the feed and minimise overfitting. 
+DataLoaders can work in parallel via the `multiprocessing` module.
+
+```python
+from torch.utils.data import DataLoader
+
+'''
+training_data: A Dataset
+test_data: A Dataset 
+'''
+train_dataloder = DataLoader(training_data, batch_size=64, shuffle=True) # Training data loader 
+test_dataloader = DataLoader(test_data, batch_size=64, shuffle=True)
+``` 
+Once the DataLoader is created for the corresponding dataset we are able to iterate through the dataset and return batches, the batch size and shuffle option is set 
+during the DataLoader instantiation phase. After all the data is returned in one cycle another epoch is reached and based on the shuffle key the data is then shuffled (or not). 
+
+If you want to have finer control over the stacking order of (sample label pairs) the output batch check out [Samplers][PYTORCH-SAMPLERS]
+
+Here is a full example!
+
+<script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=dataloader.py"></script>
+<br />
+the result will look like this.
+
+```
+Feature batch shape: torch.Size([64, 1, 28, 28])
+Labels batch shape: torch.Size([64])
+Label: Bag
+```
+
+![image](tensors_and_model_input_dir/data_load_bag.png)
+
+### Transforms
 
 Source: [PyTorch Tutorial][PyTorch-Tutorial]
 
@@ -148,4 +212,5 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 [PyTorch-Tutorial]: https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html
 [FashonMnist-dataset]: https://github.com/zalandoresearch/fashion-mnist
 [PYTORCH-DATASETS]: https://pytorch.org/vision/stable/datasets.html
+[PYTORCH-SAMPLERS]: https://pytorch.org/docs/stable/data.html#data-loading-order-and-sampler
 
