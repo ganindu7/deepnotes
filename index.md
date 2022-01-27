@@ -54,9 +54,9 @@ Working with docker containers helped me to fail-recover-improve with less overh
  
 ## [Nets for Image Processing]
 
-* [A PyTorch WalkThrough: Note 1](./topics/Code/pytorch_walkthrough) <br  />
+<!-- * [A PyTorch WalkThrough: Note 1](./topics/Code/pytorch_walkthrough) <br  />
 * [Tensors and Data: Note 2](./topics/Code/tensors_and_model_input)
-
+ -->
 *upcoming..*
 
 * [New topic template](./topics/Code/new_topic_template)
