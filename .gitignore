@@ -6,3 +6,4 @@ Gemfile.lock
 *sass-cache/*
 topics/utils/d3_docs/*
 topics/Code/new_topic_template.md
+index.html
