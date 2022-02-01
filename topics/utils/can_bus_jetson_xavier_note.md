@@ -19,7 +19,10 @@ CAN is quite useful to communicate with vehicle ECUs and telemetry systems. In t
 1. TOC
 {:toc}
 -->
-Note: This is a Draft
+Note: This is a Draft <br />
+<span style="background-color: lightyellow">
+CAUTION: go through the the whole document at least once before attempting implementing a full system.  
+</span>
 
 ---
 
@@ -31,11 +34,35 @@ Note: This is a Draft
 
 * Jetson AGX-Xavier developer platform module
 * Can Transceiver IC (this can be any suitable IC, we use the [SN65HVD230][SN65HVD230] from TI).
+* CAN utilities installed `$ sudo apt-get install can-utils`
 
 In this example I've used single core PCV thin wall cables (1mm) which is standard in most automotive settings. but you can use 0.5 mm or lower based on the connector and crimp sizes. 
 To create twisted pairs you can use a vice and a drill (or hand twist of course). To verify can traffic you can use [PCAN USB PRO][PCAN-USB-PRO] or a [Vector CAN interface][VECTOR-CAN] or check [here][LINUX-CAN-STUFF] for some recommendations from the [embedded Linux community][ELINUX-ORG]. In the Example I've used a [PCAN View][PCAN-VIEW] with a PCAN USB device in a Linux machine( there is a graphical windows interface for MS Windows). 
 
-## Connecting and Configuring the Jetson AGX-Xavier 
+## Connecting and Configuring the Nvidia Jetson AGX-Xavier 
+
+### Kernel DTB
+
+first you need to check if the CAN nodes are enabled in the kernel device tree binary that is flashed in to the device. 
+
+```shell
+$ cat /proc/device-tree/mttcan\@c310000/status
+``` 
+
+### Pinmux
+
+A CAN configured Pinmux can be set in different ways.
+
+* Update the pinmux config files pre-flashing.
+* Use the graphical [Jetson-IO tool][JETSON-IO-TOOL]
+* Use a [busybox devmem tool][BUSYBOX-DEVMEM] to write to hardware registers. (Changes will persist until next system boot) <br />
+ Install busybox `$ sudo apt install busybox`
+ `busybox devmem <register> w <value>` ( you can pick the register values from Table 1 below )
+e.g. 
+```shell
+$ sudo busybox devmem 0x0c303010 w 0x400
+$ sudo busybox devmem 0x0c303018 w 0x458
+```
 
 
  | CAN peripheral          | Controller base address | pins on board | port addr |register    | value | chip conn (SN65HVD230) |
@@ -45,8 +72,29 @@ To create twisted pairs you can use a vice and a drill (or hand twist of course)
  |  <center>CAN1</center>  | mttcan@c320000          | 29            | can1_din  | 0x0c303008 | 0x458 | R (RX)                 |
  |  <center>"</center>     | <center>"</center>      | 31            | can1_dout | 0x0c303000 | 0x400 | D (TX)                 |
 
+<center> Table 1. Configuring the CAN peripheral on NVIDIA Jetson AGX-Xavier  </center>
 
-code
+
+### Loading Kernel Drivers
+load all the necessary kernel drivers in the following order.
+1. `$ modprobe can`
+2. `$ modprobe can_raw`
+3. `$ modprobe mttcan`
+
+### Network interface setup 
+
+Example to set up a 250Kbps network. with presumed acknowledgement. *(suited to a test network with one or two nodes to prevent BUSHEAVY conditions)*
+
+```shell
+$ sudo ip link set can0 type can bitrate 250000 presume-ack on restart-ms 2000
+$ sudo ip link set can0 up
+```
+
+You can use the shell script below to set all the steps in one go. <br />
+<span style="background-color: lightyellow">
+you can run `$ chmod +x scriptname.sh` (maybe with sudo) and then `./scriptname.sh`
+</span>
+
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=run.sh"></script>
 
@@ -56,6 +104,21 @@ code
 
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=test.py"></script>
+
+bus trace 
+
+![bus trace](can_bus_jetson_xavier_files/can-capture.gif)
+<center> Figure 2. PCAN View CAN trace </center>
+
+trace
+
+![trace](can_bus_jetson_xavier_files/can-sig-trace.svg)
+<center> Figure 2. Can Signal Trace (open in new tab for better resolution) </center>
+<span style="background-color: lightyellow">
+Note: If you don't provide a node on the bus that does not acknowledge or do not put anything other than the sending node and the tracer the acknowledge will not be present as shown above. 
+adding instruction lines like e.g. `sudo ip link set can0 type can bitrate 250000 presume-ack on restart-ms 2000` will tell the interface to cope with out and ACK and even reset the bus in case of 
+a "crazy chatty" node.
+</span>
 
 ## Connecting to the CAN bus 
 
@@ -91,7 +154,7 @@ if pin5 is not used it can be left floating.
 
 
 ![layout example, source: datasheet](can_bus_jetson_xavier_files/footprint-ckt.png)
-            Figure 4. PCB footprint suggestion, source: [datasheet][SN65HVD230]
+<center> Figure 4. PCB footprint suggestion, source: [datasheet][SN65HVD230] </center>
 
 
 
@@ -101,3 +164,5 @@ if pin5 is not used it can be left floating.
 [LINUX-CAN-STUFF]: https://elinux.org/CAN_Bus
 [ELINUX-ORG]: https://elinux.org/
 [PCAN-VIEW]: https://www.peak-system.com/PCAN-View.242.0.html?&L=1
+[JETSON-IO-TOOL]: https://docs.nvidia.com/jetson/l4t/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_io.html#wwpID0E0ZE0HA
+[BUSYBOX-DEVMEM]: https://www.busybox.net/downloads/BusyBox.html
