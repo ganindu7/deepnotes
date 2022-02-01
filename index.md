@@ -48,6 +48,10 @@ GStreamer as a media flow backbone to make deep learning modular and DeepStream 
 
 ## [Using Docker containers](./topics/utils/docker_novice_experiences#why-docker)
 Working with docker containers helped me to fail-recover-improve with less overhead and make things more portable. 
+#using-can-bus-with-nvidia-agx-xavier-devices
+
+
+## [Using CAN bus with Nvidia AGX-Xavier](./topics/utils/can_bus_jetson_xavier_note)
 
 
 

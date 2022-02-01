@@ -9,7 +9,7 @@ parent: Development
 ## Tensors and Data Handling with [PyTorch][PYTORCH]
 <span style="background-color:LightGreen">
 Created : 20/01/2022 | on Linux: 5.4.0-91-generic <br />
-Updated: 20/01/2022 | on Linux: 5.4.0-91-generic <br />
+Updated: 27/01/2022 | on Linux: 5.4.0-91-generic <br />
 Status: Draft
 </span>
 
@@ -204,6 +204,12 @@ Label: Bag
 
 ### Transforms
 
+ Input data needs to be transformed to a format that is suitable for PyTorch if the data isn't already conditioned to be suitable we can use Transforms to do that. 
+
+ All pyTorch datasets have two parameters for Transform, they are `transform`(for input samples such as image files) and `target_transform` (for labels). These accept callable entities (such as functions) containing the transformation logic. the [torchvision transforms][TORCHVISION-TRANSFORM] module offers several off the shelf transforms.
+
+
+
 Source: [PyTorch Tutorial][PyTorch-Tutorial]
 
 [JETSON-URL]: https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit
@@ -213,4 +219,5 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 [FashonMnist-dataset]: https://github.com/zalandoresearch/fashion-mnist
 [PYTORCH-DATASETS]: https://pytorch.org/vision/stable/datasets.html
 [PYTORCH-SAMPLERS]: https://pytorch.org/docs/stable/data.html#data-loading-order-and-sampler
+[TORCHVISION-TRANSFORM]: https://pytorch.org/vision/stable/transforms.html#torchvision-transforms
 

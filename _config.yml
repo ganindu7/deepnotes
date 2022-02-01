@@ -29,3 +29,6 @@ include: ["topics/utils/input_capture"]
 #host: '::'
 
 ga_tracking_anonymise_ip: true
+
+# plugins:
+#   - jekyll-spaceship
