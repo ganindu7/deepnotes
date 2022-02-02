@@ -34,7 +34,7 @@ CAUTION: go through the the whole document at least once before attempting imple
 
 * Jetson AGX-Xavier developer platform module
 * Can Transceiver IC (this can be any suitable IC, we use the [SN65HVD230][SN65HVD230] from TI).
-* CAN utilities installed `$ sudo apt-get install can-utils`
+* CAN utilities installed `$ sudo apt-get install -y can-utils busybox`
 
 In this example I've used single core PCV thin wall cables (1mm) which is standard in most automotive settings. but you can use 0.5 mm or lower based on the connector and crimp sizes. 
 To create twisted pairs you can use a vice and a drill (or hand twist of course). To verify can traffic you can use [PCAN USB PRO][PCAN-USB-PRO] or a [Vector CAN interface][VECTOR-CAN] or check [here][LINUX-CAN-STUFF] for some recommendations from the [embedded Linux community][ELINUX-ORG]. In the Example I've used a [PCAN View][PCAN-VIEW] with a PCAN USB device in a Linux machine( there is a graphical windows interface for MS Windows). 
@@ -69,8 +69,8 @@ $ sudo busybox devmem 0x0c303018 w 0x458
  |-------------------------|-------------------------| ------------- |-----------|------------| ------| -----------------------|
  |  <center>CAN0</center>  | mttcan@c310000          | 29            | can0_din  | 0x0c303018 | 0x458 | R (RX)                 |
  |  <center>"</center>     | <center>"</center>      | 31            | can0_dout | 0x0c303010 | 0x400 | D (TX)                 |
- |  <center>CAN1</center>  | mttcan@c320000          | 29            | can1_din  | 0x0c303008 | 0x458 | R (RX)                 |
- |  <center>"</center>     | <center>"</center>      | 31            | can1_dout | 0x0c303000 | 0x400 | D (TX)                 |
+ |  <center>CAN1</center>  | mttcan@c320000          | 37            | can1_din  | 0x0c303008 | 0x458 | R (RX)                 |
+ |  <center>"</center>     | <center>"</center>      | 33            | can1_dout | 0x0c303000 | 0x400 | D (TX)                 |
 
 <center> Table 1. Configuring the CAN peripheral on NVIDIA Jetson AGX-Xavier  </center>
 
@@ -158,6 +158,25 @@ if pin5 is not used it can be left floating.
 
 
 
+## Troubleshooting CAN
+
+Setting up the physical can bus and get the electrical and software components working altogether can be challenging at times. This section is to address some of these problems in a Q&A
+style writeup.
+
+### the setup stage works fine but can't see any messages on the bus. 
+
+This could be either an internal or external issue. first of all we need to eliminate the possibility of a failure on the jetson side (before testing external things). in order to do this we can do a loopback test  
+
+<script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=loopback_can.sh"></script>
+
+at this point you can invoke the previously mentioned [python script](#testing-and-running-code) or a `cansend` command alongside [candump][CANDUMP] (e.g. run `candump can0` in a different shell)
+
+If the jetson internals are working fine you should get something similar to what is shown below (we've run the [script](#testing-and-running-code) in the *testing and running section* )
+
+![loopback](can_bus_jetson_xavier_files/can-loopback.gif)
+
+if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may not help with sampling issues.
+
 [SN65HVD230]: https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf
 [PCAN-USB-PRO]: https://www.peak-system.com/PCAN-USB-Pro-FD.366.0.html?&L=1
 [VECTOR-CAN]: https://www.vector.com/int/en/products/products-a-z/hardware/network-interfaces/vn7640
@@ -166,3 +185,4 @@ if pin5 is not used it can be left floating.
 [PCAN-VIEW]: https://www.peak-system.com/PCAN-View.242.0.html?&L=1
 [JETSON-IO-TOOL]: https://docs.nvidia.com/jetson/l4t/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_io.html#wwpID0E0ZE0HA
 [BUSYBOX-DEVMEM]: https://www.busybox.net/downloads/BusyBox.html
+[CANDUMP]: http://manpages.ubuntu.com/manpages/bionic/man1/candump.1.html
