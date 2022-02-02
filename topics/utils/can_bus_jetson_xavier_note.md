@@ -186,6 +186,10 @@ If the jetson internals are working fine you should get something similar to wha
 
 if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may originate from the Jetson board that may not help with sampling issues and synchronization.
 
+## Related [Nvidia Developer forum][DEV-FORUM] Questions
+
+* Error due to the nodes on CAN bus having different clocks. [link](https://forums.developer.nvidia.com/t/agx-xavier-can-bus-not-working-in-jetpack-4-6/202219?u=ganindu1)
+
 [SN65HVD230]: https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf
 [PCAN-USB-PRO]: https://www.peak-system.com/PCAN-USB-Pro-FD.366.0.html?&L=1
 [VECTOR-CAN]: https://www.vector.com/int/en/products/products-a-z/hardware/network-interfaces/vn7640
@@ -195,3 +199,4 @@ if you get the output above and still got problems it seems that the software is
 [JETSON-IO-TOOL]: https://docs.nvidia.com/jetson/l4t/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_io.html#wwpID0E0ZE0HA
 [BUSYBOX-DEVMEM]: https://www.busybox.net/downloads/BusyBox.html
 [CANDUMP]: http://manpages.ubuntu.com/manpages/bionic/man1/candump.1.html
+[DEV-FORUM]: https://forums.developer.nvidia.com/
