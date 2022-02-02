@@ -95,8 +95,15 @@ You can use the shell script below to set all the steps in one go. <br />
 you can run `$ chmod +x scriptname.sh` (maybe with sudo) and then `./scriptname.sh`
 </span>
 
-
+**Setting up Register values and enabling CAN**
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=run.sh"></script>
+
+**Disabling CAN**
+
+If you want to disable CAN (however this will keep the registers unchanged!) 
+
+<script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=disable_can.sh"></script>
+
 
 
 ## Testing and running code
@@ -105,11 +112,13 @@ you can run `$ chmod +x scriptname.sh` (maybe with sudo) and then `./scriptname.
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=test.py"></script>
 
-bus trace 
+![cross trace](can_bus_jetson_xavier_files/can-capture-good.gif)
+<center> Figure 2. Top left: can dump (jetson), top right: python script executing (jetson), <br /> bottom: CAN trace (pc with PCAN interface)</center>
 
-![bus trace](can_bus_jetson_xavier_files/can-capture.gif)
+
+<!-- ![bus trace](can_bus_jetson_xavier_files/can-capture.gif)
 <center> Figure 2. PCAN View CAN trace </center>
-
+ -->
 trace
 
 ![trace](can_bus_jetson_xavier_files/can-sig-trace.svg)
@@ -154,7 +163,7 @@ if pin5 is not used it can be left floating.
 
 
 ![layout example, source: datasheet](can_bus_jetson_xavier_files/footprint-ckt.png)
-<center> Figure 4. PCB footprint suggestion, source: [datasheet][SN65HVD230] </center>
+<center>Figure 4. PCB footprint suggestion, source: datasheet]</center> 
 
 
 
@@ -175,7 +184,7 @@ If the jetson internals are working fine you should get something similar to wha
 
 ![loopback](can_bus_jetson_xavier_files/can-loopback.gif)
 
-if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may not help with sampling issues.
+if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may originate from the Jetson board that may not help with sampling issues and synchronization.
 
 [SN65HVD230]: https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf
 [PCAN-USB-PRO]: https://www.peak-system.com/PCAN-USB-Pro-FD.366.0.html?&L=1
