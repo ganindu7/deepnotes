@@ -19,7 +19,7 @@ permalink: /
 
 <!-- [Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/ganindu7/deepnotes){: .btn .fs-5 .mb-4 .mb-md-0 } -->
 
-[View it on GitHub](https://github.com/ganindu7/deepnotes){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 }
+[View it on GitHub Report Errors and make Suggestions](https://github.com/ganindu7/deepnotes){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -52,8 +52,7 @@ Working with docker containers helped me to fail-recover-improve with less overh
 
 
 ## [Using CAN bus with Nvidia AGX-Xavier](./topics/utils/can_bus_jetson_xavier_note)
-
-
+Vehicle inter processor communication is mostly facilitated by the CAN bus. Using AGX-Xavier with the CAN bus opens many doors to create intelligent control systems. 
 
  
 ## [Nets for Image Processing]
@@ -65,8 +64,8 @@ Working with docker containers helped me to fail-recover-improve with less overh
 
 * [New topic template](./topics/Code/new_topic_template)
 
-
-
+---
+#### [Report Corrections or make Suggestions](https://github.com/ganindu7/deepnotes/issues)
 
 
 <!-- <sup>[1](#myfootnote1)</sup> -->

@@ -24,6 +24,8 @@ Note: This is a Draft <br />
 CAUTION: go through the the whole document at least once before attempting implementing a full system.  
 </span>
 
+*Last updated: Feb/2022*
+
 ---
 
 ![Wiring setup](can_bus_jetson_xavier_files/jetson-xavier-can.svg)
@@ -37,7 +39,7 @@ CAUTION: go through the the whole document at least once before attempting imple
 * CAN utilities installed `$ sudo apt-get install -y can-utils busybox`
 
 In this example I've used single core PCV thin wall cables (1mm) which is standard in most automotive settings. but you can use 0.5 mm or lower based on the connector and crimp sizes. 
-To create twisted pairs you can use a vice and a drill (or hand twist of course). To verify can traffic you can use [PCAN USB PRO][PCAN-USB-PRO] or a [Vector CAN interface][VECTOR-CAN] or check [here][LINUX-CAN-STUFF] for some recommendations from the [embedded Linux community][ELINUX-ORG]. In the Example I've used a [PCAN View][PCAN-VIEW] with a PCAN USB device in a Linux machine( there is a graphical windows interface for MS Windows). 
+To create twisted pairs you can use a [vice](https://en.wikipedia.org/wiki/Vise) to hold one end of the pair and a drill to twist **slowly** (or hand twist of course). To verify can traffic you can use [PCAN USB PRO][PCAN-USB-PRO] or a [Vector CAN interface][VECTOR-CAN] or check [here][LINUX-CAN-STUFF] for some recommendations from the [embedded Linux community][ELINUX-ORG]. In the Example I've used a [PCAN View][PCAN-VIEW] with a PCAN USB device in a Linux machine( there is a graphical windows interface for MS Windows). 
 
 ## Connecting and Configuring the Nvidia Jetson AGX-Xavier 
 
@@ -112,18 +114,21 @@ This unloads the drives and brings the CAN down, however the registers will rema
 
 ## Testing and running code
 
+Once the can drivers and the interface is up you can use commands like [cansend][CANSENND] and [candump][CANDUMP] alongside potential already existing bus traffic to inject and read CAN messages.
+At this point you have to be aware of the clock compatibility of the participating CAN nodes or you may get various faulty BUS ERROR conditions. 
 
+Following code example and the image is from running the python script from the Jetson and capturing the outfrom from a CAN bus monitoring software (also with `candump` from the sending end) 
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=test.py"></script>
 
 ![cross trace](can_bus_jetson_xavier_files/can-capture-good.gif)
-<center> Figure 2. Top left: can dump (jetson), top right: python script executing (jetson), <br /> bottom: CAN trace (pc with PCAN interface)</center>
+<center> Figure 3. Top left: can dump (jetson), top right: python script executing (jetson), <br /> bottom: CAN trace (pc with PCAN interface)</center>
 
 
 <!-- ![bus trace](can_bus_jetson_xavier_files/can-capture.gif)
 <center> Figure 2. PCAN View CAN trace </center>
  -->
-trace
+If we trace the bus with a logic analyser scope when our CAN frames are flying through it we can see the resulting waveform. (here I have probed stage between the transceiver and the Jetson CAN peripheral, there are other special tools that can go in the can L and H on the physical differential CAN BUS too). you will notice that the dominant level is the logic LOW while in idle state the bus voltages float up. Also Notice the ACK/NACK bits that represent `acknowledgements` (this is quite helpful as if some nodes do not see the ACK they will report errors such as [BUSHEAVY][BUSHEAVY-PCAN] conditions.)
 
 ![trace](can_bus_jetson_xavier_files/can-sig-trace.svg)
 <center> Figure 2. Can Signal Trace (open in new tab for better resolution) </center>
@@ -133,18 +138,22 @@ adding instruction lines like e.g. `sudo ip link set can0 type can bitrate 25000
 a "crazy chatty" node.
 </span>
 
-## Connecting to the CAN bus 
+## Connecting to the CAN bus.
+
+The CAN L and H from the transceiver is connected to the CAN bus as shown below. It is Important to use the right terminations at the right place to avoid reflections that may cause the bus to not perform correctly. Usually we use 120 ohm resistors in the end or in the case of a split termination (usually done in board level design)
+
+
 
 
 ![layout example, source: datasheet](can_bus_jetson_xavier_files/can-bus.png)
-            Figure 3. CAN bus, source: [datasheet][SN65HVD230]
+            Figure 4. CAN bus, source: [datasheet][SN65HVD230]
 
 
 ## Circuit design ideas 
 
 
 ![layout example, source: datasheet](can_bus_jetson_xavier_files/can-term.png)
-            Figure 3. PCB Can termination, source: [datasheet][SN65HVD230]
+            Figure 5. PCB Can termination, source: [datasheet][SN65HVD230]
 
 ## PCB design ideas 
 
@@ -167,7 +176,7 @@ if pin5 is not used it can be left floating.
 
 
 ![layout example, source: datasheet](can_bus_jetson_xavier_files/footprint-ckt.png)
-<center>Figure 4. PCB footprint suggestion, source: datasheet]</center> 
+<center>Figure 6. PCB footprint suggestion, source: datasheet]</center> 
 
 
 
@@ -189,12 +198,16 @@ at this point you can invoke the previously mentioned [python script](#testing-a
 If the jetson internals are working fine you should get something similar to what is shown below (we've run the [script](#testing-and-running-code) in the *testing and running section* )
 
 ![loopback](can_bus_jetson_xavier_files/can-loopback.gif)
+<center> Figure 7. Enabling loopback mode on the can interface </center>
 
 if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may originate from the Jetson board that may not help with sampling issues and synchronization.
 
 ## Related [Nvidia Developer forum][DEV-FORUM] Questions
 
 * Error due to the nodes on CAN bus having different clocks. [link](https://forums.developer.nvidia.com/t/agx-xavier-can-bus-not-working-in-jetpack-4-6/202219?u=ganindu1)
+
+---
+*Click [here][ERRORS-SUGGESTIONS] for Errors, Suggestions or Comments!*
 
 [SN65HVD230]: https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf
 [PCAN-USB-PRO]: https://www.peak-system.com/PCAN-USB-Pro-FD.366.0.html?&L=1
@@ -205,4 +218,7 @@ if you get the output above and still got problems it seems that the software is
 [JETSON-IO-TOOL]: https://docs.nvidia.com/jetson/l4t/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_io.html#wwpID0E0ZE0HA
 [BUSYBOX-DEVMEM]: https://www.busybox.net/downloads/BusyBox.html
 [CANDUMP]: http://manpages.ubuntu.com/manpages/bionic/man1/candump.1.html
+[CANSEND]: http://manpages.ubuntu.com/manpages/bionic/man1/cansend.1.html
 [DEV-FORUM]: https://forums.developer.nvidia.com/
+[BUSHEAVY-PCAN]: https://forum.peak-system.com/viewtopic.php?f=120&t=39
+[ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
