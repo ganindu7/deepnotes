@@ -96,12 +96,16 @@ you can run `$ chmod +x scriptname.sh` (maybe with sudo) and then `./scriptname.
 </span>
 
 **Setting up Register values and enabling CAN**
+
+The shell script below will update registers, set up drivers and bring the `can0` interface up. The same process cab be modified to activate `can1`.
+
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=run.sh"></script>
 
-**Disabling CAN**
-
-If you want to disable CAN (however this will keep the registers unchanged!) 
-
+#### **Disabling CAN**
+<span style="background-color: lightgoldenrodyellow;">
+If you want to disable CAN for debugging (e.g. prior to updating parameters) use the script below. 
+This unloads the drives and brings the CAN down, however the registers will remain unchanged until explicitly done so.   
+</span>
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=disable_can.sh"></script>
 
 
@@ -174,7 +178,9 @@ style writeup.
 
 ### the setup stage works fine but can't see any messages on the bus. 
 
-This could be either an internal or external issue. first of all we need to eliminate the possibility of a failure on the jetson side (before testing external things). in order to do this we can do a loopback test  
+This could be either an internal or external issue. first of all we need to eliminate the possibility of a failure on the jetson side (before testing external things). in order to do this we can do a loopback test.
+
+if CAN is already set up please [disable](#disabling-can) before making modifications.
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=loopback_can.sh"></script>
 
