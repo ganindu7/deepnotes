@@ -19,7 +19,7 @@ permalink: /
 
 <!-- [Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/ganindu7/deepnotes){: .btn .fs-5 .mb-4 .mb-md-0 } -->
 
-[View it on GitHub Report Errors and make Suggestions](https://github.com/ganindu7/deepnotes){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 }
+[View it on GitHub, Report Errors or make Suggestions](https://github.com/ganindu7/deepnotes){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -69,3 +69,11 @@ Vehicle inter processor communication is mostly facilitated by the CAN bus. Usin
 
 
 <!-- <sup>[1](#myfootnote1)</sup> -->
+<!-- $$ \nabla_\boldsymbol{x} J(\boldsymbol{x}) $$ -->
+
+
+<!-- Latex in Markdown -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<!-- example site -->
+<!-- https://github.com/ian-whitestone/ian-whitestone.github.io -->

@@ -222,3 +222,5 @@ if you get the output above and still got problems it seems that the software is
 [DEV-FORUM]: https://forums.developer.nvidia.com/
 [BUSHEAVY-PCAN]: https://forum.peak-system.com/viewtopic.php?f=120&t=39
 [ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
+
+

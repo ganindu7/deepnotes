@@ -17,8 +17,14 @@ Status: Draft
 
 ### Datasets and Data Loaders
 
-Separating dataset handling code (importing, sorting, batching, separating between training, validation and testing) and model training code (matrix operations, error estimation: optimisation gradient navigation) helps keep our workflows modular and reader friendly. The two primitives `torch.utils.Data.DataLoader` and `torch.utils.Data.Dataset` help with the Data side by aiding with pre loaded and custom data. `Dataset` stores the [sample, label] pairs while the `DataLoader` wraps an iterable around `Dataset` to provide functionality such as sampling and batching.
+Separating dataset handling code *(importing, sorting, batching, separating between training, validation and testing)* and model training code *(matrix operations, error estimation: optimisation gradient navigation)* helps keep our workflows modular and reader friendly. 
 
+The two primitives `torch.utils.Data.DataLoader` and `torch.utils.Data.Dataset` help with the Data handling side of things by aiding with pre-loaded or custom data (that we can collect and organize). 
+
+`Dataset` stores the **[sample, label]** pairs while the `DataLoader` wraps an iterable around `Dataset` to provide functionality such as sampling and batching.
+
+
+<!-- $$ \nabla_\boldsymbol{x} J(\boldsymbol{x}) $$ -->
 
 
 Some [PyTorch Datasets][PYTORCH-DATASETS].
@@ -95,11 +101,16 @@ A custom dataset Class must implement three functions.
 * `__len__`
 * `__get_item__`
 
+The following code snippet shows how these functions are initially implemented. 
+
+The `__init__` method takes in the annotation file, image directory and the transforms (which we will discuss in the next section) and assigns them internally to class variables. 
+
+The `__len__` method gets the length of the labels and returns.
+
+The `__getitem__` method reads in the image and the label entry based on the input index, The [`read_image`][TV-READ_IMAGE] function from `torchvision.io` converts the image into a tensor, applies any relevant transforms and returns an **[image , label]** pair to the caller.
+
 <script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=custom_datasets.py"></script>
 
-### `__init__`
-
-The `__init__` function runs once when instantiating the Dataset object. We initialize the directory containing the images, the annotations file and both transforms.
 
 the `labels.csv` looks like below, in the cast if the FashonMNIST dataset the enumerations are taken from the labels map
 
@@ -130,48 +141,15 @@ Coat0.jpg 4
 Anke-boot234.jpg, 9 
 ```
 
-```python
-    def __init__(self, annotation_file, img_dir, transform=None, target_transform=None):
-        self.img_labels = pd.read_csv(annotation_file, names=['file_name', 'label'])
-        self.img_dir = img_dir
-        self.transform = transform
-        self.target_transform = target_transform
-```
 
-### `__len__`
-
-The `__len__` function returns the number of samples in the dataset.
-
-```python
-    def __len__(self):
-        return len(self.img_labels)
-
-```
-
-### `__getitem__`
-
-the `__getitem__` loads and returns a sample from the dataset at the given index `index`. Based on the index, it identifies the image's location, reads it in and converts to a tensor using `read_image`,
-then retrieves the corresponding label from the csv data in self.img_labels. Afterwards calls the appropriate transform function on those that is read in an return the resulting image and the label in a tuple. 
-
-```
-
-    def __getitem__(self, index):
-        img_path = os.path.join(self.img_dir, self.img_labels.iloc[index, 0])
-        image = read_image(img_path)
-        label = self.img_labels.iloc[index, 1]
-        if self.transform:
-            image = self.transform(image)
-        if self.target_transform:
-            label = self.target_transform(label)
-        return image, label
-
-```
 
 ### DataLoader
 
-The dataset objects we discussed above are then introduced to the model training, validation and testing process via dataloders. 
-While the Dataset retrieves one sample at a time we want to create "minibatches" with the ability to randomly shuffle data at each epoch to mix up the feed and minimise overfitting. 
-DataLoaders can work in parallel via the `multiprocessing` module.
+Dataloaders use datasets to present the data to DL pipelines. Dataloaders can randomly sample datasets to create ***minibatches.*** taking randomly sampled minibatches at subsequent epochs help minimising undesirable effects such as "overfitting".
+
+Dataloders can be configured to use python's multiprocessing' module to [speed up operations][DATALOADERS-MP] by increasing the `num_workers`. However be cautious of side effects such as [this][DATALOADER-BUG].
+
+
 
 ```python
 from torch.utils.data import DataLoader
@@ -184,9 +162,9 @@ train_dataloder = DataLoader(training_data, batch_size=64, shuffle=True) # Train
 test_dataloader = DataLoader(test_data, batch_size=64, shuffle=True)
 ``` 
 Once the DataLoader is created for the corresponding dataset we are able to iterate through the dataset and return batches, the batch size and shuffle option is set 
-during the DataLoader instantiation phase. After all the data is returned in one cycle another epoch is reached and based on the shuffle key the data is then shuffled (or not). 
+during the DataLoader instantiation phase. After all the data is returned in one cycle another epoch is reached and based on the shuffle key the data is then shuffled. 
 
-If you want to have finer control over the stacking order of (sample label pairs) the output batch check out [Samplers][PYTORCH-SAMPLERS]
+If you want to have finer control over the stacking order of (sample label pairs) the output batch check out [Samplers][PYTORCH-SAMPLERS].
 
 Here is a full example!
 
@@ -204,9 +182,8 @@ Label: Bag
 
 ### Transforms
 
- Input data needs to be transformed to a format that is suitable for PyTorch if the data isn't already conditioned to be suitable we can use Transforms to do that. 
-
- All pyTorch datasets have two parameters for Transform, they are `transform`(for input samples such as image files) and `target_transform` (for labels). These accept callable entities (such as functions) containing the transformation logic. the [torchvision transforms][TORCHVISION-TRANSFORM] module offers several off the shelf transforms.
+The input data for models can sometimes differ from what comes out of the source. To bridge this gap pytorch use [transforms][TV-TRANSFORMS]. Transforms exist for both images and labels.
+for example [normalizing pixels around the dataset mean][IMAGE-TF] or [one hot encoding][ONE-HOT-ENC] for labels. for this you can either use the in-built transforms or create custom transforms. 
 
 
 
@@ -219,5 +196,14 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 [FashonMnist-dataset]: https://github.com/zalandoresearch/fashion-mnist
 [PYTORCH-DATASETS]: https://pytorch.org/vision/stable/datasets.html
 [PYTORCH-SAMPLERS]: https://pytorch.org/docs/stable/data.html#data-loading-order-and-sampler
-[TORCHVISION-TRANSFORM]: https://pytorch.org/vision/stable/transforms.html#torchvision-transforms
+[TV-TRANSFORMS]: https://pytorch.org/vision/stable/transforms.html#torchvision-transforms
+[TV-READ_IMAGE]: https://pytorch.org/vision/main/generated/torchvision.io.read_image.html
+[DATALOADERS-MP]: https://pytorch.org/docs/stable/data.html#single-and-multi-process-data-loading
+[DATALOADER-BUG]: https://github.com/pytorch/pytorch/issues/13246#issuecomment-905703662
+[IMAGE-TF]: https://stats.stackexchange.com/questions/211436/why-normalize-images-by-subtracting-datasets-image-mean-instead-of-the-current
+[ONE-HOT-ENC]: https://towardsdatascience.com/categorical-encoding-using-label-encoding-and-one-hot-encoder-911ef77fb5bd
+
+<!-- Latex in markdown -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
 
