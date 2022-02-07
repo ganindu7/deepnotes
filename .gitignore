@@ -7,3 +7,6 @@ Gemfile.lock
 topics/utils/d3_docs/*
 topics/Code/new_topic_template.md
 index.html
+*secret.md
+*classified.md
+*bucher.md
