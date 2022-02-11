@@ -59,6 +59,7 @@ Vehicle inter processor communication is mostly facilitated by the CAN bus. Usin
 
 * [A PyTorch WalkThrough: Note 1](./topics/Code/pytorch_walkthrough) <br  />
 * [Tensors and Data: Note 2](./topics/Code/tensors_and_model_input)
+* [Building a Network 1](./topics/Code/eager_network_building_blocks)
 
 *upcoming..*
 

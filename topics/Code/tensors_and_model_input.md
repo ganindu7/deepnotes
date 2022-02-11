@@ -185,7 +185,46 @@ Label: Bag
 The input data for models can sometimes differ from what comes out of the source. To bridge this gap pytorch use [transforms][TV-TRANSFORMS]. Transforms exist for both images and labels.
 for example [normalizing pixels around the dataset mean][IMAGE-TF] or [one hot encoding][ONE-HOT-ENC] for labels. for this you can either use the in-built transforms or create custom transforms. 
 
+The blueprint for TorchVision datasets has two parameters `transform`: to modify the input features and `target_transform` to modify the labels that accept function reference (callable) containing the transformation logic. 
 
+For example the images in the FashionMNIST dateset are in the Python Image Library (PIL) format and the corresponding labels are integers *(as shown in the `label map`)*. For model training these PIL images are normalised and (or optionally, mean shifted *(making the output mean equal 0)*) and the labels are one hot encoded.  
+
+```python
+
+import torch
+from torchvision import datasets
+from torchvision.transforms import ToTensor, Lambda
+
+'''
+Dataset instantiation
+
+root          : directory root
+train flag    : train
+download flag : download
+
+transform flags
+for features  : transform
+              : ToTensor -->  Converts a PIL image or NumPy ndarray into a FloatTensor and scales the image's pixel intensity values in the range [0., 1.]
+for labels    : target_transform   
+'''
+ds = datasets.FashionMNIST(
+     root="data",
+     train=True,
+     download=True,
+     transform=ToTensor(),
+     target_transform=Lambda(lambda y: torch.zeros(10, dtype=torch.float).scatter_(0, torch.tensor(y), value=1))
+     )
+
+```
+
+### Lambda Transforms 
+
+Lambda transforms applies a lambda function in to the transform. *in this example [`torch.tensor.scatter_`][TORCH-SCATTER] is used to insert `1` at the index provided by `y` for a vector of 
+zeros of size `10` to represent the number of labels.*
+
+```python
+lambda y: torch.zeros(10, dtype=torch.float).scatter_(0, torch.tensor(y), value=1)
+```
 
 Source: [PyTorch Tutorial][PyTorch-Tutorial]
 
@@ -202,6 +241,7 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 [DATALOADER-BUG]: https://github.com/pytorch/pytorch/issues/13246#issuecomment-905703662
 [IMAGE-TF]: https://stats.stackexchange.com/questions/211436/why-normalize-images-by-subtracting-datasets-image-mean-instead-of-the-current
 [ONE-HOT-ENC]: https://towardsdatascience.com/categorical-encoding-using-label-encoding-and-one-hot-encoder-911ef77fb5bd
+[TORCH-SCATTER]: https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html#torch-tensor-scatter
 
 <!-- Latex in markdown -->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
