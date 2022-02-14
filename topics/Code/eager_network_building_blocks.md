@@ -9,7 +9,7 @@ parent: Utilities
 ## Building a network with [PyTorch][PYTORCH]
 <span style="background-color:LightGreen">
 Created : 08/02/2022 | on Linux: 5.4.0-91-generic <br />
-Updated: 08/02/2022 | on Linux: 5.4.0-91-generic <br />
+Updated: 14/02/2022 | on Linux: 5.4.0-91-generic <br />
 Status: Draft
 </span>
 
@@ -254,6 +254,10 @@ Please find the code for the topics we discussed in this section.
 when data passes through a Neural Network structure the base input data is transformed by conducting mathematical operations with values residing inside the structure. Each layer consists of numerous parameters such as weights and biases. 
 
 the [nn.Module][NN-MODULE] automatically tracks all the fields defined inside the model object and makes all parameters accessible using the model's `parameters()` or `named_parameters()` methods.
+
+Check below for a complete code example that you can run and experiment with.
+
+<script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=model_params.py"></script>
 
 <br />
 
