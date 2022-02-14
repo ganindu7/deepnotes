@@ -133,6 +133,7 @@ Now we look at the layers of the model. To make things more transparent we are g
 
 ```python
 import torch
+from torch import nn
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 import matplotlib.pyplot as plt
@@ -185,7 +186,7 @@ torch.Size([3, 784])
 
 ### [nn.Linear][NN-LINEAR]
 
-The [linear layer][NN-LINEAR] applies the linear transformation $$ \boldsymbol{xW^T + b} $$  to the input using its stores stored weights and biases.
+The [linear layer][NN-LINEAR] applies the linear transformation $$ \boldsymbol{xW^T + b} $$  to the input using its stored weights and biases.
 
 ```python
 layer1 =nn.Linear(in_features=28*28, out_features=512)
@@ -196,6 +197,63 @@ print(hidden1.size())
 ```
 torch.Size([3, 512])
 ```
+
+### Using [Rectified Linear Units][RELU-TDS]
+
+The currently widely popular activation function (that is a linear ramp for values greater than 0 and clamped to zero otherwise) serves as a non-linear mapping between inputs to the model and its outputs.
+
+
+```python
+hidden1 = nn.ReLU()(hidden1)
+```
+
+
+```shell
+Before ReLU: tensor([[-0.0316, -0.0214,  0.0713,  ...,  0.0804,  0.1832, -0.0583],
+        [-0.2158, -0.3031,  0.2640,  ..., -0.1948, -0.1070, -0.1727],
+        [-0.0818,  0.1435, -0.0153,  ...,  0.0534,  0.3041, -0.0452]],
+       grad_fn=<AddmmBackward0>)
+After ReLU: tensor([[0.0000, 0.0000, 0.0713,  ..., 0.0804, 0.1832, 0.0000],
+        [0.0000, 0.0000, 0.2640,  ..., 0.0000, 0.0000, 0.0000],
+        [0.0000, 0.1435, 0.0000,  ..., 0.0534, 0.3041, 0.0000]],
+       grad_fn=<ReluBackward0>)
+
+```
+
+### [nn.Sequential][NN-SEQUENTIAL]
+
+As the name suggests [nn.Sequential][NN-SEQUENTIAL] provides a container to layout a ordered list of layers. The data is propagated to the proposed sequential order.
+Below is a quick example for a quick sequential NN made from the blocks we discussed earlier 
+
+```python
+seq_modules = nn.Sequential(flatten,  # flatten 28x28 = 784 feature tensors
+                            layer1,   # input: flattened features, output 512 units
+                            nn.ReLU(),
+                            nn.Linear(512, 10)
+                            )
+
+logits = seq_modules(images)
+```
+
+### [nn.Softmax][NN-SOFTMAX]
+
+logits returned from the [nn.Linear][NN-LINEAR] are in the range of [-inf, +inf]. We convert them to values in [0, 1] to represent probabilities associated with corresponding predicted outcomes,
+
+```python
+softmax = nn.Softmax(dim=1) # `dim` indicated the dimension along the values must sum to 1
+predicted_probabilities = softmax(logits)   
+print(f"predicted probababilities = {predicted_probabilities}")
+```
+
+Please find the code for the topics we discussed in this section.
+
+<script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=network_components.py"></script>
+
+## Model Parameters 
+
+when data passes through a Neural Network structure the base input data is transformed by conducting mathematical operations with values residing inside the structure. Each layer consists of numerous parameters such as weights and biases. 
+
+the [nn.Module][NN-MODULE] automatically tracks all the fields defined inside the model object and makes all parameters accessible using the model's `parameters()` or `named_parameters()` methods.
 
 <br />
 
@@ -220,6 +278,13 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 [SOFTMAX-F]: https://en.wikipedia.org/wiki/Softmax_function
 [NN-FLATTEN]: https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html
 [NN-LINEAR]: https://pytorch.org/docs/stable/generated/torch.nn.Linear.html
+[RELU-TDS]: https://towardsdatascience.com/understanding-relu-the-most-popular-activation-function-in-5-minutes-459e3a2124f
+[NN-RELU]: https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html
+[NN-SEQUENTIAL]: https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html
+[NN-SOFTMAX]: https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html
+
+
+
 
 <!-- Latex in markdown -->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
