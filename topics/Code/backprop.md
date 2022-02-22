@@ -18,19 +18,20 @@ Status: Draft
 
 <!-- <span style="background-color:lightgoldenrodyellow;">
 ***"The training effect on a single parameter inside a neural net flows from the <u>sensitivity of the total error of the network</u> to a <u>change in that parameter</u>."*** </span> -->
-
+The art of training a neural network can be described in many ways. At the heart of training is a response to a sensitivity observation. We can even say it is an iterative reactionary response or
 <span style="background-color:lightgoldenrodyellow;">
-Observing the sensitivity of the network loss (*or the error*) in response to a change in single parameter during a single pass cycle is a key fundamental step in training neural networks. </span>
+***<u>reacting to the sensitivity of a network due to a change in a single parameter </u> in a manner that drives the error down.*** </span>
 
 Once we know the end effect of that particular parameter *(weight or bias)* we can make adjustments to drive that loss down. Repeating this process of observing and making adjustments until we get a satisfactory set of parameters is our goal in training neural networks.   
 
 ### Loss
  
-Understanding the gradient flow into an arbitrary node is much easier if we start from the beginning! <span style="background-color:lightgoldenrodyellow;"> The "Beginning" for backpropagation is at the very end of the forward pass </span> *(however this comes with a little caveat we will discuss shortly, but for now just focus on the end)* 
+Understanding the gradient flow into an arbitrary node is much easier if we start from the point where an "Error" value is calculated. <span style="background-color:lightgoldenrodyellow;"> The "Beginning" for backpropagation as the name suggests is at the very end of the forward pass. </span> 
 
 
 
-At the end of the forward pass the neural network either spits out a scalar or a tensor valued output at the end of the graph (*based on the design of the network*). This output is then compared against a ***ground truth*** (or a known *label* as we sometimes call it). We Call this comparison the loss($$ \textbf{L} $$) of the network.
+At the end of the forward pass the neural network either spits out a scalar or a tensor valued output at the end nodes of the graph. This output is then compared against a ***ground truth*** (or a known *label* as we sometimes call it). We Call this comparison the loss($$ \textbf{L} $$) or the Error($$ \textbf{E} $$)of the network.
+
 
 <p align="center">
 	<img src="intro.svg"
@@ -39,22 +40,56 @@ At the end of the forward pass the neural network either spits out a scalar or a
 </p>
 <center> <em> Figure 1. Inputs, Network graph, outputs and labels  </em> </center>
 
-the word "Loss" sounds like an implicit term for ***"Error"*** *(At least I feel like that coming from a controls engineering background)* However there is a distinction, Error is a more explicitly comparable in terms of tangible quantities that are more similar in nature *(think of a control system regulating position or speed).* In a neural network the output of a graph and a ground truth cannot be compared to that level of similarity without making serious assumptions. So instead we use the ***"Loss"*** which is a mathematical function with useful properties to make *NN*s work. Having said that we will soon figure out that the *"Loss"* tracks the *"Error"* very closely. *i.e. If we have a large loss we can assume that we have a large error and vice versa.*   
+<em>the word "Loss" sounds like an implicit term for ***"Error"*** *(At least I feel like that coming from a controls engineering background)* In this text I will use the terms interchangeably referring to the same thing.</em> 
 
-
-If the output of the network is "$$ \textbf{z} $$" and the ground truth is "$$ \textbf{y} $$", We can formalise the loss, "$$ \textbf{L} $$" as a function of $$\textbf{z}$$ and $$\textbf{y}$$,  "$$ \textbf{L(z, y)} $$". <br />
+*Notation:* 
+If the output of the network is "$$ \textbf{y} $$" and the ground truth is "$$ \textbf{t} $$", We can formalise the loss, "$$ \textbf{L} $$" as a function of $$\textbf{y}$$ and $$\textbf{t}$$,  "$$ \textbf{L(y, t)} $$". <br />
 
 <span style="background-color:powderblue;">
 *The internal composition of this loss function can be one of many forms as long as it is differentiable with respect to* $$ \textbf{z} $$. 
 </span>
 
-### Sensitivity and Gradients 
+### Backwards Automatic Differentiation  
 
-In the section above we talked about the Loss, Now it is time to think of ways to use the loss to update the parameters (weights and biases) of our network to minimise the loss.
+<p align="center">
+	<img src="function_dag_1.svg"
+	title="worked example"
+	width="650" height="650" />
+</p>
+<center> Figure 2. a DAG representing a math function, arrows pointing towards the forward direction.  </center>
 
-Usually **we start with a random set of values for our parameters and change them over and over again until the <em>"Loss"</em> reaches a satisfactory minimum.**
 
-To preform this efficiently 
+let's say $$ x_1 = 2, x_2 = 5 $$
+
+$$
+\begin{array}{|l||c|c|}
+\hline \\
+\text{Forward Trace} & \text{Backwards trace} \\ 
+\hline  \\
+v_{-1} = x_1 = 2 \\
+v_0 = x_2 = 5  \\ 
+\hline \\
+v_1 = ln(v_{-1}) = ln2 \\
+v_2 = v_{-1} \cdot v_{0} = 2 \times 5 \\
+v_3 = sin(v_0) = sin(5) \\
+v_4 = v_1 + v_2 = ln2 + 10 \\
+v_5 = v_4 - v_3 = ln2 + 10 - sin(5) \\
+\hline \\
+y = v_5  &  \frac{ \partial v_5}{ \partial v_5} = \frac{ \partial y}{ \partial y} = 1 \\
+\hline
+\end{array}  
+$$
+
+
+
+
+<p align="center">
+	<img src="fwd_backwd.svg"
+	title="activations and gradient flow"
+	width="650" height="650" />
+</p>
+<center> Figure 3. Activations flowing forward and gradient flowing backwards  [source][ML-NOTES-2]</center>
+
 
 
 
@@ -63,27 +98,33 @@ To preform this efficiently
 	     title="abstract-example"
 	     width="650" height="650" />
 </p>
-<center> <em> Figure 2. Gradient flow for a single computational unit in a Neural Network </em> </center>
+<center> <em> Figure 4. Gradient flow for a single computational unit in a Neural Network </em> </center>
 
 <p align="center">
 	<img src="graph1.svg"
 	title="multiply unit"
 	width="650" height="650" />
 </p>
-<center> Figure 3. PCAN View CAN trace </center>
+<center> Figure 5. PCAN View CAN trace </center>
 
 <p align="center">
 	<img src="graph2.svg"
 	title="worked example"
 	width="650" height="650" />
 </p>
-<center> Figure 4. PCAN View CAN trace </center>
+<center> Figure 6. PCAN View CAN trace </center>
 
 
-
-
+<!-- <p align="center">
+	<img src="function_dag_1.svg"
+	title="worked example"
+	width="650" height="650" />
+</p>
+<center> Figure 7. PCAN View CAN trace </center>
 
  -->
+
+ [Jacobian][JACOBIAN-MATRIX]
 
 
 <br />
@@ -103,6 +144,7 @@ To preform this efficiently
 [GRADIENT-DESCENT-1]: https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f21
 [BACKPROP-NOTES]: https://cs231n.github.io/optimization-2/
 [ML-NOTES-2]: https://arxiv.org/abs/1502.05767
+[JACOBIAN-MATRIX]: https://math.stackexchange.com/q/1127350
 
 <!-- Latex in markdown -->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
