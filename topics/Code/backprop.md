@@ -87,7 +87,7 @@ $$
 \hline
 \end{array}  
 $$
-<center> Table 1. Forward and Backward traces for an Autdiff function, <a href="https://arxiv.org/abs/1502.05767"> arXiv:1502.05767</a> (angles are in radians)</center>
+<center> Table 1. Forward and Backward traces for an Autodiff function, <a href="https://arxiv.org/abs/1502.05767"> arXiv:1502.05767</a> (angles are in radians) </center>
 
 
 
