@@ -49,37 +49,45 @@ If the output of the network is "$$ \textbf{y} $$" and the ground truth is "$$ \
 *The internal composition of this loss function can be one of many forms as long as it is differentiable with respect to* $$ \textbf{z} $$. 
 </span>
 
-### Backwards Automatic Differentiation  
+### Automatic Differentiation  
+
+Automatic differentiation does a lot of heavy lifting to make backpropagation work. A good working understanding of this tool is essential to understand backprop. Let's jump in!! figure 2 is a graph representation of the 
+function $$ f(x_1, x_2) = ln(x_1) + x_1x_2 -sin(x_2) $$, Each node in the graph is an intermediate variable that acts as a building block for the function.
+
+
 
 <p align="center">
-	<img src="function_dag_1.svg"
-	title="worked example"
+	<img src="DAG-backwards-AD.svg"
+	title="Backwards Automatic differentiation, DAG"
 	width="650" height="650" />
 </p>
-<center> Figure 2. a DAG representing a math function, arrows pointing towards the forward direction.  </center>
-
-
-let's say $$ x_1 = 2, x_2 = 5 $$
+<center> Figure 2. A math function drawn as a graph, <a href="https://arxiv.org/abs/1502.05767"> <em>arXiv:1502.05767 </em></a>  </center>
 
 $$
-\begin{array}{|l||c|c|}
+\begin{array}{|l||l|}
 \hline \\
 \text{Forward Trace} & \text{Backwards trace} \\ 
 \hline  \\
-v_{-1} = x_1 = 2 \\
-v_0 = x_2 = 5  \\ 
+\downarrow v_{-1} = x_1 = 2 & \uparrow  x_1 = v_{-1} = 5.5 \\
+\downarrow v_0 = x_2 = 5 & \uparrow   x_2 = v_0 \approx 1.7163\\ 
 \hline \\
-v_1 = ln(v_{-1}) = ln2 \\
-v_2 = v_{-1} \cdot v_{0} = 2 \times 5 \\
-v_3 = sin(v_0) = sin(5) \\
-v_4 = v_1 + v_2 = ln2 + 10 \\
-v_5 = v_4 - v_3 = ln2 + 10 - sin(5) \\
+& \uparrow \widetilde{v_{-1}} = \widetilde{v_{-11}} + \widetilde{v_{-12}} = 5.5\\ 
+& \uparrow \widetilde{v_{-12}} = \frac{\partial v_2}{\partial v_{-1}} \cdot \widetilde{v_2} = [\frac{\partial  }{\partial v_{-1}}(v_{-1} \cdot v_0)] \widetilde{v_2} = v_0 \cdot \widetilde{v_2} = 5\\ 
+& \uparrow \widetilde{v_{-11}} = \frac{\partial v_1}{\partial v_{-1}} \cdot \widetilde{v_1} = \frac{ \partial}{ \partial v_{-1}}ln(v_{-1}) = \frac{1}{v_{-1}} \cdot \widetilde{v_1} = 0.5\\ 
+& \uparrow \widetilde{v_{0}} = \widetilde{v_{01}} + \widetilde{v_{02}} \approx 1.7163 \\
+& \uparrow \widetilde{v_{02}} = \frac{\partial v_3}{ \partial v_0} \cdot \widetilde{v_3} =  \frac{\partial}{ \partial v_0}sin(v_0) \cdot \widetilde{v_3} = cos(v_0) \times -1  \approx -0.2836\\
+& \uparrow \widetilde{v_{01}} = \frac{\partial v_2}{v_0} \cdot \widetilde{v_2} = [\frac{\partial  }{\partial v_0}(v_{-1} \cdot v_0)] \widetilde{v_2} = v_{-1} \cdot \widetilde{v_2} = 2 \\
+\downarrow v_1 = ln(v_{-1}) = ln2 & \uparrow \widetilde{v_1} = \frac{ \partial(v_1 + v_2)}{\partial v_1} \cdot \widetilde{v_4} = 1  \\
+\downarrow v_2 = v_{-1} \cdot v_{0} = 2 \times 5 & \uparrow \widetilde{v_2} = \frac{ \partial(v_1 + v_2)}{\partial v_2} \cdot \widetilde{v_4} = 1 \\
+\downarrow v_3 = sin(v_0) = sin(5)  &  \uparrow \widetilde{v_3} = \frac{ \partial v_5}{ \partial v_3} \cdot \frac{ \partial f}{ \partial v_5} =  (\frac{ \partial v_4}{ \partial v_3} - \frac{ \partial v_3}{ \partial v_3}) \cdot \widetilde{v_5} = -1 \\
+\downarrow v_4 = v_1 + v_2 = ln2 + 10 & \uparrow \widetilde{v_4} = \frac{ \partial v_5}{ \partial v_4} \cdot \frac{ \partial f}{ \partial v_5} =  (\frac{ \partial v_4}{ \partial v_4} - \frac{ \partial v_3}{ \partial v_4}) \cdot \widetilde{v_5} = 1 \\
+\downarrow v_5 = v_4 - v_3 = ln2 + 10 - sin(5)  \\ 
 \hline \\
-y = v_5  &  \frac{ \partial v_5}{ \partial v_5} = \frac{ \partial y}{ \partial y} = 1 \\
+\downarrow y = v_5 \approx 11.6521 & \uparrow \widetilde{v_5} = \frac{ \partial f}{ \partial v_5} = \frac{ \partial v_5}{ \partial v_5} = 1 \\
 \hline
 \end{array}  
 $$
-
+<center> Table 1. Forward and Backward traces for an Autdiff function, <a href="https://arxiv.org/abs/1502.05767"> arXiv:1502.05767</a> (angles are in radians)</center>
 
 
 
