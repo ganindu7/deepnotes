@@ -18,19 +18,24 @@ Status: Draft
 
 <!-- <span style="background-color:lightgoldenrodyellow;">
 ***"The training effect on a single parameter inside a neural net flows from the <u>sensitivity of the total error of the network</u> to a <u>change in that parameter</u>."*** </span> -->
-The art of training a neural network can be described in many ways. At the heart of training is a response to a sensitivity observation. We can even say it is an iterative reactionary response or
+The art of training Neural networks can be a bit subtle, but at the heart of it is a calculated response to a sensitivity observation. 
+
+<!-- We can even say it is an iterative reactionary response or
 <span style="background-color:lightgoldenrodyellow;">
 ***<u>reacting to the sensitivity of a network due to a change in a single parameter </u> in a manner that drives the error down.*** </span>
-
-Once we know the end effect of that particular parameter *(weight or bias)* we can make adjustments to drive that loss down. Repeating this process of observing and making adjustments until we get a satisfactory set of parameters is our goal in training neural networks.   
+ -->
+Once we know the end effect of a particular parameter *(weight or bias)* we can make adjustments to move the system in a desired direction. Repeating this process of observing and making adjustments until we get a satisfactory set of parameters is our goal in training neural networks.   
 
 ### Loss
- 
-Understanding the gradient flow into an arbitrary node is much easier if we start from the point where an "Error" value is calculated. <span style="background-color:lightgoldenrodyellow;"> The "Beginning" for backpropagation as the name suggests is at the very end of the forward pass. </span> 
+
+At the conclusion of the forward pass a neural network either spits out a scalar or a tensor valued output from the end nodes of the graph. This output is then compared against a ***ground truth*** (or a known *label* ) to obtain a measure of performance. We Call this comparison the loss($$ \textbf{L} $$) or the Error($$ \textbf{E} $$)of the network.
+
+The effect on this performance measure by an individual parameter, $$p$$ can be called the ***gradient*** depending on the context (e.g. Gradient of Error in relation to $$p,  \frac{\partial E}{\partial p}$$ ). With the use of calculus we can propagate this *measure*  inwards and find the influence on the sensitivity of each configurable parameter within the Network graph. 
 
 
+Understanding the gradient flow into an arbitrary node is much easier if we start from the end and then gradually work our way into the graph applying the ***chain rule of derivatives*** repeatedly.
 
-At the end of the forward pass the neural network either spits out a scalar or a tensor valued output at the end nodes of the graph. This output is then compared against a ***ground truth*** (or a known *label* as we sometimes call it). We Call this comparison the loss($$ \textbf{L} $$) or the Error($$ \textbf{E} $$)of the network.
+
 
 
 <p align="center">
@@ -121,6 +126,14 @@ $$
 $$
 <center> Table 1. Forward and Backward traces for an Autodiff function, <a href="https://arxiv.org/abs/1502.05767"> arXiv:1502.05767</a> (angles are in radians) </center>
 
+The gradient \\(\nabla f\\) is the vector of partial derivatives, for \\( f(x_1, x_2) = ln(x_1) + x_1x_2 -sin(x_2) \\) 
+
+$$
+
+\nabla f = [\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}]
+
+$$
+
 The function used in *Table 1* ($$ ln(x_1) + x_1x_2 - sin(x_2) $$) is a scalar valued function. All the adjoints we calculated are in respect to the output of this scalar valued function. If we maintain the current structure and happened to evaluate a tensor valued function we will have to maintain tensor intermediate variables (and their adjoints) and backpropagate multiple times (once per each output) per each single forward pass. I think this is an uncommon example where in the Machine Learning context we train the same model blueprint to detect various things simultaneously. 
 
 In the general case usually we have a large number of inputs and a scalar valued Objective function (an Error function, $$\mathbf{E}$$) at the end that is based on the comparison of the model output and the training label value.
@@ -188,6 +201,16 @@ J^T = \begin{bmatrix}
 $$
 
 
+### Automatic Differentiation in Machine learning. 
+
+In the section above we saw that \\(\nabla f\\) for  \\( f(x_1, x_2) = ln(x_1) + x_1x_2 -sin(x_2) \\)  is the gradient vector of \\( f \\) with in inputs \\( x_1 \text{ and } x_2 \\). In machine learning the input is usually data from 
+the real world which is usually fixed, we only need to calculate \\( \nabla f \\) only for very special reasons such as introspection. what we really chase after art the tunable parameters like weights and biases. 
+
+
+
+<!-- hkjjkjk  \\(f(x,y,z) = (x + y) z\\) kbbjbkjb -->
+
+
 <!-- The number of operations needed to calculate the Jacobian is proportional to *$$m$$*. This is a huge benefit when we have less outputs compared to inputs like Neural Networks.  This makes Backwards AD more efficient when compared to forward AD (more details on that can be found [here][ML-NOTES-2] at sections $$3.1$$ and $$3.2$$)
  -->
 
@@ -211,11 +234,11 @@ $$
 <center> <em> Figure 4. Gradient flow for a single computational unit in a Neural Network </em> </center>
 
 <p align="center">
-	<img src="graph1.svg"
+	<img src="multiply_and_add.svg"
 	title="multiply unit"
 	width="650" height="650" />
 </p>
-<center> Figure 5. PCAN View CAN trace </center>
+<center> Figure 5. Multiply and add operation </center>
 
 <p align="center">
 	<img src="graph2.svg"
