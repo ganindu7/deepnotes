@@ -61,6 +61,7 @@ Vehicle inter processor communication is mostly facilitated by the CAN bus. Usin
 * [Tensors and Data: Note 2](./topics/Code/tensors_and_model_input)
 * [Building a Network 1](./topics/Code/eager_network_building_blocks)
 * [Backpropagation](./topics/Code/backprop)
+* [SoftMax loss and Cross Entropy loss gradient: From theory to practice](././topics/Code/softmax-xentropy-gradient)
 
 *upcoming..*
 
