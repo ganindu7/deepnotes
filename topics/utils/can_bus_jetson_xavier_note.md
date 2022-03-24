@@ -97,11 +97,12 @@ You can use the shell script below to set all the steps in one go. <br />
 you can run `$ chmod +x scriptname.sh` (maybe with sudo) and then `./scriptname.sh`
 </span>
 
-**Setting up Register values and enabling CAN**
+### Setting up Register values and enabling CAN
 
 The shell script below will update registers, set up drivers and bring the `can0` interface up. The same process cab be modified to activate `can1`.
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=run.sh"></script>
+
 
 #### **Disabling CAN**
 <span style="background-color: lightgoldenrodyellow;">
@@ -184,6 +185,14 @@ if pin5 is not used it can be left floating.
 
 Setting up the physical can bus and get the electrical and software components working altogether can be challenging at times. This section is to address some of these problems in a Q&A
 style writeup.
+
+### CAN interface is not up 
+
+*Note: (this can usually can happen with embedded platforms)*
+(e.g. `candump can0` complains that the interface is not up) <br />
+first [disble CAN](#disabling-can) and try replacing `sudo ip link set can0 type can bitrate 250000 presume-ack on restart-ms 2000` on the [setup script](#setting-up-register-values-and-enabling-can)    with 
+`sudo ip link set can0 up type can bitrate 250000 berr-reporting on ` 
+
 
 ### the setup stage works fine but can't see any messages on the bus. 
 

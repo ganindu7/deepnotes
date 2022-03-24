@@ -10,7 +10,7 @@ parent: Utilities
 <span style="background-color:LightGreen">
 Created : 16/02/2022 | on Linux: 5.4.0-91-generic <br />
 Updated : 16/02/2022 | on Linux: 5.4.0-91-generic <br />
-Status: Draft
+Status: Draft [Under Construction]
 </span>
 
 
@@ -203,8 +203,8 @@ $$
 
 ### Automatic Differentiation in Machine learning. 
 
-In the section above we saw that \\(\nabla f\\) for  \\( f(x_1, x_2) = ln(x_1) + x_1x_2 -sin(x_2) \\)  is the gradient vector of \\( f \\) with in inputs \\( x_1 \text{ and } x_2 \\). In machine learning the input is usually data from 
-the real world which is usually fixed, we only need to calculate \\( \nabla f \\) only for very special reasons such as introspection. what we really chase after art the tunable parameters like weights and biases. 
+In the section above we saw that \\(\nabla f\\) for  \\( f(x_1, x_2) = ln(x_1) + x_1x_2 -sin(x_2) \\)  is the gradient vector of \\( f \\) with in inputs \\( x_1 \text{ and } x_2 \\). In machine learning the input is 
+usually training data which is usually fixed (as observations), so for practical terms we only need to calculate \\( \nabla f \\) only for very special reasons such as introspection. The gradients we really do need are for the tunable parameters like weights and biases. 
 
 
 
