@@ -17,11 +17,22 @@ Status: Draft
 <span style="background-color:LightYellow"> [**previous topic 2: Tensors and Data Handling with PyTorch**](../tensors_and_model_input#Tensors-and-Data-Handling-with-PyTorch)  </span>
 <span style="background-color:LightYellow"> [**previous topic 3: Building a network in eager mode**](../eager_network_building_blocks#Building-a-network-with-PyTorch)  </span>
 
-### Data
+## Warning!! This post is under construction! 
+
+### Softmax function 
+
+### Probabilistic and Information Theory perspectives.
+
+### Proof for Softmax Gradient 
+
+### Implementations with python
 
 
+The code below is taken from my answers to the assignments in [CS231](http://cs231n.stanford.edu/)
 
 ```python
+from builtins import range
+import numpy as np
 
 def softmax_loss_naive(W, X, y, reg):
     """
@@ -45,7 +56,6 @@ def softmax_loss_naive(W, X, y, reg):
     loss = 0.0
     dW = np.zeros_like(W)
 
-    X = np.asarray(X)
     batch_size = X.shape[0]
     n_features = X.shape[1]
     n_classes  = W.shape[1]
@@ -60,6 +70,7 @@ def softmax_loss_naive(W, X, y, reg):
       y_hat = np.exp(un_normalised_probs)/np.sum(np.exp(un_normalised_probs))
       
       for k in range(n_classes):
+      	# Here we implement the gradient we derived above 
         dW[:, k] += X[i] * (y_hat[k] - (k == y[i]))
    
     loss /= batch_size 
@@ -70,6 +81,27 @@ def softmax_loss_naive(W, X, y, reg):
 
     return loss, dW
 
+```
+
+We apply the gradient for each column in the `dW` matrix 
+
+```python
+for k in range(n_classes):
+	# Here we implement the gradient we derived above 
+	dW[:, k] += X[i] * (y_hat[k] - (k == y[i]))
+```
+
+Here is a faster vectorised version of the code above.  
+
+```python
+un_normalised_probs = X @ W
+losses = np.log(np.sum(np.exp(un_normalised_probs), axis=1 , keepdims=True)) - np.take_along_axis(un_normalised_probs, np.reshape(y, (-1, 1)), axis=1)
+loss   += np.sum(losses)/batch_size + reg *  np.sum(W*W) 
+
+un_normalised_probs -=  np.amax(un_normalised_probs, axis=1, keepdims=True)
+y_hats = np.exp(un_normalised_probs) / np.sum(np.exp(un_normalised_probs), axis=1, keepdims=True)
+y_hats[np.arange(y.shape[0]), y] -= 1
+dW = (X.T @ y_hats)/batch_size + reg * 2 * W
 ```
 
 <br />
@@ -95,3 +127,9 @@ Source: [PyTorch Tutorial][PyTorch-Tutorial]
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+
+<!-- This is not pretty!! -->
+<!-- 
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<script>hljs.initLineNumbersOnLoad();</script>
+ -->
