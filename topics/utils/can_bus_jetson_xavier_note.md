@@ -213,7 +213,13 @@ if you get the output above and still got problems it seems that the software is
 
 ## Related [Nvidia Developer forum][DEV-FORUM] Questions
 
-* Error due to the nodes on CAN bus having different clocks. [link](https://forums.developer.nvidia.com/t/agx-xavier-can-bus-not-working-in-jetpack-4-6/202219?u=ganindu1)
+* Error due to the nodes on CAN bus having different clocks. [link](https://forums.developer.nvidia.com/t/agx-xavier-can-bus-not-working-in-jetpack-4-6/202219?u=ganindu1) <br/>
+
+
+### Appendix 
+[L4T 32.7.1 CAN DOCS](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3271/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_can.html) <br/>
+to change pinmux and update kernel look  at `$BSP/Linux_for_Tegra/kernel/pinmux/t19x/README.txt` <br/>
+[L4T 32.7.1 IO-CONFIG-TOOL](https://docs.nvidia.com/jetson/archives/l4t-archived/l4t-3271/index.html#page/Tegra%20Linux%20Driver%20Package%20Development%20Guide/hw_setup_jetson_io.html#wwpID0E0ZE0HA) <br/>
 
 ---
 *Click [here][ERRORS-SUGGESTIONS] for Errors, Suggestions or Comments!*

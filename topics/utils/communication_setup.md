@@ -35,23 +35,32 @@ Note: If you don't have SSH working on the target you won't be able to tunnel in
 
 ### Connecting from the remote  
 
-Before connecting we need to know the IP address, username and the password for the host. Also a quick word about my setup. 
+Before connecting we need to know the IP address, username and the password for the host. Here is a diagram of a setup. 
 
 ![My initial network setup](communication_setup/network_setup_1.png)
 
 ### Tutorial 
 
-- Use the steps above to make sure ssh is working 
-		  i. Find the target device ip address by typing `ifcongig` in a terminal (***use the target to execute this command***) <br>
-		    	 ![find_target_ip](communication_setup/ifconfig_target.png)
+- Use the steps above to make sure ssh is working.
 
-		inet6 fe80::b444:7974:e88:53f1 prefixlen 64  scopeid 0x20<link>
+	<ul>
+		<li>
+		Find the target device ip address by typing `ifcongig` in a terminal (<strong>use the target to execute this command</strong>) 
+		</li>
+	</ul>
 
-shows the link local ipv6 address for the interface `eth0`, we will use that to connect to this from our host computer.
+	![find_target_ip](communication_setup/ifconfig_target.png)
+	</br>
+	Now observe this line below.
+	```
+	inet6 fe80::b444:7974:e88:53f1 prefixlen 64  scopeid 0x20<link>
+	```
 
-- Now we ping the target from the host (***use the hosts to execute the following command***)
+this shows the link local ipv6 address for the interface `eth0`, we will use that to connect to this from our host computer.
+
+- Now we ping the target from the host (***use the host device (Computer) to execute the following command***)
 - From your host device ping the target <br>
-  i. type `ping - I` ***hostinterfacename targetipv6address*** <br>  (e.g. `ping -I enp0s31f6 fe80::b444:7974:e88:53f1`) <br>
+  i. type `ping - I host_interface_name target_ipv6address` <br>  (e.g. `ping -I enp0s31f6 fe80::b444:7974:e88:53f1`) <br>
   The results will look like the picture below (I've pinged 4 times)
 
 ![ping_target_from_host](communication_setup/ping_target_fom_host.png) 
@@ -62,7 +71,8 @@ shows the link local ipv6 address for the interface `eth0`, we will use that to 
 
 
 <span style="background-color:LightYellow">
-Note the use of the interface `enp0s31f6` in the command, it's slightly different from the familiar ssh command syntax.  </span>
+Note the use of the interface `enp0s31f6` in the command, it's slightly different from the familiar ssh command syntax. each computer and network interface is differnt so you will need to find the 
+network interface name that is right </span>
 
 
 
@@ -88,6 +98,12 @@ Host Jetson
 
 Then copy the newly minted ssh public key to the target <br>
 `ssh-copy-id -i ~/.ssh/Jetson a@fe80::b444:7974:e88:53f1%enp0s31f6`
+
+<span style="background-color:LightYellow">
+Note: Make sure you have got the username of the target correct! for example if the username is `username` the command becomes
+<br>
+`ssh-copy-id -i ~/.ssh/Jetson username@fe80::b444:7974:e88:53f1%enp0s31f6` <br/> or (you can append '.pub' to the end of the keyfile if it is generated that way) <br/> `ssh-copy-id -i ~/.ssh/Jetson.pub username@fe80::b444:7974:e88:53f1%enp0s31f6`
+</span>
 
 Then you can test this by typing `ssh Jetson` from the host, this will now drop a shell to the target.
 
