@@ -79,7 +79,7 @@ $ sudo busybox devmem 0x0c303018 w 0x458
 
 ### Loading Kernel Drivers
 load all the necessary kernel drivers in the following order.
-- use `sudo` mode if necessary. 
+- *Note: Use `sudo` mode if necessary. *
 1. `$ modprobe can`
 2. `$ modprobe can_raw`
 3. `$ modprobe mttcan`
@@ -113,8 +113,13 @@ This unloads the drives and brings the CAN down, however the registers will rema
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=disable_can.sh"></script>
 
 
-
 ## Testing and running code
+
+<span style="background-color: lightgoldenrodyellow;">
+This section uses [python-can][PYTHON-CAN] with [socketcan][SOCKETCAN], you can install the pythin package via pip with `pip install python-can`   
+</span>
+
+
 
 Once the can drivers and the interface is up you can use commands like [cansend][CANSENND] and [candump][CANDUMP] alongside potential already existing bus traffic to inject and read CAN messages.
 At this point you have to be aware of the clock compatibility of the participating CAN nodes or you may get various faulty BUS ERROR conditions. 
@@ -238,5 +243,7 @@ to change pinmux and update kernel look  at `$BSP/Linux_for_Tegra/kernel/pinmux/
 [DEV-FORUM]: https://forums.developer.nvidia.com/
 [BUSHEAVY-PCAN]: https://forum.peak-system.com/viewtopic.php?f=120&t=39
 [ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
+[SOCKETCAN]: https://docs.kernel.org/networking/can.html
+[PYTHON-CAN]: https://python-can.readthedocs.io/en/master/installation.html
 
 
