@@ -79,6 +79,7 @@ $ sudo busybox devmem 0x0c303018 w 0x458
 
 ### Loading Kernel Drivers
 load all the necessary kernel drivers in the following order.
+- use `sudo` mode if necessary. 
 1. `$ modprobe can`
 2. `$ modprobe can_raw`
 3. `$ modprobe mttcan`
