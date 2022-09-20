@@ -32,6 +32,14 @@ If ssh server installed you can test the status by `/etc/init.d/ssh status`
 ![SSH server running](communication_setup/check-ssh-ok.png)
 
 Note: If you don't have SSH working on the target you won't be able to tunnel into the device, therefore use the commendline `sudo apt install openssh-server` or use a package manager like synaptic.
+Firewall check:
+make sure you are listening on port 22 <br/>
+`sudo netstat -nlp | grep :22`
+![port 22 check](communication_setup/firewall_check.png)
+then check for the fireall if necessary with with `sudo ufw status` <br/>
+If SSH is not allowed to use port 22 <br/>
+`sudo ufw allow 22` <br>
+for more info check [here](https://unix.stackexchange.com/questions/105800/not-able-to-ssh-to-another-computer-but-can-ping-it).
 
 ### Connecting from the remote  
 
@@ -39,7 +47,27 @@ Before connecting we need to know the IP address, username and the password for 
 
 ![My initial network setup](communication_setup/network_setup_1.png)
 
-### Tutorial 
+### SSHFS Mounting
+Mounting files across devices is very handy when you don't want to plug phycical storage memory into a device but you want to use the processing capabilities of the device (when the task may require more storage memory or you may just want the data to live in a seprate device) 
+<span style="background-color: lightYellow">
+ <br/> *For example you can mount traning data via a ssh mount to not consume space on a HPC or you can run testing on an edge device with offline file data where input/output files are stored in your develoment computer.*   
+</span>
+***Note: At the time of writing this sshfs mounting seem to only work on IPV4*** <br/><br/>
+HOWTO:
+1. `ssh` into the remote computer (I've run this in a Nvdia Jetson and Nvidia DGX devices) 
+2. `cd` into the directory you want the mount pooint to be
+3. Create a directoy *e.g. `$PWD/folder/in/local/computer`* (Reminder: In this context the `../local/computer` is the device you `ssh`'d  into)
+4. (optional?) edit `/etc/fuse.conf` (with superuser) of the device you are in to allow non-root users to specify the allow_other or allow_root mount options.
+5. Type `sshfs -o allow_other usernameu@IPv4_adderess:/folder/in/remote/computer $PWD/folder/in/local/computer`
+
+![mount-sshfs](communication_setup/sshfs-mount-pc-to-jetson.gif)
+<!-- <img src="communication_setup/sshfs-mount-pc-to-jetson.gif" width="200" height="200" /> -->
+
+In the picture above the `Videos` directory from the remote computer is mounted into the `data` directory. 
+
+
+
+### Tutorial (for SSH)
 
 - Use the steps above to make sure ssh is working.
 

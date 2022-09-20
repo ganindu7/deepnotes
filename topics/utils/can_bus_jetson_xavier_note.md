@@ -116,9 +116,30 @@ This unloads the drives and brings the CAN down, however the registers will rema
 ## Testing and running code
 
 <span style="background-color: lightgoldenrodyellow;">
-This section uses [python-can][PYTHON-CAN] with [socketcan][SOCKETCAN], you can install the pythin package via pip with `pip install python-can`   
-</span>
+This section uses [python-can][PYTHON-CAN] with [socketcan][SOCKETCAN]. You can install the pythin package via pip with the following command </span>
 
+If you are using the `system-python` 
+
+```
+sudo apt install python3-wrapt
+sudo apt install python3-can
+```
+```
+pip3 install python-can
+```  
+
+The python examples below are tested on <br/>
+
+
+| ------ | ----- |
+| python | 3.6.9 |
+| python3-wrapt | 1.9.0-3 |
+| python-can | 3.3.4 |
+
+
+
+
+Now your python environment is ready to work with *[SocketCAN][SOCKETCAN]* 
 
 
 Once the can drivers and the interface is up you can use commands like [cansend][CANSENND] and [candump][CANDUMP] alongside potential already existing bus traffic to inject and read CAN messages.
