@@ -63,7 +63,7 @@ HOWTO:
 ![mount-sshfs](communication_setup/sshfs-mount-pc-to-jetson.gif)
 <!-- <img src="communication_setup/sshfs-mount-pc-to-jetson.gif" width="200" height="200" /> -->
 
-In the picture above the `Videos` directory from the remote computer is mounted into the `data` directory. 
+In the picture above the `$HOME/Videos` directory from the remote computer is mounted into the `$PWD/data` directory. 
 
 
 
