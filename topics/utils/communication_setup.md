@@ -137,6 +137,28 @@ Then you can test this by typing `ssh Jetson` from the host, this will now drop 
 
 **more information on setting up a VNC (also is on the L4T readme file) can be found [here](https://gist.github.com/dusty-nv/0329cd330edb608673a7c016be901be8).**
 
+## Host superuser access 
+
+Although this is not advised, you can set up superuser privileges by copying the `sudoers` file below to `/etc/sudoers` and setting permission to `440`
+
+```
+cp sudoers /etc/sudoers
+chmod 440 /etc/sudoers
+```
+
+here is a script that uses the `sudoers` file linked below to set permissions.  
+
+{: .mx-1}
+<script src="https://gist.github.com/ganindu7/f873280f19cc7bc95e1886e0e65b85a4.js?file=run.sh"></script>
+{: .mx-1}
+
+The `sudoers` file 
+
+
+{: .mx-1}
+<script src="https://gist.github.com/ganindu7/f873280f19cc7bc95e1886e0e65b85a4.js?file=sudoers"></script>
+{: .mx-1}
+
 
 # A note for Microsoft Windows users 
 Date updated: 15/01/2022 | Tested on windows 10 
