@@ -23,6 +23,8 @@ permalink: /
 
 ---
 
+*Note: Please kindly note that [this legal disclaimer](./topics/utils/legal_disclaimer) is applied to all the material in this website!*
+
 <!-- ## Getting started -->
 
 ## [Setting up communications](./topics/utils/communication_setup#Communicating-with-a-target-device)
