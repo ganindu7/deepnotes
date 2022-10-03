@@ -21,3 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+The text above is adopted from the [MIT software license disclaimer](https://opensource.org/licenses/MIT)
+
+
+
+
