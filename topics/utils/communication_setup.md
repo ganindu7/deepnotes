@@ -193,7 +193,7 @@ xauth add my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd
 
 ```
 
-Note: the default location is `/root` , you can use / without any problem (I've tested in ubuntu server)
+Note: the default location is `/root` , you can use `/` without any problem (I've tested in ubuntu server)
 
 
 # A note for Microsoft Windows users 
