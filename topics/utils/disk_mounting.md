@@ -7,7 +7,18 @@ permalink: /topics/utils/disk_mounting
 # nav_order: 2
 ---
 
-This is a /etc/fstab file check line 17 and 21 to see the changes I made 
+This is a /etc/fstab file 
+
+I added 
+```
+# USB Mass storage device 
+# /dev/disk/by-uuid/E4C75361C8523252   /media/WD_USB_HDD/  fuseblk  defaults  0  0
+# this via `gnome-disks`
+/dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
+```
+
+
+After adding 
 
 ```
 # /etc/fstab: static file system information.
