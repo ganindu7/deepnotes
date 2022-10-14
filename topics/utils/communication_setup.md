@@ -160,11 +160,12 @@ The `sudoers` file
 {: .mx-1}
 
 
-# SSH XSession forwarding with SuperUser
+## SSH XSession forwarding with SuperUser
 1. Connect to the remote computer with ssh -X (As shown above in step 1)
 e.g.  `ssh -X me@my_remote_computer` or use `~/.ssh/Config` file as discussed above and type `ssh  my_remote_computer` <br/>
 
 2. Get Magic Cookie for current display
+
 ```
 xauth list $DISPLAY
 
@@ -172,18 +173,20 @@ my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd78ghj21357
 
 ```
 3. GET local `DISPLAY` variable (this is just confirm)
+
 ```
 echo $DISPLAY
 
 ```
 
 4. log in as sudo (this will drop a superuser shell at the root)
+
 ```
 sudo su 
 
 ``` 
 
-5. Generate new .Xauthority file at /
+5. Generate new .Xauthority file at `/`
 
 ```
 xauth add my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd78ghj21357
@@ -191,13 +194,6 @@ xauth add my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd
 ```
 
 Note: the default location is `/root` , you can use / without any problem (I've tested in ubuntu server)
-
-
-
-
-
-
-
 
 
 # A note for Microsoft Windows users 
