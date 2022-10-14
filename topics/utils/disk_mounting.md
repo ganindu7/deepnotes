@@ -1,3 +1,12 @@
+---
+layout: default
+title: Disk mounting 
+parent: Utilities
+permalink: /topics/utils/disk_mounting
+# permalink: /topics/comms_setup   # adding a permalink broke the internal linking to a topic 
+# nav_order: 2
+---
+
 This is a /etc/fstab file check line 17 and 21 to see the changes I made 
 
 ```
@@ -16,10 +25,10 @@ This is a /etc/fstab file check line 17 and 21 to see the changes I made
 /dev/disk/by-uuid/3A70-DE26 /boot/efi vfat defaults 0 1
 /swap.img       none    swap    sw      0       0
 # USB Mass storage device 
-# /dev/disk/by-uuid/E4C85261C8523252   /media/WD_USB_HDD/  fuseblk  defaults  0  0
+# /dev/disk/by-uuid/E4C75361C8523252   /media/WD_USB_HDD/  fuseblk  defaults  0  0
 
 
-/dev/disk/by-uuid/E4C85261C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
+/dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
 ```
 
 ## NOte: 
