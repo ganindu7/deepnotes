@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  port mapping
+title:  port mapping using ssh tunneling
 nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
@@ -32,6 +32,16 @@ ssh -N -L 8887:localhost:8888 g@fe80::4bdc:e743:27d1:bf03%enp0s41f7
 `localhost:8888`: Source IP:PORT as as seen by my host computer <br />
 `-N`: Prevent executing other shell commands (helps to keep the shell standalone) <br />
 `-L`: Local mapping setup (check manual entry for ssh)
+
+
+#### Use-case example with a slightly different syntax: <br/>
+Imagine this deepnotes website is hosted on a remote PC's localhost (e.g.`127.0.0.1:4000/deepnotes/`) and this remote pc is accesible via `ssh jon@654.32.1.87` <br/>
+Type `ssh -L 127.0.0.1:4000:127.0.0.1:4000 jon@654.321.1.87` in a new terminal to create the tunnel (keep terminal active to keep the tunnel alive).<br/> then access the remote webpage by inserting `127.0.0.1:4000/deepnotes/` in the adress bar from the local pc. <br/> <br/>
+
+*Note: This is same as* `ssh -N  -L 4000:localhost:4000 jon@654.321.1.87`
+
+You can extend this to other use cases as Jupyter notebook servers or ipython kernels.
+
 
 
 P.S. 
