@@ -42,7 +42,9 @@ After adding
 /dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
 ```
 
-## NOte: 
+Afterwards you can use `sudo mount -a ` to test these changes
+
+## Note: 
 you may ignore these errors 
 
 before reboot <br/>

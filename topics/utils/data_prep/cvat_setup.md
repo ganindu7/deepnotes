@@ -10,8 +10,8 @@ grand_parent: Utilities
 
 ## Setting up [CVAT][CVAT]
 <span style="background-color:LightGreen">
-Created : 08/11/2022 | on Linux: 5.4.0-91-generic <br />
-Updated: 08/11/2022 | on Linux: 5.4.0-91-generic <br />
+Created : 08/11/2022 | on Linux: 5.15.0-52-generic <br />
+Updated: 08/11/2022 | on Linux: 5.15.0-52-generic <br />
 Status: Draft
 </span>
 
@@ -45,6 +45,29 @@ After you conform everything works fine you may restart the server with the shel
 You can shut the server down by `cd` ing to the cvat directory and then typing `docker-compose down`
 
 <br />
+
+
+### Tricks 
+
+#### Log into PostgreSQL 
+
+you can log into `postgres` with <br/> 
+
+`docker exec -it cvat_db /bin/bash --login`  <br/>
+
+#### Change where the data is stored or retrieved from. 
+
+if you want to create a database in a separate place follow along the instructions [here](https://opencv.github.io/cvat/docs/administration/basics/installation/#share-path) but instead of the `cvat_share` use the `cvat_data` option shown below (or use both appropriately). The extra storage is now mounted to somewhere in `/mounted/files/location/cvat_extended_storage/cvat_database`
+
+```
+volumes:
+  cvat_data:
+    driver_opts:
+      type: none
+      device: /mounted/files/location/cvat_extended_storage/cvat_database
+      o: bind
+
+``` 
 
 <!-- <span style="background-color:LightYellow"> Check the [**next topic**](../pytorch_walkthrough#Starting-Development-with-PyTorch)  </span> -->
 
