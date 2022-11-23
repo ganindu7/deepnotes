@@ -51,3 +51,17 @@ before reboot <br/>
 `[E] unreachable on boot required target: No such file or directory` <br/>
 after reboot <br/>
 `[E] cannot detect on-disk filesystem type`
+
+
+
+### Alternative approach 
+
+usecase: Create a NTFS formatted USB drive for logging 
+ * when formattting give it a distinct name e.g. "SENSOR_DATA_LOGGING_USB"
+
+ Then tou will see the label on `/dev/disk/by-label/PM_SENSOR_DATA_LOGGER`
+
+ then add the following line to the fstab file! 
+
+ LABEL=PM_SENSOR_DATA_LOGGER /mnt/PM_LOGGING_USB/ auto nosuid,nodev,nofail,x-gvfs-show 0 0
+
