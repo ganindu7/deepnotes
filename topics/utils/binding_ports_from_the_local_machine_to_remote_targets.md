@@ -40,7 +40,7 @@ Type `ssh -L 127.0.0.1:4000:127.0.0.1:4001 jon@654.321.1.87` in a new terminal t
 
 *Note: This is same as* `ssh -N  -L 4000:localhost:4001 jon@654.321.1.87`
 
-*Note: Sometimes port names are fiddly because they might expects incoming data from a certain port so if stuff goes bad with arbitrary mapped port ids map to the same id and see if it works.*
+*Note: Sometimes port names are fiddly because they might expects incoming data from a certain port so if stuff goes bad with arbitrary mapped port ids map to the same id and see if it works. (`ssh -N  -L 4001:localhost:4001 jon@654.321.1.87`)*
 
 You can extend this to other use cases as Jupyter notebook servers or ipython kernels.
 
