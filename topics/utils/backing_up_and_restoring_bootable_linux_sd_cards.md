@@ -142,6 +142,8 @@ truncate --size=$[(15788031+1)*512] harper_pi_clone.img
 Note: We were able to use the trimmed image sucessfully to shrink a ubuntu server os from a 64Gb drive to less than 8Gb! 
 However we had to use [fsck][fsck_man] to repair the filesystem on first boot (booted into safe mode in the first run). This was relatively easy! 
 
+7. use a program like [etcher](https://www.balena.io/etcher/) to flash the image.
+
 
 ### Method 2:
 
@@ -206,12 +208,13 @@ now you should have you bootable image.
 Extra Hint: if you want to skip the bootable portion you can use a non-zero value for the `skip` parameter in `dd` (just skip the boot sectors)
 
 
+### Method 3: (untested)
 
+I found this in a raspberry pi forum 
 
+you will need to create the disk image as before and try [pyshrink](https://github.com/Drewsif/PiShrink) to shrink the image. Then use the above methods (method 1 step 7 or method 2 step 6) above to restore the image again. 
 
-
-
-
+Note: I haven't personally tested this so please do give a shout if you give it a try! 
 
 
 
