@@ -143,6 +143,80 @@ Note: We were able to use the trimmed image sucessfully to shrink a ubuntu serve
 However we had to use [fsck][fsck_man] to repair the filesystem on first boot (booted into safe mode in the first run). This was relatively easy! 
 
 
+### Method 2:
+
+This is quite similar to method 1, Instead of using `dd` to replicate the device into the HDD and then performing the shrinking on the copied file we direcly use `gparted` on the device.
+
+1. Inset the disk, SD card to the PC 
+2. Open [gparted][gparted_web]
+3. select the partitions, set new sizes and apply settings (same as step 5.2 above).
+4. 
+    Now we perform something very simlar to step 6 of Method 1. <br/>
+
+    We type in 
+
+    ```
+    sudo fdisk -l /dev/sdb
+    ```
+
+This will provide statistics as previously. (as shown below)
+
+```
+Disk /dev/sdb: 59 GiB, 63281561600 bytes, 123596800 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xb7007318
+
+Device     Boot  Start      End  Sectors  Size Id Type
+/dev/sdb1  *      2048   526335   524288  256M  c W95 FAT32 (LBA)
+/dev/sdb2       591872 14129151 13537280  6.5G 83 Linux
+    ```
+
+here we can see that `/dev/sdb2` ends at sector index 13537280 (remember this is 0 indexed) <br/>
+
+5. Copy the right amount of sectors to build the backup image
+now we can create the image using `dd` just as we did on step 1. 
+
+```
+sudo dd if=/dev/sdb of=/home/g/Workspace/harper_pi_clone_trimmed.img bs=512 count=$[(13537280+1)] skip=0  status=progress
+```
+After a little bit of waiting we got 
+
+```
+6917046784 bytes (6.9 GB, 6.4 GiB) copied, 393 s, 17.6 MB/s
+13537281+0 records in
+13537281+0 records out
+6931087872 bytes (6.9 GB, 6.5 GiB) copied, 394.797 s, 17.6 MB/s
+
+```
+
+here we copied upto the boundary of our useful space. (13537281 blocks)
+
+6. use `gnome-disks` again to restore the image.
+
+Now we insert the empty device (usb or SD card). start `gnome-disks` once again and restore the newly created image from setp 5. 
+
+![restoring-image-gnome-disks](backing_up_and_restoring_bootable_linux_sd_cards/restoring-image-gnome-disks.png)
+
+now you should have you bootable image. 
+
+
+Extra Hint: if you want to skip the bootable portion you can use a non-zero value for the `skip` parameter in `dd` (just skip the boot sectors)
+
+
+
+
+
+
+
+
+
+
+
+
+
 [source_1]: https://softwarebakery.com//shrinking-images-on-linux
 [source_2]: https://askubuntu.com/a/1174509
 [source_3]: http://wladimir-tm4pda.blogspot.com/2016/01/shrinking-images-on-linux.html
