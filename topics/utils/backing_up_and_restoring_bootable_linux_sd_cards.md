@@ -76,7 +76,7 @@ Now after runnning `dd` in step 4, we have an `.img` file (`harper_pi_clone.img`
         Now /dev/loop16 represents harper_pi_clone.img, loop16p1 and loop16p2 represents the two partitions (system-boot and writable as I mentioned earlier) 
 
 
-5.2. 
+5.2 
         Load the new device using GParted! 
         Now let's use the loop device with GParted (install gparted with `sudo apt install gparted` if you don't have it already)
 
@@ -139,51 +139,8 @@ truncate --size=$[(15788031+1)*512] harper_pi_clone.img
 
 ![fdisk-l-output](backing_up_and_restoring_bootable_linux_sd_cards/shrunk_image.png)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-use [dd][dd_manpages] to create a copy of the SD card first. 
-
-```
-sudo dd if=/dev/sdb of=/home/g/Workspace/harper_pi_clone.img status=progress
-```
-
-
+Note: We were able to use the trimmed image sucessfully to shrink a ubuntu server os from a 64Gb drive to less than 8Gb! 
+However we had to use [fsck][fsck_man] to repair the filesystem on first boot (booted into safe mode in the first run). This was relatively easy! 
 
 
 [source_1]: https://softwarebakery.com//shrinking-images-on-linux
@@ -196,5 +153,5 @@ sudo dd if=/dev/sdb of=/home/g/Workspace/harper_pi_clone.img status=progress
 [fdisk_man]: https://man7.org/linux/man-pages/man8/fdisk.8.html
 [truncate_man]: https://man7.org/linux/man-pages/man1/truncate.1.html
 [gparted_web]: https://gparted.org/index.php
-
+[fsck_man]: https://man7.org/linux/man-pages/man8/fsck.8.html
 [gnome_disks_img]: backing_up_and_restoring_bootable_linux_sd_cards/gnome-disks.png
