@@ -174,7 +174,8 @@ Disk identifier: 0xb7007318
 Device     Boot  Start      End  Sectors  Size Id Type
 /dev/sdb1  *      2048   526335   524288  256M  c W95 FAT32 (LBA)
 /dev/sdb2       591872 14129151 13537280  6.5G 83 Linux
-    ```
+
+```
 
 here we can see that `/dev/sdb2` ends at sector index 13537280 (remember this is 0 indexed) <br/>
 
