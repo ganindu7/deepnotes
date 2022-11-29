@@ -65,3 +65,9 @@ usecase: Create a NTFS formatted USB drive for logging
 
  LABEL=PM_SENSOR_DATA_LOGGER /mnt/PM_LOGGING_USB/ auto nosuid,nodev,nofail,x-gvfs-show 0 0
 
+
+### Further reading
+
+[Linux permissions: SUID, SGID, and sticky bit](https://www.redhat.com/sysadmin/suid-sgid-sticky-bit) <br/>
+[What is SUID, SGID and Sticky bit ?](https://www.thegeekdiary.com/what-is-suid-sgid-and-sticky-bit/) <br/>
+[fstab file](https://wiki.debian.org/fstab) <br/>
