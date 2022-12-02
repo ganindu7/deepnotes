@@ -1,0 +1,35 @@
+
+/* more tricks 
+ * https://css-tricks.com/almanac/properties/f/font/
+ * 
+ */
+
+ 
+
+fig_caption{
+  font: "Courier New";
+  display: block; 
+ /* background: lightYellow; */
+ /* color: red; */
+  font-style: italic; 
+  font-weight: normal; 
+  white-space: nowrp;
+ /* overflow: hidden; */
+ display: inline-block; 
+ /* text-align: center; */
+  } 
+
+ fig_num{
+  font: "Courier New";
+  display: block; 
+ /* background: lightYellow; */
+ /* color: red; */
+  font-style: normal;
+  font-weight: bold;
+  white-space: nowrp;
+  overflow: hidden;
+ /* display: inline-block; */
+  text-align: center;
+  }
+
+  
