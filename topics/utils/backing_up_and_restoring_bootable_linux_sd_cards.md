@@ -1,11 +1,13 @@
 ---
 layout: default
-title: Backing up SD cards 
+title: Backing up bootable SD cards 
 parent: Utilities
 permalink: /topics/utils/sd_card_mounting
 # permalink: /topics/comms_setup   # adding a permalink broke the internal linking to a topic 
 # nav_order: 2
 ---
+
+# backing up and restoring bootable linux sd cards
 
 Original Sources: [1][source_1],[2][source_2],[3][source_3]
 

@@ -26,7 +26,7 @@ First we check if our target has a SSH server running, Usually you can SSH into 
 ### Checking the host side 
 
 If a server is not installed there won't be a `/etc/init.d/ssh` directory.  
-![checking for SSH server](communication_setup/check-ssh-fail.png)
+![checking for SSH server](check-ssh-fail.png)
 
 If ssh server installed you can test the status by `/etc/init.d/ssh status`
 ![SSH server running](communication_setup/check-ssh-ok.png)
@@ -194,6 +194,20 @@ xauth add my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd
 ```
 
 Note: the default location is `/root` , you can use `/` without any problem (I've tested in ubuntu server)
+
+## X Session within Docker 
+
+In addition to the options listed above you can mount the unix domain socket (`/tmp/.X11-unix/X${DISPLAYNUMBER`}) and the `.Xauthority` file in the respective $HOME directory.
+
+```
+	volumes:
+	    # unix domain socket
+	    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+	    # For user (optional)
+	    - $HOME/.Xauthority:/home/nvidia/.Xauthority:rw
+	    # For root (optional)
+	    - $HOME/.Xauthority:/root/.Xauthority:rw
+```
 
 
 # A note for Microsoft Windows users 
