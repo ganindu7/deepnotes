@@ -7,6 +7,9 @@ permalink: /topics/utils/communication_setup
 # nav_order: 2
 ---
 
+UPDATED
+{: .label .label-yellow }
+
 # Communicating with a target device
 {: .no_toc }
 
