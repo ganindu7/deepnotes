@@ -7,6 +7,9 @@ permalink: /topics/utils/communication_setup
 # nav_order: 2
 ---
 
+UPDATED
+{: .label .label-yellow }
+
 # Communicating with a target device
 {: .no_toc }
 
@@ -194,6 +197,20 @@ xauth add my_remote_computer/unix:10  MIT-MAGIC-COOKIE-1  9cdf2a6d1c9bdaff34ghvd
 ```
 
 Note: the default location is `/root` , you can use `/` without any problem (I've tested in ubuntu server)
+
+## X Session within Docker 
+
+In addition to the options listed above you can mount the unix domain socket (`/tmp/.X11-unix/X${DISPLAYNUMBER`}) and the `.Xauthority` file in the respective $HOME directory.
+
+```
+	volumes:
+	    # unix domain socket
+	    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+	    # For user (optional)
+	    - $HOME/.Xauthority:/home/nvidia/.Xauthority:rw
+	    # For root (optional)
+	    - $HOME/.Xauthority:/root/.Xauthority:rw
+```
 
 
 # A note for Microsoft Windows users 
