@@ -34,6 +34,14 @@ ssh -N -L 8887:localhost:8888 g@fe80::4bdc:e743:27d1:bf03%enp0s41f7
 `-L`: Local mapping setup (check manual entry for ssh)
 
 
+Note: you can also map multiple ports in a single line:
+
+In the the example we are mapping localhost (127.0.0.1) ports of the remote host to the localhost ports of the connecting PC. They can be any host (IP or text URL)
+```
+ssh -N -L 12345:localhost:12345 -L 54321:localhost:54321 pi@proxy55.rt3.io -p 32897
+```
+
+
 #### Use-case example with a slightly different syntax: <br/>
 Imagine this deepnotes website is hosted on a remote PC's localhost (e.g.`127.0.0.1:4001/deepnotes/`) and this remote pc is accesible via `ssh jon@654.32.1.87` <br/>
 Type `ssh -L 127.0.0.1:4000:127.0.0.1:4001 jon@654.321.1.87` in a new terminal to create the tunnel (keep terminal active to keep the tunnel alive).<br/> then access the remote webpage by inserting `127.0.0.1:4000/deepnotes/` in the adress bar from the local pc. <br/> <br/>
