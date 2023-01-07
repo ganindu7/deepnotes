@@ -1,5 +1,5 @@
-# safe: False #Jekyll unsafe mode, can use symlinks 
-# safe: unsafe
+safe: False #Jekyll unsafe mode, can use symlinks 
+safe: unsafe
 
 
 # theme: just-the-docs  # Comment this out when pushing to github
