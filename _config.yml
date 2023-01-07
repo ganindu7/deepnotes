@@ -3,8 +3,8 @@ safe: unsafe
 
 
 # theme: just-the-docs  # Comment this out when pushing to github
-remote_theme: pmarsceill/just-the-docs
-# theme: just-the-docs
+# remote_theme: pmarsceill/just-the-docs
+theme: just-the-docs
 
 title: DL Docs
 description: A DL primer to be used with Jetson 
@@ -16,8 +16,8 @@ permalink: pretty
 
 
 # exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
-exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
-include: ["topics/utils/input_capture"]
+# exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
+# include: ["topics/utils/input_capture"]
 # include: ["/topics/utils/d3_docs"]
 
 # addd ipv6 addresing thanks to this great post by @troyswanson (https://github.com/jekyll/jekyll/issues/1594)
