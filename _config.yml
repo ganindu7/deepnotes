@@ -1,50 +1,11 @@
-# title: Just the Docs Template
-# description: A starter template for a Jeykll site using the Just the Docs theme!
-# theme: just-the-docs
-
-# url: https://just-the-docs.github.io
-
-# aux_links:
-#   Template Repository: https://github.com/just-the-docs/just-the-docs-template
-
-
-
-# safe: False #Jekyll unsafe mode, can use symlinks 
-# safe: unsafe
-
-
-remote_theme: just-the-docs  # Comment this out when pushing to github
-# remote_theme: pmarsceill/just-the-docs
-# theme: just-the-docs
+theme: just-the-docs
 
 title: DL Docs
-description: A DL primer to be used with Jetson 
+description: A DL primer to be used with Jetson
 
 url: "https://ganindu7.github.io"
 baseurl: /deepnotes
 
-permalink: pretty 
-
-plugins:
-  - jekyll-default-layout
-
-
-# exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
-# exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
-# include: ["topics/utils/input_capture"]
-# include: ["/topics/utils/d3_docs"]
-
-# addd ipv6 addresing thanks to this great post by @troyswanson (https://github.com/jekyll/jekyll/issues/1594)
-#  note: this :BindAddress to :: is a WEBrick service which should not be used in production
-#  you can also use "$bundle exec jekyll serve --host ::"
-#  then access the IPv6 test site via http://[::1]:4000/deepnotes/
-
-#  note: IPv6 link local address support is not available in browsers just yet (some have even gone back cough.. firefox.. cough..)
-
-#host: '::'
+permalink: pretty
 
 ga_tracking_anonymise_ip: true
-
-# plugins:
-#   - jekyll-spaceship
-
