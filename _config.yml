@@ -25,6 +25,9 @@ baseurl: /deepnotes
 
 permalink: pretty 
 
+plugins:
+  - jekyll-default-layout
+
 
 # exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
 # exclude: ["topics/tests","topics/images", "*.gemspec", "*.gem"]
