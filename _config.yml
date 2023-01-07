@@ -1,5 +1,16 @@
-safe: False #Jekyll unsafe mode, can use symlinks 
-safe: unsafe
+# title: Just the Docs Template
+# description: A starter template for a Jeykll site using the Just the Docs theme!
+# theme: just-the-docs
+
+# url: https://just-the-docs.github.io
+
+# aux_links:
+#   Template Repository: https://github.com/just-the-docs/just-the-docs-template
+
+
+
+# safe: False #Jekyll unsafe mode, can use symlinks 
+# safe: unsafe
 
 
 # theme: just-the-docs  # Comment this out when pushing to github
@@ -33,3 +44,4 @@ ga_tracking_anonymise_ip: true
 
 # plugins:
 #   - jekyll-spaceship
+
