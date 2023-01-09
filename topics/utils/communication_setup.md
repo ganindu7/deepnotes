@@ -29,7 +29,13 @@ First we check if our target has a SSH server running, Usually you can SSH into 
 ### Checking the host side 
 
 If a server is not installed there won't be a `/etc/init.d/ssh` directory.  
+
 ![checking for SSH server](communication_setup/check-ssh-fail.png)
+
+<!-- ![checking for SSH server](check-ssh-fail.png) -->
+
+<!-- <img id="myImage" src="{{ "/communication_setup/check-ssh-fail.png" | relative }}" alt="My Image"> -->
+
 
 If ssh server installed you can test the status by `/etc/init.d/ssh status`
 ![SSH server running](communication_setup/check-ssh-ok.png)

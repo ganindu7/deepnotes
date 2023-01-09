@@ -1,15 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gemspec 
-# gem 'github-pages'
-# gem "just-the-docs"
-# gem 'jekyll-spaceship'
-# gem 'webrick'
-# gem "github-pages", group: :jekyll_plugins
-# gemspec
-gem "webrick", "~> 1.7"
-gem "jekyll", "3.9.2"
-gem "kramdown-parser-gfm"
-gem "github-pages"
+gem "jekyll", "~> 4.3" # installed by `gem jekyll`
+# gem "webrick"        # required when using Ruby >= 3 and Jekyll <= 4.2.2
 
-
+gem "just-the-docs", "0.4.0.rc3" # currently the latest pre-release
+# gem "just-the-docs"            # the latest release - currently 0.3.3
+# gem "jekyll-default-layout"
