@@ -34,7 +34,7 @@ If a server is not installed there won't be a `/etc/init.d/ssh` directory.
 
 <!-- ![checking for SSH server](check-ssh-fail.png) -->
 
-<img id="myImage" src="{{ "/communication_setup/check-ssh-fail.png" | relative }}" alt="My Image">
+<!-- <img id="myImage" src="{{ "/communication_setup/check-ssh-fail.png" | relative }}" alt="My Image"> -->
 
 
 If ssh server installed you can test the status by `/etc/init.d/ssh status`
