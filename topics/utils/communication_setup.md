@@ -168,6 +168,19 @@ The `sudoers` file
 <script src="https://gist.github.com/ganindu7/f873280f19cc7bc95e1886e0e65b85a4.js?file=sudoers"></script>
 {: .mx-1}
 
+More information regarding user privileges can be found by reading the manuals for sudoers (`man sudoers`). In addition to replacing or modifying the the default sudoers file located in `/etc/sudoers` you can create a file with the correct syntax and place it in `/etc/sudoers.d/`
+
+giving `devuser` the `NOPASSWD` ability (no need to type the password when running `sudo` commands) 
+{: .mx-1}
+<script src="https://gist.github.com/ganindu7/f873280f19cc7bc95e1886e0e65b85a4.js?file=sudoers_mods"></script>
+{: .mx-1}
+
+helper script to save the new `sudoers_mods` file.
+
+{: .mx-1}
+<script src="https://gist.github.com/ganindu7/f873280f19cc7bc95e1886e0e65b85a4.js?file=more_sudo_stuff.sh"></script>
+{: .mx-1}
+
 
 ## SSH XSession forwarding with SuperUser
 1. Connect to the remote computer with ssh -X (As shown above in step 1)
