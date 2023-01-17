@@ -63,7 +63,16 @@ usecase: Create a NTFS formatted USB drive for logging
 
  then add the following line to the fstab file! 
 
+```
  LABEL=PM_SENSOR_DATA_LOGGER /mnt/PM_LOGGING_USB/ auto nosuid,nodev,nofail,x-gvfs-show 0 0
+```
+
+
+### directory permissions for other users 
+
+You can create a user group and give the group permission for a directory 
+
+chown -R owners_username:crazy_user_group the_directory_to_give_permissions/
 
 
 ### Further reading
