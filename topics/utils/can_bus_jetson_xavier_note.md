@@ -157,7 +157,7 @@ Following code example and the image is from running the python script from the 
 
 <script src="https://gist.github.com/ganindu7/fb8fa77394ecd22516567bf8cf2fe957.js?file=test.py"></script>
 
-![cross trace](can_bus_jetson_xavier_files/can-capture-good.gif)
+![cross trace](can-capture-good.gif)
 <center> Figure 3. Top left: can dump (jetson), top right: python script executing (jetson), <br /> bottom: CAN trace (pc with PCAN interface)</center>
 
 
@@ -166,7 +166,7 @@ Following code example and the image is from running the python script from the 
  -->
 If we trace the bus with a logic analyser scope when our CAN frames are flying through it we can see the resulting waveform. (here I have probed stage between the transceiver and the Jetson CAN peripheral, there are other special tools that can go in the can L and H on the physical differential CAN BUS too). you will notice that the dominant level is the logic LOW while in idle state the bus voltages float up. Also Notice the ACK/NACK bits that represent `acknowledgements` (this is quite helpful as if some nodes do not see the ACK they will report errors such as [BUSHEAVY][BUSHEAVY-PCAN] conditions.)
 
-![trace](can_bus_jetson_xavier_files/can-sig-trace.svg)
+![trace](can-sig-trace.svg)
 <center> Figure 2. Can Signal Trace (open in new tab for better resolution) </center>
 <span style="background-color: lightyellow">
 Note: If you don't provide a node on the bus that does not acknowledge or do not put anything other than the sending node and the tracer the acknowledge will not be present as shown above. 
@@ -181,14 +181,14 @@ The CAN L and H from the transceiver is connected to the CAN bus as shown below.
 
 
 
-![layout example, source: datasheet](can_bus_jetson_xavier_files/can-bus.png)
+![layout example, source: datasheet](can-bus.png)
             Figure 4. CAN bus, source: [datasheet][SN65HVD230]
 
 
 ## Circuit design ideas 
 
 
-![layout example, source: datasheet](can_bus_jetson_xavier_files/can-term.png)
+![layout example, source: datasheet](can-term.png)
             Figure 5. PCB Can termination, source: [datasheet][SN65HVD230]
 
 ## PCB design ideas 
@@ -211,7 +211,7 @@ if pin5 is not used it can be left floating.
 
 
 
-![layout example, source: datasheet](can_bus_jetson_xavier_files/footprint-ckt.png)
+![layout example, source: datasheet](footprint-ckt.png)
 <center>Figure 6. PCB footprint suggestion, source: datasheet]</center> 
 
 
@@ -241,7 +241,7 @@ at this point you can invoke the previously mentioned [python script](#testing-a
 
 If the jetson internals are working fine you should get something similar to what is shown below (we've run the [script](#testing-and-running-code) in the *testing and running section* )
 
-![loopback](can_bus_jetson_xavier_files/can-loopback.gif)
+![loopback](can-loopback.gif)
 <center> Figure 7. Enabling loopback mode on the can interface </center>
 
 if you get the output above and still got problems it seems that the software is running fine. However we still can't rule out clock issues that may originate from the Jetson board that may not help with sampling issues and synchronization.
