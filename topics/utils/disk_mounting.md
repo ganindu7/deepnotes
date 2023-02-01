@@ -72,8 +72,9 @@ usecase: Create a NTFS formatted USB drive for logging
 
 You can create a user group and give the group permission for a directory 
 
+```
 chown -R owners_username:crazy_user_group the_directory_to_give_permissions/
-
+```
 
 ### Further reading
 

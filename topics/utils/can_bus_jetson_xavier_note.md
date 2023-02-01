@@ -28,9 +28,17 @@ CAUTION: go through the the whole document at least once before attempting imple
 
 ---
 
-![Wiring setup](can_bus_jetson_xavier_files/jetson-xavier-can.svg)
+![Wiring setup](jetson-xavier-can.svg)
               Figure 1. Wiring and pin connections
 
+
+
+
+<!-- <p align="center">
+    <img src="jetson-xavier-can.svg"
+         title="Inputs, graph outputs and labels" />
+</p>
+ -->
 --- 
 ## 1. Basic Prerequisites
 
