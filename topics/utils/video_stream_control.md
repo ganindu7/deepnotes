@@ -78,7 +78,7 @@ sudo modprobe v4l2loopback video_nr=10 card_label="virtual_lvds_camera"
 ```
 
 
-exclusive caps
+exclusive caps (for input devices)
 ```
 sudo modprobe v4l2loopback exclusive_caps=1
 ```
@@ -133,6 +133,30 @@ Then from the receiving device open a terminal and run the following to test the
 
 ```
  gst-launch-1.0 udpsrc address=$STREAM_IP port=$STREAM_PORT ! h264parse ! avdec_h264 ! videoconvert ! autovideosink
+```
+
+At the time of writing there is a bug in `v4l2sink` that does not copy new buffers. one workaround is too add a `tee`
+please refer to [this issue](https://github.com/umlaeute/v4l2loopback/issues/519) 
+
+```
+gst-launch-1.0 videotestsrc ! tee name=t ! v4l2sink device=/dev/video0 
+
+```
+
+However this is not an ideal fix as this causes the frame to freeze.
+
+Next we can create a pipeline with a preview stream and a `v4l2stream` 
+
+
+setting caps for the v4l2 loopback device
+
+```
+v4l2loopback-ctl set-caps "video/x-raw, format=(string)YUY2, width=1280, height=720, fps=30/1" /dev/video0
+```
+
+
+```
+gst-launch-1.0 udpsrc address=$STREAM_IP port=$STREAM_PORT ! h264parse ! avdec_h264 ! videoconvert ! tee name=t ! autovideosink   t. ! videoconvert  !   v4l2sink device=/dev/video0  async
 ```
 
 
