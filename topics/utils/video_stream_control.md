@@ -120,6 +120,22 @@ v4l2-ctl --device /dev/video0 --all
 you may want to change the number (`0` uses in the example) depending on the `video_nr` value used.
 
 
+##### 3. Creating and Accessing streams 
+
+Create a stream in a jetson device with `STREAM_PORT` and `STREAM_IP` set to the receiving device (i.e IP address and a port of the device we want to playback or create a virtual video device node)
+
+```
+gst-launch-1.0 v4l2src device=/dev/video0  !  nvvideoconvert  ! nvv4l2h264enc insert-sps-pps=true  iframeinterval=5 control-rate=1 maxperf-enable=true name=encoder ! h264parse config-interval=5 ! udpsink port=$STREAM_PORT host=$STREAM_IP sync=false
+
+```
+
+Then from the receiving device open a terminal and run the following to test the stream.
+
+```
+ gst-launch-1.0 udpsrc address=$STREAM_IP port=$STREAM_PORT ! h264parse ! avdec_h264 ! videoconvert ! autovideosink
+```
+
+
 
 
 
