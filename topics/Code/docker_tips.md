@@ -89,3 +89,63 @@ because you used python install the PATH variable may not be updated so try usin
 
 Nvidia Userguide 
 https://docs.nvidia.com/deeplearning/frameworks/user-guide/index.html
+
+
+## Migrating docker storage 
+
+Sometimes to use the available disk space optimally we need to move things around and docker storage directory is no exception, as of writing docker by default uses  the `/var/lib/docker` directory. let's say we mounted our additional storage onto `/mnt/my/new/storage` and we want to place the docker storage in the `/docker/storage` directory relative to that. 
+
+[orignal_source]()
+
+#### STEP 1 
+
+stop docker (you can pick when perform this action)
+ ``` sudo service docker stop ```
+
+
+#### STEP 2 
+
+ create the 'daemon.json' on `/etc/docker` (verify with docker docks that this is the correct location)
+
+ ```
+ sudo vim /etc/docker/daemon.json
+ ```
+
+ and then edit according to your use case.
+
+ ```
+{
+    "data-root": "/mnt/my/new/storage/docker/storage"
+}
+
+ ```
+
+#### STEP 3 
+
+Copy the files to the destination 
+
+```
+sudo rsync -vaP /var/lib/docker /mnt/my/new/storage/docker/storage
+
+```
+
+#### STEP 4
+we can rename the old directory to a make sure the changes have taken effect.  
+
+```
+sudo mv  /var/lib/docker /var/lib/docker.old
+```
+
+#### STEP 5. 
+Start the docker service again to see if everything works 
+
+```
+sudo service docker start
+```
+
+### IMPORTANT 
+
+* Doing this with debilitating hardware constraints can lead to run time difficulties in execution. 
+* Be aware the that an active docker container uses more space in `/var/lib/docker` (you can confirm this with a command such as `du -h d 1` before and after activating a container.). 
+
+

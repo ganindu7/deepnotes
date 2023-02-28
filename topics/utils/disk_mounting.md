@@ -72,9 +72,51 @@ usecase: Create a NTFS formatted USB drive for logging
 
 You can create a user group and give the group permission for a directory 
 
+create a group 
+
 ```
+sudo groupadd new.group
+```
+
+add users to the group 
+
+```
+sudo usermod -aG sudo $NEW_USER
+
+```
+
+then change group of the directory
+
+
+```
+sudo usermod -aG new.group $NEW_USER
+or
 chown -R owners_username:crazy_user_group the_directory_to_give_permissions/
+or
+sudo chgrp -R new.group /path/to/the/directory
+
 ```
+
+give correct permissions
+
+```
+sudo chmod -R g+rwx /path/to/the/directory
+```
+
+to make all new files and directories inherit the ownership and permissions
+
+```
+sudo find /var/www -type d -exec chmod 2775 {} \;    
+``` 
+
+to inherit read write access 
+
+```
+sudo find /var/www -type f -exec chmod ug+rwx {} \;
+```
+
+[source](https://superuser.com/questions/19318/how-can-i-give-write-access-of-a-folder-to-all-users-in-linux)
+
 
 ### Further reading
 
