@@ -106,13 +106,13 @@ sudo chmod -R g+rwx /path/to/the/directory
 to make all new files and directories inherit the ownership and permissions
 
 ```
-sudo find /var/www -type d -exec chmod 2775 {} \;    
+sudo find /path/to/the/directory-type d -exec chmod 2775 {} \;    
 ``` 
 
 to inherit read write access 
 
 ```
-sudo find /var/www -type f -exec chmod ug+rwx {} \;
+sudo find /path/to/the/directory -type f -exec chmod ug+rwx {} \;
 ```
 
 [source](https://superuser.com/questions/19318/how-can-i-give-write-access-of-a-folder-to-all-users-in-linux)
