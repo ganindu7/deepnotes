@@ -310,6 +310,39 @@ My end goal is to get [this](https://docs.nvidia.com/tao/tao-toolkit/text/tao_to
 
 Note: I tried installing calico from it's web [instructions](https://docs.tigera.io/calico/3.25/getting-started/kubernetes/self-managed-onprem/onpremises) but didn't see any changes I still get 
 
+Note: My Ansible version from the cpu server which acts as the master node is `Ubuntu 22.04.1 LTS`
+
+hence when I run `ansible localhost -m setup -a 'filter=ansible_distribution_version'` from it I get
+
+```
+localhost | SUCCESS => {
+    "ansible_facts": {
+        "ansible_distribution_version": "22.04"
+    },
+    "changed": false
+}
+
+```
+
+this leads to 
+
+```
+TASK [check os version] ***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+fatal: [172.16.1.19]: FAILED! => {
+    "assertion": "ansible_distribution_version in ['18.04', '20.04']",
+    "changed": false,
+    "evaluated_to": false,
+    "msg": "Assertion failed"
+}
+
+```
+
+when I run. [this instruction](https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_setup.html#:~:text=cnc/cnc_values_3.1.yaml-,Proceed%20with%20deployment.,-bash%20setup.sh)
+
+
+
+
+
 ```
 
 g@gsrv:~/k8$ kubectl get nodes
