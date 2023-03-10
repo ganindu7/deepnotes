@@ -191,9 +191,7 @@ Now we install [HELM](https://helm.sh/) (a package manager for Kubernetes)
 
 you can install helm in many ways I used the [script method](https://helm.sh/docs/intro/install/#from-script)
 
-
-
-https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository
+Once Helm is in place you can do a [quick tutorial](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository) to understand how it works.
 
 
 
@@ -201,7 +199,50 @@ https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository
 I think I should be able to make API calls to the master node and get them relayed to worker nodes when the worker nodes are initialised(or `join`ed with the token)
 
 
+### joining a worker node {this is my current plan but I'm not sure if this is what nvidia recommends or if there is a nvidia specific way --> waiting response from nvidia}:
 
+<br/>
+
+
+first we need to get a join token from the master node, to get a join token run the following command in the master node.  
+
+```
+kubeadm token create --print-join-command
+```
+
+To join  DGX Station A100 as a worker node to a Kubernetes cluster, you will need to install the following software and dependencies on the DGX Station:
+
+* Docker: Kubernetes requires a container runtime to run containerized workloads. Docker is a popular choice for container runtime, and it is compatible with Kubernetes. You can install Docker on your DGX Station by following the instructions on the Docker website.
+
+* kubelet: kubelet is a Kubernetes agent that runs on each worker node and communicates with the Kubernetes master node. You can install kubelet on your DGX Station by following the instructions provided in the official Kubernetes documentation for your specific operating system and version.
+
+* kubeadm: kubeadm is a command-line tool used to bootstrap a Kubernetes cluster. You will need to install kubeadm on the DGX Station to join it to the cluster.
+
+* kubectl: kubectl is a command-line tool used to interact with a Kubernetes cluster. You will need to install kubectl on the DGX Station to manage the cluster.
+
+Once you have installed these software dependencies on the DGX Station, 
+
+Obtain the join token from the Kubernetes master node by running the following command on the master node:
+
+```
+kubeadm token create --print-join-command
+```
+Copy the output of the above command, which will be a kubeadm join command with a token and the IP address of the master node.
+
+SSH into the worker node and run the kubeadm join command obtained in step 2. This will join the worker node to the Kubernetes cluster.
+
+Verify that the worker node has joined the cluster by running the following command on the master node:
+
+```
+kubectl get nodes
+```
+The output of this command should list all the nodes in the cluster, including the new worker node.
+
+Optional: Label the worker node to make it easier to schedule pods on it. For example, you could label the node as "worker" by running the following command:
+
+```
+kubectl label node <worker-node-name> node-role.kubernetes.io/worker=worker
+```
 
 
 
