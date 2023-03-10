@@ -220,6 +220,10 @@ To join  DGX Station A100 as a worker node to a Kubernetes cluster, you will nee
 
 * kubectl: kubectl is a command-line tool used to interact with a Kubernetes cluster. You will need to install kubectl on the DGX Station to manage the cluster.
 
+
+To install I suggest to follow the instructions [here](https://docs.nvidia.com/datacenter/cloud-native/kubernetes/k8s-containerd.html#install-kubernetes-components)
+
+
 Once you have installed these software dependencies on the DGX Station, 
 
 Obtain the join token from the Kubernetes master node by running the following command on the master node:
