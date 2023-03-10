@@ -305,7 +305,7 @@ I labelled the dgx node with (ran the command in the master node)
 
 The main problem seems to be the network.
 
-My end goal is to get [this](https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_overview.html) working 
+My end goal is to get [this](https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_overview.html)(TAO toolkit with the REST API via k8) working.
 
 
 Note: I tried installing calico from it's web [instructions](https://docs.tigera.io/calico/3.25/getting-started/kubernetes/self-managed-onprem/onpremises) but didn't see any changes I still get 
