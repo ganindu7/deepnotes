@@ -25,6 +25,10 @@ Status: Draft
 
 *Control plane components can have some impact on CPU intensive tasks and conversely, CPU or HDD/SSD intensive tasks can have a high impact on your control plane components.*  
 
+This document is an adaptation of the [nvidia-guide](https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html) for datacenter, k8 setup.
+
+### Control plane components 
+
 Ideally use CPU-only (GPU Free) master nodes to run the control plane components: 
 
 # [`kubeadm` pre-requisites][KUBEADM-PRE-REQS]
@@ -194,9 +198,99 @@ you can install helm in many ways I used the [script method](https://helm.sh/doc
 Once Helm is in place you can do a [quick tutorial](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository) to understand how it works.
 
 
+### GPU Nodes
+
+At this point I think we have a working Kubernetes control plane 
+
+
+### Nvidia Device plugin for Kubernetes 
+
+Kubernetes provide a device plugin framework that you can use to advertise system hardware resources to the Kubelet. With this you or other hardware vendors such as nvidia can implements device plugins that can be either installed manually or as a `DaemonSet`. DGX is an example for one of these devices. 
+
+Kubernetes also provides an [operator framework](https://cloud.redhat.com/blog/introducing-the-operator-framework) to help package, deploy and mange applications k8 applications. the operator framework is essentially an extension of the support structure that is usually necessary for an application to operate in a working environment (i.e. hardware, OS, drivers, telemetry and health/services and management)
+
+
+[ngc catalog link](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/k8s-device-plugin)
+[nvidia-gpu operator](https://github.com/NVIDIA/gpu-operator)
+
+<br/>
 
 
 I think I should be able to make API calls to the master node and get them relayed to worker nodes when the worker nodes are initialised(or `join`ed with the token)
+
+enable cri_plugin in DGX
+
+```
+/etc/containerd/config.toml 
+
+# disabled_plugins = ["cri"]
+
+#root = "/var/lib/containerd"
+#state = "/run/containerd"
+#subreaper = true
+#oom_score = 0
+
+#[grpc]
+#  address = "/run/containerd/containerd.sock"
+#  uid = 0
+#  gid = 0
+
+#[debug]
+#  address = "/run/containerd/debug.sock"
+#  uid = 0
+#  gid = 0
+#  level = "info"                
+```
+Using the token I created earlier (after `sudo systemctl restart containerd` in the DGX an)
+
+```
+sudo kubeadm join [IP]:6443 --token <token> --discovery-token-ca-cert-hash <hash> 
+```
+
+output:
+
+```
+[preflight] Running pre-flight checks
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+
+```
+
+Now we can test for the node visibility on the control plane with 
+
+```
+kubectl get nodes
+```
+
+I rann the code above to get the following output 
+
+```
+NAME   STATUS     ROLES           AGE   VERSION
+dgx    NotReady   <none>          60m   v1.26.2
+gsrv   NotReady   control-plane   8h    v1.26.2
+
+```
+
+here dgx is the dgx station and the gsrv is the CPU server. 
+
+
+Then install the nvidia HELM REPO 
+
+```
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
+   && helm repo update
+```
+
 
 
 ### joining a worker node {this is my current plan but I'm not sure if this is what nvidia recommends or if there is a nvidia specific way --> waiting response from nvidia}:
@@ -275,6 +369,8 @@ kubectl label node <worker-node-name> node-role.kubernetes.io/worker=worker
 
 [ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
 [CRI-DOCKERD-RELEASE-JAN-2023]: https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1.amd64.tgz
+[K8-SANDBOX]: https://labs.play-with-k8s.com/
+[K8-CLASSROOM]: https://training.play-with-kubernetes.com/kubernetes-workshop/
 
 <!-- Latex in markdown -->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
