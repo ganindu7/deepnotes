@@ -106,7 +106,7 @@ sudo chmod -R g+rwx /path/to/the/directory
 to make all new files and directories inherit the ownership and permissions
 
 ```
-sudo find /path/to/the/directory-type d -exec chmod 2775 {} \;    
+sudo find /path/to/the/directory -type d -exec chmod 2775 {} \;    
 ``` 
 
 to inherit read write access 
