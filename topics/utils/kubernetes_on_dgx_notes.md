@@ -272,7 +272,7 @@ Now we can test for the node visibility on the control plane with
 kubectl get nodes
 ```
 
-I rann the code above to get the following output 
+I ran the code above to get the following output 
 
 ```
 NAME   STATUS     ROLES           AGE   VERSION
@@ -291,56 +291,118 @@ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
    && helm repo update
 ```
 
-
-
-### joining a worker node {this is my current plan but I'm not sure if this is what nvidia recommends or if there is a nvidia specific way --> waiting response from nvidia}:
-
-<br/>
-
-
-first we need to get a join token from the master node, to get a join token run the following command in the master node.  
+I labelled the dgx node with (ran the command in the master node)
 
 ```
-kubeadm token create --print-join-command
+ kubectl label node dgx node-role.kubernetes.io/worker=worker
 ```
 
-To join  DGX Station A100 as a worker node to a Kubernetes cluster, you will need to install the following software and dependencies on the DGX Station:
 
-* Docker: Kubernetes requires a container runtime to run containerized workloads. Docker is a popular choice for container runtime, and it is compatible with Kubernetes. You can install Docker on your DGX Station by following the instructions on the Docker website.
+## What is next (awaiting support from nvidia)
 
-* kubelet: kubelet is a Kubernetes agent that runs on each worker node and communicates with the Kubernetes master node. You can install kubelet on your DGX Station by following the instructions provided in the official Kubernetes documentation for your specific operating system and version.
+1. Do Ihave to install the nvidia container toolkit on DGX (is is it already installed)
+2. Do I have to Install https://github.com/NVIDIA/k8s-device-plugin#deployment-via-helm in the control plane or the master node 
 
-* kubeadm: kubeadm is a command-line tool used to bootstrap a Kubernetes cluster. You will need to install kubeadm on the DGX Station to join it to the cluster.
+The main problem seems to be the network.
 
-* kubectl: kubectl is a command-line tool used to interact with a Kubernetes cluster. You will need to install kubectl on the DGX Station to manage the cluster.
-
-
-To install I suggest to follow the instructions [here](https://docs.nvidia.com/datacenter/cloud-native/kubernetes/k8s-containerd.html#install-kubernetes-components)
+My end goal is to get [this](https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_overview.html) working 
 
 
-Once you have installed these software dependencies on the DGX Station, 
-
-Obtain the join token from the Kubernetes master node by running the following command on the master node:
+Note: I tried installing calico from it's web [instructions](https://docs.tigera.io/calico/3.25/getting-started/kubernetes/self-managed-onprem/onpremises) but didn't see any changes I still get 
 
 ```
-kubeadm token create --print-join-command
-```
-Copy the output of the above command, which will be a kubeadm join command with a token and the IP address of the master node.
 
-SSH into the worker node and run the kubeadm join command obtained in step 2. This will join the worker node to the Kubernetes cluster.
+g@gsrv:~/k8$ kubectl get nodes
+NAME   STATUS     ROLES           AGE    VERSION
+dgx    NotReady   worker          164m   v1.26.2
+gsrv   NotReady   control-plane   10h    v1.26.2
+g@gsrv:~/k8$ 
 
-Verify that the worker node has joined the cluster by running the following command on the master node:
-
-```
-kubectl get nodes
-```
-The output of this command should list all the nodes in the cluster, including the new worker node.
-
-Optional: Label the worker node to make it easier to schedule pods on it. For example, you could label the node as "worker" by running the following command:
 
 ```
-kubectl label node <worker-node-name> node-role.kubernetes.io/worker=worker
+
+when I get more info with describe node I get 
+
 ```
+g@gsrv:~/k8$ kubectl describe node dgx
+Name:               dgx
+Roles:              worker
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=dgx
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/worker=worker
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/containerd/containerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Fri, 10 Mar 2023 17:27:08 +0000
+Taints:             node.kubernetes.io/not-ready:NoSchedule
+Unschedulable:      false
+Lease:
+  HolderIdentity:  dgx
+  AcquireTime:     <unset>
+  RenewTime:       Fri, 10 Mar 2023 20:14:16 +0000
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Fri, 10 Mar 2023 20:11:34 +0000   Fri, 10 Mar 2023 17:27:08 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Fri, 10 Mar 2023 20:11:34 +0000   Fri, 10 Mar 2023 17:27:08 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Fri, 10 Mar 2023 20:11:34 +0000   Fri, 10 Mar 2023 17:27:08 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            False   Fri, 10 Mar 2023 20:11:34 +0000   Fri, 10 Mar 2023 17:27:08 +0000   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+Addresses:
+  InternalIP:  172.16.3.2
+  Hostname:    dgx
+Capacity:
+  cpu:                128
+  ephemeral-storage:  1843269236Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             528018224Ki
+  pods:               110
+Allocatable:
+  cpu:                128
+  ephemeral-storage:  1698756925085
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             527915824Ki
+  pods:               110
+System Info:
+  Machine ID:                 fe86cb15be594307a11cc9847b0eb5c2
+  System UUID:                21af0608-1dd2-11b2-9c02-f24e4f55ad5c
+  Boot ID:                    0f544fd5-41e8-4f48-b326-0c58d2e99fb9
+  Kernel Version:             5.4.0-144-generic
+  OS Image:                   Ubuntu 20.04.5 LTS
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.6.10
+  Kubelet Version:            v1.26.2
+  Kube-Proxy Version:         v1.26.2
+Non-terminated Pods:          (2 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  kube-system                 kube-proxy-gfkkr                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         167m
+  tigera-operator             tigera-operator-54b47459dd-qdwtt    0 (0%)        0 (0%)      0 (0%)           0 (0%)         28m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests  Limits
+  --------           --------  ------
+  cpu                0 (0%)    0 (0%)
+  memory             0 (0%)    0 (0%)
+  ephemeral-storage  0 (0%)    0 (0%)
+  hugepages-1Gi      0 (0%)    0 (0%)
+  hugepages-2Mi      0 (0%)    0 (0%)
+Events:
+  Type    Reason            Age                    From           Message
+  ----    ------            ----                   ----           -------
+  Normal  CIDRNotAvailable  2m48s (x39 over 167m)  cidrAllocator  Node dgx status is now: CIDRNotAvailable
+g@gsrv:~/k8$ 
+
+```
+
+
+
+
 
 
 
