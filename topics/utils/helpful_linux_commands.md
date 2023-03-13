@@ -30,6 +30,9 @@ watch -t -d -n 2 nvidia-smi
 rsync -vahPAX g@target.ip.v4.address:/target/path/ destination/directory/
 rsync -vahPAX g@172.16.3.2:/home/g/Workspace g/
 
+rsync -vahP /home/ganindu/Downloads/nvfw-dgxstationa100_23.3.1_230306.tar.gz    g@DGX-ganindu:/home/g/Downloads/
+
+
 ```
 
 Options used in the example above:

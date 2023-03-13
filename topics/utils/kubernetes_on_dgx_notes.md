@@ -25,7 +25,7 @@ Status: Draft
 
 *Control plane components can have some impact on CPU intensive tasks and conversely, CPU or HDD/SSD intensive tasks can have a high impact on your control plane components.*  
 
-This document is an adaptation of the [nvidia-guide](https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html) for datacenter, k8 setup.
+This document is an adaptation of the [nvidia-guide][NVIDIA-K8-GUIDE] for datacenter, k8 setup.
 
 ### Control plane components 
 
@@ -343,6 +343,9 @@ when I run. [this instruction](https://docs.nvidia.com/tao/tao-toolkit/text/tao_
 
 
 
+
+
+
 ```
 
 g@gsrv:~/k8$ kubectl get nodes
@@ -434,13 +437,186 @@ g@gsrv:~/k8$
 ```
 
 
+## Resetting DGX 
+
+```
+sudo kubeadm reset
+W0313 15:23:17.052577   96842 preflight.go:56] [reset] WARNING: Changes made to this host by 'kubeadm init' or 'kubeadm join' will be reverted.
+[reset] Are you sure you want to proceed? [y/N]: y
+[preflight] Running pre-flight checks
+W0313 15:23:18.416975   96842 removeetcdmember.go:106] [reset] No kubeadm config, using etcd pod spec to get data directory
+[reset] Deleted contents of the etcd data directory: /var/lib/etcd
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in "/var/lib/kubelet"
+[reset] Deleting contents of directories: [/etc/kubernetes/manifests /var/lib/kubelet /etc/kubernetes/pki]
+[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the "iptables" command.
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
+
+The reset process does not clean your kubeconfig files and you must remove them manually.
+Please, check the contents of the $HOME/.kube/config file.
+
+```
+
+### Setting up DGX as both the master and the GPU worker node 
+
+After learning that my CPU server running on ubuntu 22.04 is not compatible with current TAO K8 setup I had to accept defeat and switch to the original guide 
+therefore reverting back to this [guide][NVIDIA-K8-GUIDE]
 
 
+* Disable swap 
+
+```
+sudo swapoff -a
+```
+
+* Initialise as a master (note i've used a different network segment)
+
+```
+ sudo kubeadm init --pod-network-cidr=172.16.5.0/24
+
+```
+
+output:
+
+```
+[init] Using Kubernetes version: v1.26.2
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [dgx kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 172.16.3.2]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [dgx localhost] and IPs [172.16.3.2 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [dgx localhost] and IPs [172.16.3.2 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 4.501125 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node dgx as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node dgx as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+[bootstrap-token] Using token: hj5i5l.b03mf63sxolhn28n
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.16.3.2:6443 --token <a.token> \
+  --discovery-token-ca-cert-hash sha256:<a_hash> 
+
+```
+
+Note: The tokens will expire after some time use `kubeadm token list` to check the current valid tokens
+
+Then ran these commands as requested 
+
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+```
+
+#### Network stuff 
+
+The suggested command fails 
+
+```
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
+
+Try this [fix][K8-CALICO-NETWORK-FIX] suggest by me. 
+
+#### untaint the control plane 
 
 
+This is only so the DGX (now a master node because we ran `kubeadm init` on that) can be used to shedule GPU pods.
+
+```
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+```  
+
+again! this command also fails 
+
+so try [changing the default control plane node as suggested by this][K8-CONTROL-PLANE-NODE-ISOLATION-OVERRIDE]
+
+```
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+```
+
+Now you may be able to list join tokens with
+
+```
+kubeadm token list
+
+```
+
+create new tokens with 
+
+```
+kubeadm token create
+
+```
+
+more info under [this topic][K8-JOIN_NODES]
 
 
-
+### TAO API SETUP
 
 
 
@@ -461,6 +637,11 @@ g@gsrv:~/k8$
 [UBUNTU-K8-INSTALL]: https://docs.nvidia.com/datacenter/cloud-native/kubernetes/k8s-containerd.html#ubuntu-k8s
 [K8]: https://kubernetes.io/
 [KUBEADM-INIT]: https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/
+[NVIDIA-K8-GUIDE]: https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html
+[K8-CALICO-NETWORK-FIX]: https://forums.developer.nvidia.com/t/fix-broken-link-in-kubernets-install-pior-to-tao-api-setup/245940?u=ganindun
+[K8-CONTROL-PLANE-NODE-ISOLATION-OVERRIDE]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#control-plane-node-isolation
+[K8-JOIN-NODES]: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#join-nodes
+
 
 [ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
 [CRI-DOCKERD-RELEASE-JAN-2023]: https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1.amd64.tgz
