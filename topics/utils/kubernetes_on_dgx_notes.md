@@ -613,10 +613,16 @@ kubeadm token create
 
 ```
 
-more info under [this topic][K8-JOIN_NODES]
+for more info (e.g. join new worker nodes to a master node) check [this link][K8-JOIN-NODES]
 
 
 ### TAO API SETUP
+
+Prep: I [created a SSH key pair][SSH-KEY-MAKING] and added it to the ssh agent with [`ssh-add`][ADD-SSHKEY-TO-AGENT] so I can use key authentication for k8.
+
+
+
+
 
 
 
@@ -647,6 +653,8 @@ more info under [this topic][K8-JOIN_NODES]
 [CRI-DOCKERD-RELEASE-JAN-2023]: https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1.amd64.tgz
 [K8-SANDBOX]: https://labs.play-with-k8s.com/
 [K8-CLASSROOM]: https://training.play-with-kubernetes.com/kubernetes-workshop/
+[SSH-KEY-MAKING]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+[ADD-SSHKEY-TO-AGENT]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#adding-your-ssh-key-to-the-ssh-agent
 
 <!-- Latex in markdown -->
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
