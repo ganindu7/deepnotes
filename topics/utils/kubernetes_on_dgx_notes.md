@@ -50,6 +50,16 @@ Refer to [`kubeadm init` page][KUBEADM-INIT] for more info.
 
 * initialise kubeadm (I am using cri-dockerd and the network config `172.16.5.0/24`)
 
+If an instance is already running try resetting with 
+
+```
+sudo kubeadm reset --cri-socket=unix:///var/run/cri-dockerd.sock
+```
+
+Note: making sure the network policy that is once set by calico(if used) is released, for a hard reset check [this](https://serverfault.com/questions/200635/best-way-to-clear-all-iptables-rules)
+After resetting policies: restart docker 
+
+
 ```
 sudo kubeadm init --pod-network-cidr=172.16.5.0/24 --cri-socket=unix:///var/run/cri-dockerd.sock
 ```
@@ -192,6 +202,11 @@ kubeadm join 172.16.1.19:6443 --token <a_token> \
 ### [HELM](https://helm.sh/)
 
 Now we install [HELM](https://helm.sh/) (a package manager for Kubernetes)
+
+```
+#make install directory (in case it doesn't exist)
+sudo mkdir -p /usr/local/bin
+```
 
 you can install helm in many ways I used the [script method](https://helm.sh/docs/intro/install/#from-script)
 
@@ -573,7 +588,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 #### Network stuff 
 
-The suggested command fails 
+The suggested command below fails 
 
 ```
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
@@ -619,12 +634,6 @@ for more info (e.g. join new worker nodes to a master node) check [this link][K8
 ### TAO API SETUP
 
 Prep: I [created a SSH key pair][SSH-KEY-MAKING] and added it to the ssh agent with [`ssh-add`][ADD-SSHKEY-TO-AGENT] so I can use key authentication for k8.
-
-
-
-
-
-
 
 
 
