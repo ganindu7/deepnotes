@@ -537,6 +537,31 @@ At this point [user authentication][TAO-API-USER_AUTHENTICATION] should work and
 `)
 
 
+P.S.
+
+
+helm install with overrides (note: the README file in the tao-toolkit-api folder is very insightful)
+```
+helm install tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
+```
+
+
+get pvc uid 
+```
+kubectl get pvc my-pvc -o jsonpath='{.metadata.uid}'
+
+```
+
+manually bind volume
+```
+kubectl patch pv my-pv -p '{"spec":{"claimRef":{"name":"tao-toolkit-api-pvc","namespace":"default","uid":"c231660c-5e36-4417-b304-f0b4a1198a7c"}}}'
+```
+
+
+
+
+
+
 <br />
 
 <span style="background-color:LightYellow"> Check the [**next topic**](../pytorch_walkthrough#Starting-Development-with-PyTorch)  </span>
