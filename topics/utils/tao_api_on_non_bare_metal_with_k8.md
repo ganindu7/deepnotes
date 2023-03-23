@@ -817,6 +817,125 @@ sudo cp /path/to/saved/certificate.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 ```
 
+to get the fake certificate used by the ingress-nginx-controller-**
+
+```
+kubectl exec -n default ingress-nginx-controller-c69664497-mgbtd -- cat /etc/ingress-controller/ssl/default-fake-certificate.pem
+
+```
+
+add a secret (after creating the necessary files)
+
+```
+kubectl create secret tls aisrv-gnet-secret --cert=./aisrv.gnet.lan.pem --key=./aisrv.gnet.lan.key -n default --dry-run=client -o yaml | kubectl apply -f -
+
+```
+
+get status of ingress controller 
+
+kubectl --namespace ingress-nginx get services -o wide -w ingress-nginx-controller
+
+
+### Creating certificates for TAO 
+
+1. Create a rootCA
+
+```
+openssl genrsa -out rootCA.key 4096
+openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt -subj "/CN=RootCA"
+```
+
+2. Create a server key and certificate signing request (CSR):
+
+```
+openssl genrsa -out aisrv.gnet.lan.key 2048
+openssl req -new -key aisrv.gnet.lan.key -out aisrv.gnet.lan.csr -subj "/CN=aisrv.gnet.lan"
+
+```
+
+3. Create a configuration file for the server certificate (aisrv.gnet.lan.cnf), with the following content.
+
+```
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+CN = aisrv.gnet.lan
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = aisrv.gnet.lan
+DNS.2 = ingress.local
+
+```
+
+4. Generate the server certificate using the configuration file:
+
+```
+openssl x509 -req -in aisrv.gnet.lan.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aisrv.gnet.lan.crt -days 365 -sha256 -extfile aisrv.gnet.lan.cnf -extensions v3_req
+
+```
+
+5. Combine the server certificate and the root CA certificate into a single file:
+
+```
+cat aisrv.gnet.lan.crt rootCA.crt > combined_cert.pem
+
+```
+
+
+6. delete existing kubernets secret (this is the same secret mentioned in the values.yaml when were installing the helm chart)
+
+
+snippet of the relevant section of the values.yaml
+```
+#Optional HTTPS settings for ingress controller
+host: aisrv.gnet.lan
+tlsSecret: aisrv-gnet-secret
+# in production we can use CORS Origin to filter out requests from unwanted origins
+# corsOrigin: "*"
+```
+
+
+```
+kubectl delete secret aisrv-gnet-secret
+
+```
+
+7. Then, create the secret again with the updated certificate and key files:
+
+```
+kubectl create secret tls aisrv-gnet-secret --cert=aisrv.gnet.lan.crt --key=aisrv.gnet.lan.key
+
+```
+
+8. then copy the `combined_cert.pem` and the `RootCA.crt` (if you want to install the root certificate as well) to the user PC, then from the user pc 
+add the certificates to the trusted store 
+
+note: if adding the `.pem` file doesnt work rename to `.crt` and retry 
+
+```
+sudo cp ~/combined_cert.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+
+```
+
+you can check the handshake with (you need to find the port number by examining the ingress service!)
+
+```
+openssl s_client -connect aisrv.gnet.lan:31549 -servername aisrv.gnet.lan -CAfile RootCA.crt -verify_return_error
+
+ot try
+
+curl --cacert aisrv.gnet.lan_ca.crt https://aisrv.gnet.lan:31549/api/v1/login/<API>
+```
+
 
 <br />
 
