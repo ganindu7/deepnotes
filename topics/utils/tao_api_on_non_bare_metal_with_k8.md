@@ -558,8 +558,264 @@ kubectl patch pv my-pv -p '{"spec":{"claimRef":{"name":"tao-toolkit-api-pvc","na
 ```
 
 
+check on the tao-toolkit-api pod sometimes (after restarting nodes)
+
+```
+kubectl describe pods tao-toolkit-api -n default
+```
+
+when in working state 
+
+```
+ tao-toolkit-api-app-pod-6c88476548-kq6s8
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Wed, 22 Mar 2023 09:18:16 +0000
+Labels:           name=tao-toolkit-api-app-pod
+                  pod-template-hash=6c88476548
+Annotations:      cni.projectcalico.org/containerID: 97a61c7c741239e15c002a6f37e869f8a59004a65e967599878a89e42fa4d66a
+                  cni.projectcalico.org/podIP: 192.168.251.150/32
+                  cni.projectcalico.org/podIPs: 192.168.251.150/32
+Status:           Running
+IP:               192.168.251.150
+IPs:
+  IP:           192.168.251.150
+Controlled By:  ReplicaSet/tao-toolkit-api-app-pod-6c88476548
+Containers:
+  tao-toolkit-api-app:
+    Container ID:   containerd://84b801d4e9b6112ad773a9898639aec73f2681627faaad6388369a08c59df245
+    Image:          nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:       nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:           8000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 22 Mar 2023 09:18:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Liveness:       http-get http://:8000/api/v1/health/liveness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:8000/api/v1/health/readiness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Environment:
+      NAMESPACE:        default
+      CLAIMNAME:        tao-toolkit-api-pvc
+      IMAGEPULLSECRET:  imagepullsecret
+      AUTH_CLIENT_ID:   bnSePYullXlG-504nOZeNAXemGF6DhoCdYR8ysm088w
+      NUM_GPUS:         1
+      BACKEND:          local-k8s
+      IMAGE_TF:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:       nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:    nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bmrks (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-bmrks:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>
+
+Name:             tao-toolkit-api-workflow-pod-5d57cbf7c5-g6qkg
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Wed, 22 Mar 2023 09:18:16 +0000
+Labels:           name=tao-toolkit-api-workflow-pod
+                  pod-template-hash=5d57cbf7c5
+Annotations:      cni.projectcalico.org/containerID: 420e01c113963d0b464711f03c82856e3e838c7ddfbdd8e363e6af406ed348c4
+                  cni.projectcalico.org/podIP: 192.168.251.148/32
+                  cni.projectcalico.org/podIPs: 192.168.251.148/32
+Status:           Running
+IP:               192.168.251.148
+IPs:
+  IP:           192.168.251.148
+Controlled By:  ReplicaSet/tao-toolkit-api-workflow-pod-5d57cbf7c5
+Containers:
+  tao-toolkit-api-workflow:
+    Container ID:  containerd://fa4265108f685da2b57a648d8625c762cdcc1b8836c2618f388039dfa99d32fa
+    Image:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:      nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/bash
+      workflow_start.sh
+    State:          Running
+      Started:      Wed, 22 Mar 2023 09:18:53 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:               default
+      CLAIMNAME:               tao-toolkit-api-pvc
+      IMAGEPULLSECRET:         imagepullsecret
+      NUM_GPUS:                1
+      TELEMETRY_OPT_OUT:       no
+      BACKEND:                 local-k8s
+      IMAGE_TF:                nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:              nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:           nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+      WANDB_API_KEY:           
+      CLEARML_WEB_HOST:        https://app.clear.ml
+      CLEARML_API_HOST:        https://api.clear.ml
+      CLEARML_FILES_HOST:      https://files.clear.ml
+      CLEARML_API_ACCESS_KEY:  
+      CLEARML_API_SECRET_KEY:  
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rgtwc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-rgtwc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      <none>
+
+```
+
+####################### UNTESTED TERRITORY #########################
 
 
+
+giving an external IP to the loadbalancer manually
+
+```
+kubectl edit service <name-of-load-balancer-service>
+
+```
+This will open the service definition in your default editor. Add the following line under the `spec` section:
+
+```
+loadBalancerIP: <your-external-ip-address>
+
+```
+
+also you can force it with 
+
+```
+kubectl patch svc ingress-nginx-controller -p '{"spec": {"externalIPs": ["172.16.1.29"]}}'
+```
+
+remember to give it a unique IP (e.g. not the IP of the node)
+
+here is the updated file
+
+```
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: ingress-nginx
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2023-03-20T19:43:17Z"
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.6.4
+    helm.sh/chart: ingress-nginx-4.5.2
+  name: ingress-nginx-controller
+  namespace: default
+  resourceVersion: "26951"
+  uid: 65a97b3b-6587-4f59-8536-375d22efbe42
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.98.133.19
+  clusterIPs:
+  - 10.98.133.19
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  loadBalancerIP: 172.16.1.29
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - appProtocol: http
+    name: http
+    nodePort: 31856
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    nodePort: 32682
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+~                   
+```
+
+command to check handshake 
+
+```
+openssl s_client -connect aisrv.gnet.lan:32682 -servername aisrv.gnet.lan
+
+```
+
+command to get the certificate from the handshake 
+
+```
+openssl s_client -connect aisrv.gnet.lan:32682 -servername aisrv.gnet.lan </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > target_server_certificate.crt
+
+```
+
+command to install the certificate 
+
+```
+sudo cp /path/to/saved/certificate.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
 
 
 <br />
