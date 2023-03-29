@@ -125,12 +125,21 @@ tigera-operator    tigera-operator-54b47459dd-6bpx5           1/1     Running   
 ```
 
 
+### [Install NVIDIA device plugin](https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html#install-nvidia-device-plugin)
+
+```
+helm install --create-namespace --namespace nvidia-plugins  --generate-name nvdp/nvidia-device-plugin
+```
 get a join command for the GPU node 
 
 ```
 kubeadm token create --print-join-command
 
 ```
+
+### setup kubectl to work in the gpu node 
+copy the file we made in `$HOME/.kube/config` to the worker node and set the `KUBECONFIG` env variable to point to the location `export KUBECONFIG=/home/g/.kube/config`
+
 
 NOTE: After adding the node you can label it as a gpuworker
 
@@ -160,6 +169,44 @@ on the dgx install nvidia-docker
  sudo systemctl restart docker
 
 ```
+
+### gpu operator instllation 
+
+
+Add the NVIDIA package repositories:
+
+```
+curl -sL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -sL https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+
+```
+
+Install the NVIDIA Container Toolkit:
+
+```
+sudo apt-get install -y nvidia-docker2
+
+```
+
+Restart the Docker or containerd service:
+
+```
+sudo systemctl restart docker
+sudo systemctl restart containerd
+
+```
+
+Reapply the NVIDIA device plugin YAML file:
+
+```
+kubectl delete -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.13.0/nvidia-device-plugin.yml
+kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.13.0/nvidia-device-plugin.yml
+
+```
+After completing these steps, the NVIDIA device plugin pod should be able to start successfully. 
+
 
 ### Step 1 [to be run on GPU node ]
 * [Install Kubernetes][NVIDIA-INSTALL-K8] 
@@ -543,6 +590,12 @@ P.S.
 helm install with overrides (note: the README file in the tao-toolkit-api folder is very insightful)
 ```
 helm install tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
+```
+
+if you want to later modify the values yaml (change number of GPUs given to the node) you can update the file and run
+
+```
+helm upgrade tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
 ```
 
 
