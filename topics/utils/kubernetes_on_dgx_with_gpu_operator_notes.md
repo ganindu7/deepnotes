@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Installing Kubernetes on Nvidia DGX 
+title: Dgx as a GPU node with gpu operator 
 nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
