@@ -688,6 +688,69 @@ tigera-operator    tigera-operator-5d6845b496-vk27g                             
 
 ```
 
+Note: When restarting the "node-feature-discovery-worker" pod might go into an unstable state, I ended up deleting ti so the master can allocate a new one. (but then it seem to go to a loopif Error  -> CrashLoopBackOff -> Running)
+
+then I uninstalled the gpu operator helm chart 
+
+```
+helm uninstall --namespace gpu-operator gpu-operator-1680714348
+```
+
+and then reinstalled it 
+
+```
+helm install --wait --generate-name \
+     -n gpu-operator --create-namespace \
+      nvidia/gpu-operator \
+      --set driver.enabled=false \
+      --set toolkit.enabled=false
+```
+
+but I still keep getting the previous error 
+
+
+PS.
+
+helper pod, with this we can start a pod in a specific node (eg. gsrv or dgx) and run commands 
+
+```
+kubectl run -it --rm --restart=Never --image=busybox --overrides='{"apiVersion": "v1", "spec": {"nodeName": "gsrv"}}' network-test -- sh
+
+```
+
+you can pull an ubuntu container too 
+
+```
+kubectl run -it --rm --restart=Never --image=ubuntu:20.04 --overrides='{"spec": {"nodeName": "dgx"}}' network-test -- /bin/sh
+```
+
+I noticed that name resolution is intermittent
+
+
+I think this is why the node feature discovery pod is failing (maybe `gsrv` (my control plane node) is not powerful enough?)
+
+the command below was run on a ubuntu test pod spun up on the dgx I ran the command `traceroute gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local` 
+
+on a pod on gsrv and another on dgx to test if they work but they did not work all the time, So I felt the issue was intermittent. 
+
+```
+ hostname
+network-test-on-dgx
+# traceroute gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local
+traceroute: unknown host
+# traceroute gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local
+traceroute to gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local (10.106.146.91), 64 hops max
+  1   172.16.3.2  0.003ms  0.001ms  0.001ms 
+  2   172.16.3.1  0.891ms  0.495ms  0.411ms 
+  3   164.39.255.82  7.398ms  7.132ms  6.870ms 
+  4   *  *  * 
+  5   *  *  * 
+  6   *  *  * 
+  7   * 
+
+```
+
+
 <br />
 
 <span style="background-color:LightYellow"> Check the [**next topic**](../pytorch_walkthrough#Starting-Development-with-PyTorch)  </span>
