@@ -750,6 +750,49 @@ traceroute to gpu-operator-1680775130-node-feature-discovery-master.gpu-operator
 
 ```
 
+more debugging 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnsutils-gsrv
+  namespace: default
+spec:
+  nodeName: gsrv
+  containers:
+  - name: dnsutils
+    image: registry.k8s.io/e2e-test-images/jessie-dnsutils:1.3
+    command:
+      - sleep
+      - "infinity"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Never
+
+```
+and then 
+
+```
+kubectl exec -it dnsutils-gsrv -- /bin/bash
+
+```
+
+then 
+```
+traceroute  gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local
+
+```
+or (notice the dot (root of the dns hierachy))
+
+```
+nslookup gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local
+nslookup gpu-operator-1680775130-node-feature-discovery-master.gpu-operator.svc.cluster.local.
+```
+
+fully qualified names (ending with a dot) resolve faster and nslookup returns quickly | in out case nslookup wont even return anything if we don'y put the dot to the end. 
+
+
+
 
 <br />
 
