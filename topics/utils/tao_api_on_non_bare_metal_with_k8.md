@@ -763,6 +763,65 @@ Events:                      <none>
 
 ```
 
+##################### PVC and PV Setup ########################################################################
+
+
+helm fetch https://helm.ngc.nvidia.com/nvidia/tao/charts/tao-toolkit-api-4.0.0.tgz --username='$oauthtoken' --password=a3NvZ2xvcnUxOWNpMjcxM201YzdnMjdtN3Y6ZTZiZDIzNWItNTc3Mi00OTY3LWI3YTQtMmFiYzIzMDNjMjEx
+
+helm install tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
+helm install tao-toolkit-api tao-toolkit-api/ --namespace tao-gnet --values tao-toolkit-api/values.yaml --create-namespace
+
+
+once you install you will need to check presistant volume claims(pvc) with
+
+```
+kubectl get pvc -A
+```
+
+and then you need the `uuid` of the pvc
+
+```
+kubectl get pvc tao-toolkit-api-pvc -o jsonpath='{.metadata.uid}' -n tao-gnet
+```
+
+Then you will need to crerate a Presistant volume that an match the `pvc` this is my-pv.yml
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dgx-local-pv
+spec:
+  storageClassName: local-storage-dgx
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/k8-local-storage-dgx
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - dgx
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+```
+Note: the `storageClassName` should match the corresponding value of the pvc
+
+Onve it is created it should automatically bind or you can bind manually with the steps below
+
+Then patch the pv with the pvc (ive used uid: c231660c-5e36-4417-b304-f0b4a1198a7c)
+
+
+kubectl patch pv my-pv -p '{"spec":{"claimRef":{"name":"tao-toolkit-api-pvc","namespace":"default","uid":"c231660c-5e36-4417-b304-f0b4a1198a7c"}}}'
+~                                                                                                                                                             
+
+
+
 ####################### UNTESTED TERRITORY #########################
 
 

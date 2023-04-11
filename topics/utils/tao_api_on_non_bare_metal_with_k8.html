@@ -1,0 +1,1880 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="layout" content="default"><style>body {
+  max-width: 980px;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 45px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAABE0AA8AAAAAHWwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABWAAAADsAAABUIIslek9TLzIAAAGUAAAAQwAAAFY3d1HZY21hcAAAAdgAAACqAAACOvWLi0FjdnQgAAAChAAAABMAAAAgBtX/BGZwZ20AAAKYAAAFkAAAC3CKkZBZZ2FzcAAACCgAAAAIAAAACAAAABBnbHlmAAAIMAAABdQAAAjkYT9TNWhlYWQAAA4EAAAAMwAAADYQ6WvNaGhlYQAADjgAAAAfAAAAJAc6A1pobXR4AAAOWAAAACAAAAA0Kmz/7mxvY2EAAA54AAAAHAAAABwQPBJubWF4cAAADpQAAAAgAAAAIAEHC/NuYW1lAAAOtAAAAYQAAALxhQT4h3Bvc3QAABA4AAAAfgAAAMS3SYh9cHJlcAAAELgAAAB6AAAAhuVBK7x4nGNgZGBg4GIwYLBjYHJx8wlh4MtJLMljkGJgYYAAkDwymzEnMz2RgQPGA8qxgGkOIGaDiAIAJjsFSAB4nGNgZHZmnMDAysDAVMW0h4GBoQdCMz5gMGRkAooysDIzYAUBaa4pDA4Pwz+yMwf9z2KIYg5imAYUZgTJAQDcoQvQAHic7ZHNDYJAFIRnBXf94cDRIiyCKkCpwFCPJ092RcKNDoYKcN4+EmMPvpdvk539zQyAPYBCXEUJhBcCrJ5SQ9YLnLJe4qF5rdb+uWPDngNHTkta101pNyWa8lMhn6xx2dqUnW4q9YOIhAOOeueMSgsR/6ry+P7O5s6xVNg4chBsHUuFnWNJ8uZYwrw7chrsHXkODo7cB0dHOYCTY8kv0VE2WJKD6gOlWjsxAAB4nGNgQAMSEMgc9D8LhAESbAPdAHicrVZpd9NGFB15SZyELCULLWphxMRpsEYmbMGACUGyYyBdnK2VoIsUO+m+8Ynf4F/zZNpz6Dd+Wu8bLySQtOdwmpOjd+fN1czbZRJaktgL65GUmy/F1NYmjew8CemGTctRfCg7eyFlisnfBVEQrZbatx2HREQiULWusEQQ+x5ZmmR86FFGy7akV03KLT3pLlvjQb1V334aOsqxO6GkZjN0aD2yJVUYVaJIpj1S0qZlqPorSSu8v8LMV81QwohOImm8GcbQSN4bZ7TKaDW24yiKbLLcKFIkmuFBFHmU1RLn5IoJDMoHzZDyyqcR5cP8iKzYo5xWsEu20/y+L3mndzk/sV9vUbbkQB/Ijuzg7HQlX4RbW2HctJPtKFQRdtd3QmzZ7FT/Zo/ymkYDtysyvdCMYKl8hRArP6HM/iFZLZxP+ZJHo1qykRNB62VO7Es+gdbjiClxzRhZ0N3RCRHU/ZIzDPaYPh788d4plgsTAngcy3pHJZwIEylhczRJ2jByYCVliyqp9a6YOOV1WsRbwn7t2tGXzmjjUHdiPFsPHVs5UcnxaFKnmUyd2knNoykNopR0JnjMrwMoP6JJXm1jNYmVR9M4ZsaERCICLdxLU0EsO7GkKQTNoxm9uRumuXYtWqTJA/Xco/f05la4udNT2g70s0Z/VqdiOtgL0+lp5C/xadrlIkXp+ukZfkziQdYCMpEtNsOUgwdv/Q7Sy9eWHIXXBtju7fMrqH3WRPCkAfsb0B5P1SkJTIWYVYhWQGKta1mWydWsFqnI1HdDmla+rNMEinIcF8e+jHH9XzMzlpgSvt+J07MjLj1z7UsI0xx8m3U9mtepxXIBcWZ5TqdZlu/rNMfyA53mWZ7X6QhLW6ejLD/UaYHlRzodY3lBC5p038GQizDkAg6QMISlA0NYXoIhLBUMYbkIQ1gWYQjLJRjC8mMYwnIZhrC8rGXV1FNJ49qZWAZsQmBijh65zEXlaiq5VEK7aFRqQ54SbpVUFM+qf2WgXjzyhjmwFkiXyJpfMc6Vj0bl+NYVLW8aO1fAsepvH472OfFS1ouFPwX/1dZUJb1izcOTq/Abhp5sJ6o2qXh0TZfPVT26/l9UVFgL9BtIhVgoyrJscGcihI86nYZqoJVDzGzMPLTrdcuan8P9NzFCFlD9+DcUGgvcg05ZSVnt4KzV19uy3DuDcjgTLEkxN/P6VvgiI7PSfpFZyp6PfB5wBYxKZdhqA60VvNknMQ+Z3iTPBHFbUTZI2tjOBIkNHPOAefOdBCZh6qoN5E7hhg34BWFuwXknXKJ6oyyH7kXs8yik/Fun4kT2qGiMwLPZG2Gv70LKb3EMJDT5pX4MVBWhqRg1FdA0Um6oBl/G2bptQsYO9CMqdsOyrOLDxxb3lZJtGYR8pIjVo6Of1l6iTqrcfmYUl++dvgXBIDUxf3vfdHGQyrtayTJHbQNTtxqVU9eaQ+NVh+rmUfW94+wTOWuabronHnpf06rbwcVcLLD2bQ7SUiYX1PVhhQ2iy8WlUOplNEnvuAcYFhjQ71CKjf+r+th8nitVhdFxJN9O1LfR52AM/A/Yf0f1A9D3Y+hyDS7P95oTn2704WyZrqIX66foNzBrrblZugbc0HQD4iFHrY64yg18pwZxeqS5HOkh4GPdFeIBwCaAxeAT3bWM5lMAo/mMOT7A58xh0GQOgy3mMNhmzhrADnMY7DKHwR5zGHzBnHWAL5nDIGQOg4g5DJ4wJwB4yhwGXzGHwdfMYfANc+4DfMscBjFzGCTMYbCv6dYwzC1e0F2gtkFVoANTT1jcw+JQU2XI/o4Xhv29Qcz+wSCm/qjp9pD6Ey8M9WeDmPqLQUz9VdOdIfU3Xhjq7wYx9Q+DmPpMvxjLZQa/jHyXCgeUXWw+5++J9w/bxUC5AAEAAf//AA94nIVVX2hbZRQ/5/t7893s5ja9f7ouzdZ0TTqz3bRJmogbWya6bG6Cq0VbSV2ddIJjFtfIQHEig80Hda8yUN/0YQz8AyriiyD+xQd92R4HCnaCb3samnpumrpsCsLlfPf7zvedc37nL3CAtc/5W/wQZGA3tOBSY/g+TMjHmwzEoM1Q8+ZjRZY4oJhmBw5/YB6Za0yC5AkhlwA1A1yCBIBOwCII0Cj0U8BAMdUCzq05sKwkP7SlUY6fcJk4Fb/RyE79/6P5hjM/F4aZiXBoeMgzcqQ4Xi1hPqfDLG5FT+lchCVU3lYMyvuwhl1mqndQL0RsuloLywHtthLXI06OblTrhfWVnpSJ5+mwu/JdbtuN3IAnkW0LLMcRwaC7ktrlzridM6kVdyf9uO1UNBByI7JhwtG2sEwab07ORBeilWhqavJCqV0qzZTOl/7ZXQ5TbTcdcFelyGhhRDAQpdqp1FEX3w3cFTc1k9pJQkmm4ySCbSikxRP2QOfN+0tHS5MrpQuTU1Mk5nw0E5Xa0WvrOwDyGax9yB9ma6DAg82wHc43SAGTI4GjBWebOePAERFE8/AHaQpZASSTy8A4WwZiLQMQ82mFKATO0ILicRAoDm9p5P99E5b/fXG+kQYY3TYUuqmERWYoT0u/GNYL2q/4WB3LaVS+VynXsVYIcWw6DkCh3nX1D+VzlYN4LClF5yexSQos8exqZ3KVP+wtrC54u4Nznq6cq+xpMpUUnZ8FUYzE86ud0g28NOIv3Gj5/rmA3ABs7S/ywzFuQ4qyd6QxfNtiQIaEgp3w/entQg4Vcbqa16M5FfpeUB8t1+qeg7mI7cUyOe79wOk86gSxkVec4KPTX69++5x68Yubn5/F+w52z7u08sJX7fZXv8ekT/d2mILJxq6sn+SC6qEJknzLJCxyZEKwWVqYmAPBxBE/9DLeZiWHu7lcr/VytrCRuHojncNuTt9h46tmacmYisnSamdN2bZptcsmSysdVsy1PrOvOzF3xN64Rb937t/og9KHxYdcjIUqFAmIAHGHNzlns+RTPgeUYAQm9DwpNxfxbhhBHPaw3/gfTcXO2L+eJVIx5nsyGkvm9X4/f+bGkH45G0PaSjcMXTjcZyTvi3UdHoCDjQd3IDUVsgwYmUoJK/gp4JJxeRI0MKHZIkgynyIBqBTOUs6rOVCojvjZ4mCQz49ZMlMcp8QoYk6NoBfsxnJtsBohpa8iGJS+ZH7gU7NxME6cmF+t7cO9vB8d3jTWSct0ycW9ranXmolNDwmVkNnxe+8JtoztwS5rKJ0xWS95tQ/1zMYzg69MzUZnNtl1ofNbsml/OJm6f9wjRjpnu2o4MzHzn77IQkRd+1DjwMQ2pqSjGMMhyjrgTbBAKksuUm0iU7hI0aN2wOKOq7WYBSH0HGihj/jkiPxAfmwsEbfYrjMG+j3ij932Db/LV7I/xruNrhnroxjR9HRMb2nTvO0ZXOoHPk8H2ZhDPx93qcE/53sH5np/dkIP7zzhTVKdR/BAY/9ElkkR+A6lJGsqpJ4oQcTxpvBT3Kn58VkaJjgHyPEIws57xkaHh9KuVpDEpJZeMbZ5w/zBHi5NMQ4r5VphsFqID7TyB9eR4pX216c3AHxpdAwoqU9qg0ZJ6yVLKmMSz1iG2z27ifx18NkY0LPx1W/wCc2l5LrznrIsiKsqbmB78A9wIGx4tI8rjihVHJyY9pgMirenVq0yWg7Iw7eogG7ZgYM3qR9959A/fZkg6MnD/exlkmc+jWV4SB15XUR+eqC6l6ZmgPtN9z5JMfik05OV8ljylunJ4J+wA/FUaQSSKotsYsCWqaPBidBLcxkWx7XKFRIb45TGaEhjlF9uUVPqXOtcIwsXbBvfoZXIyRYFdkfnqjExH98xpnPczqzjX/uNdO1Y17Wpi5+6Ts8BXtjVFasp9KZ1mOiNbH65c5w6HgmyF2jFCZywM8mWjRc7T5Pmt0lRy7Y71+jYbpGyvwG4sH0XeJxjYGRgYADiwBB/53h+m68M3MwvgCIM1z5N/g6j///9v5H5BbMnkMvBwAQSBQCIcA9gAHicY2BkYGAO+p8FJF/8//v/F/MLBqAICuAFALYQB5kAeJxjfsHAwLwAiCNB+P9fbJjJmoGBMRUo/wKCAfO2EnQAAAAAANoBXgGcAgICVALaA1IDvAPkBAYEPARyAAEAAAANAF0ABAAAAAAAAgAUACQAcwAAAG4LcAAAAAB4nHWRzWrCQBSFT+pPqUIXLXTTzayKUohGKIibCoLuhbrrYtTRxCYZmYyKyz5Fd32HvlDfoO/QkziIFJtw9bvnnpl7ZwLgBt/wcHieGAf2UGd24Atcou+4RH3kuEweO66QXx1XyaHjGh6ROa7jFp/cwStfMVvhy7GHO+/e8QWuvcBxifqz4zL5xXGF/Oa4Sn53XMPE+3Bcx4P3M9DrvYmWoRWNQVN02kFXTPdCU4pSGQu5saE2meiLhU6timPtz3SSs9ypTCdqrJabWJoT5QQnymSRTkXgt0/UkUqVkVbN807ZdtmxdiEWRidi6HqItdErNbN+aO2612qd9sYAGmvsYRBhyUu0EGhQbfK/gzYCdElTOgSdB1eEFBIxFYkNV4RFJWPeZyyYpVQVHTHZx4y/yVGX2LGWFZri51TccUOn5B7nPefVCSPvGhVVwUl9znveO2KkhV8Wk82PZ8qwZf8OVcu1+fSmWCMw/HMOwXvKaysqM+p+cVuWag8tvv+c+xdd+4+teJxtjUEOwiAURJla24KliQfhUA2g/Sl+CKXx+loNrpzVezOLEY34Ron/0WhwQoszOvQYIKFwwQiNSbSBeO2SZ0tBP4j3zVjKNng32ZmtD1VVXCuOiw/pJ8S3WOU6l+K5UOTaDC4+2TjKMtN9KQf1ezLx/Sg/00FCvABHhjDjAAB4nGPw3sFwIihiIyNjX+QGxp0cDBwMyQUbGVidNjEwMmiBGJu5mBg5ICw+BjCLzWkX0wGgNCeQze60i8EBwmZmcNmowtgRGLHBoSNiI3OKy0Y1EG8XRwMDI4tDR3JIBEhJJBBs5mFi5NHawfi/dQNL70YmBhcADHYj9AAA) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable,
+.markdown-body .highlighttable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr,
+.markdown-body .highlighttable {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite,
+.markdown-body .highlighttable pre,
+.markdown-body .highlighttable div.highlight {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td,
+.markdown-body .highlighttable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headerlink {
+  font: normal 400 16px fontawesome-mini;
+  vertical-align: middle;
+  margin-left: -16px;
+  float: left;
+  display: inline-block;
+  text-decoration: none;
+  opacity: 0;
+  color: #333;
+}
+
+.markdown-body .headerlink:focus {
+  outline: none;
+}
+
+.markdown-body h1 .headerlink {
+  margin-top: 0.8rem;
+}
+
+.markdown-body h2 .headerlink,
+.markdown-body h3 .headerlink {
+  margin-top: 0.6rem;
+}
+
+.markdown-body h4 .headerlink {
+  margin-top: 0.2rem;
+}
+
+.markdown-body h5 .headerlink,
+.markdown-body h6 .headerlink {
+  margin-top: 0;
+}
+
+.markdown-body .headerlink:hover,
+.markdown-body h1:hover .headerlink,
+.markdown-body h2:hover .headerlink,
+.markdown-body h3:hover .headerlink,
+.markdown-body h4:hover .headerlink,
+.markdown-body h5:hover .headerlink,
+.markdown-body h6:hover .headerlink {
+  opacity: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite,
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* MultiMarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px fontawesome-mini;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\e157';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+.markdown-body diagram-div, .markdown-body div.uml-sequence-diagram, .markdown-body, div.uml-flowchart {
+  overflow: auto;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><style>/*GitHub*/
+.highlight {background-color:#fff;color:#333333;}
+.highlight .hll {background-color:#ffffcc;}
+.highlight .c{color:#999988;font-style:italic}
+.highlight .err{color:#a61717;background-color:#e3d2d2}
+.highlight .k{font-weight:bold}
+.highlight .o{font-weight:bold}
+.highlight .cm{color:#999988;font-style:italic}
+.highlight .cp{color:#999999;font-weight:bold}
+.highlight .c1{color:#999988;font-style:italic}
+.highlight .cs{color:#999999;font-weight:bold;font-style:italic}
+.highlight .gd{color:#000000;background-color:#ffdddd}
+.highlight .ge{font-style:italic}
+.highlight .gr{color:#aa0000}
+.highlight .gh{color:#999999}
+.highlight .gi{color:#000000;background-color:#ddffdd}
+.highlight .go{color:#888888}
+.highlight .gp{color:#555555}
+.highlight .gs{font-weight:bold}
+.highlight .gu{color:#800080;font-weight:bold}
+.highlight .gt{color:#aa0000}
+.highlight .kc{font-weight:bold}
+.highlight .kd{font-weight:bold}
+.highlight .kn{font-weight:bold}
+.highlight .kp{font-weight:bold}
+.highlight .kr{font-weight:bold}
+.highlight .kt{color:#445588;font-weight:bold}
+.highlight .m{color:#009999}
+.highlight .s{color:#dd1144}
+.highlight .n{color:#333333}
+.highlight .na{color:teal}
+.highlight .nb{color:#0086b3}
+.highlight .nc{color:#445588;font-weight:bold}
+.highlight .no{color:teal}
+.highlight .ni{color:purple}
+.highlight .ne{color:#990000;font-weight:bold}
+.highlight .nf{color:#990000;font-weight:bold}
+.highlight .nn{color:#555555}
+.highlight .nt{color:navy}
+.highlight .nv{color:teal}
+.highlight .ow{font-weight:bold}
+.highlight .w{color:#bbbbbb}
+.highlight .mf{color:#009999}
+.highlight .mh{color:#009999}
+.highlight .mi{color:#009999}
+.highlight .mo{color:#009999}
+.highlight .sb{color:#dd1144}
+.highlight .sc{color:#dd1144}
+.highlight .sd{color:#dd1144}
+.highlight .s2{color:#dd1144}
+.highlight .se{color:#dd1144}
+.highlight .sh{color:#dd1144}
+.highlight .si{color:#dd1144}
+.highlight .sx{color:#dd1144}
+.highlight .sr{color:#009926}
+.highlight .s1{color:#dd1144}
+.highlight .ss{color:#990073}
+.highlight .bp{color:#999999}
+.highlight .vc{color:teal}
+.highlight .vg{color:teal}
+.highlight .vi{color:teal}
+.highlight .il{color:#009999}
+.highlight .gc{color:#999;background-color:#EAF2F5}
+</style><title>TAO API with Kubernetes in non bare metal</title></head><body><article class="markdown-body"><h1 id="nav_order-2">nav_order: 2<a class="headerlink" href="#nav_order-2" title="Permanent link"></a></h1>
+<h1 id="permalink-topicsutilstarget_execute">permalink: /topics/utils/target_execute<a class="headerlink" href="#permalink-topicsutilstarget_execute" title="Permanent link"></a></h1>
+<h2 id="parent-utilities">parent: Utilities<a class="headerlink" href="#parent-utilities" title="Permanent link"></a></h2>
+<h2 id="setting-up-tao-api-with-kubernetes">Setting up TAO API with Kubernetes.<a class="headerlink" href="#setting-up-tao-api-with-kubernetes" title="Permanent link"></a></h2>
+<p>For this to work a separate k8 master node is needed. The cluster we are building consists of a master node (CPU server) and a GPU node (for our example the GPU node is an NVIDIA DGX system).</p>
+<h3 id="step-0-to-be-run-on-master-node">Step 0 [to be run on Master node ]<a class="headerlink" href="#step-0-to-be-run-on-master-node" title="Permanent link"></a></h3>
+<p>To verify you can run <code>kubectl get nodes</code> on your master. </p>
+<p>If the GPU node is already registered (maybe from previous attempts) you can remove or reset (in an initial setup you can run <code>sudo kubeadm reset</code> with the appropriate arguments)</p>
+<p>after reset </p>
+<div class="highlight"><pre>sudo kubeadm reset --cri-socket=unix:///var/run/cri-dockerd.sock
+
+
+rm /etc/cni/net.d
+rm $HOME/.kube
+
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -F
+sudo iptables -X
+</pre></div>
+
+<p>Then fresh setup:</p>
+<div class="highlight"><pre>sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
+</pre></div>
+
+<p>Then run below commands to set up kube config</p>
+<div class="highlight"><pre>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</pre></div>
+
+<p>install and configure network operator </p>
+<div class="highlight"><pre>kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/tigera-operator.yaml
+</pre></div>
+
+<p>download to a custom location if needed </p>
+<div class="highlight"><pre>curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/custom-resources.yaml -O
+kubectl create -f custom-resources.yaml
+</pre></div>
+
+<p>Install calicoctl binary (if needed)</p>
+<div class="highlight"><pre>curl -L https://github.com/projectcalico/calico/releases/latest/download/calicoctl-linux-amd64 -o kubectl-calico
+
+chmod +x kubectl-calico
+</pre></div>
+
+<p>install calicoctl as a kubectl plugin</p>
+<div class="highlight"><pre>curl -L https://github.com/projectcalico/calico/releases/latest/download/calicoctl-linux-amd64 -o kubectl-calico
+
+kubectl calico -h
+</pre></div>
+
+<p>now you can see the IP pool with <code>kubectl calico ipam show</code></p>
+<div class="highlight"><pre>kubectl calico ipam show
+
++----------+----------------+-----------+------------+--------------+
+| GROUPING |      CIDR      | IPS TOTAL | IPS IN USE |   IPS FREE   |
++----------+----------------+-----------+------------+--------------+
+| IP Pool  | 192.168.0.0/16 |     65536 | 7 (0%)     | 65529 (100%) |
++----------+----------------+-----------+------------+--------------+
+</pre></div>
+
+<p>then verify the master node with </p>
+<p><div class="highlight"><pre>kubectl get nodes
+</pre></div>
+Then verify pods with </p>
+<div class="highlight"><pre>kubectl get pods -A
+NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
+calico-apiserver   calico-apiserver-685597b56-fltsj           1/1     Running   0          33m
+calico-apiserver   calico-apiserver-685597b56-kl5rt           1/1     Running   0          33m
+calico-system      calico-kube-controllers-6b7b9c649d-hsfw8   1/1     Running   0          35m
+calico-system      calico-node-28wfp                          1/1     Running   0          35m
+calico-system      calico-typha-7cb999b6dd-fxvps              1/1     Running   0          35m
+calico-system      csi-node-driver-4l4zk                      2/2     Running   0          34m
+kube-system        coredns-787d4945fb-7zj7r                   1/1     Running   0          50m
+kube-system        coredns-787d4945fb-p5rsr                   1/1     Running   0          50m
+kube-system        etcd-gsrv                                  1/1     Running   0          50m
+kube-system        kube-apiserver-gsrv                        1/1     Running   0          50m
+kube-system        kube-controller-manager-gsrv               1/1     Running   0          50m
+kube-system        kube-proxy-fqrwh                           1/1     Running   0          50m
+kube-system        kube-scheduler-gsrv                        1/1     Running   0          50m
+tigera-operator    tigera-operator-54b47459dd-6bpx5           1/1     Running   0          35m
+</pre></div>
+
+<h3 id="install-nvidia-device-plugin"><a href="https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html#install-nvidia-device-plugin">Install NVIDIA device plugin</a><a class="headerlink" href="#install-nvidia-device-plugin" title="Permanent link"></a></h3>
+<p><div class="highlight"><pre>helm install --create-namespace --namespace nvidia-plugins  --generate-name nvdp/nvidia-device-plugin
+</pre></div>
+get a join command for the GPU node </p>
+<div class="highlight"><pre>kubeadm token create --print-join-command
+</pre></div>
+
+<h3 id="setup-kubectl-to-work-in-the-gpu-node">setup kubectl to work in the gpu node<a class="headerlink" href="#setup-kubectl-to-work-in-the-gpu-node" title="Permanent link"></a></h3>
+<p>copy the file we made in <code>$HOME/.kube/config</code> to the worker node and set the <code>KUBECONFIG</code> env variable to point to the location <code>export KUBECONFIG=/home/g/.kube/config</code></p>
+<p>NOTE: After adding the node you can label it as a gpuworker</p>
+<div class="highlight"><pre>kubectl label node dgx node-role.kubernetes.io/gpuworker=gpuworker --overwrite=True
+</pre></div>
+
+<p>On the gpu node (DGX)
+if  <code>/etc/docker/daemon.json</code> is not as following </p>
+<div class="highlight"><pre>{
+    &quot;runtimes&quot;: {
+        &quot;nvidia&quot;: {
+            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,
+            &quot;runtimeArgs&quot;: []
+        }
+    }
+}
+</pre></div>
+
+<p>on the dgx install nvidia-docker </p>
+<div class="highlight"><pre> sudo apt install nvidia-docker2
+ sudo systemctl restart docker
+</pre></div>
+
+<h3 id="gpu-operator-instllation">gpu operator instllation<a class="headerlink" href="#gpu-operator-instllation" title="Permanent link"></a></h3>
+<p>Add the NVIDIA package repositories:</p>
+<div class="highlight"><pre>curl -sL https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -sL https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+</pre></div>
+
+<p>Install the NVIDIA Container Toolkit:</p>
+<div class="highlight"><pre>sudo apt-get install -y nvidia-docker2
+</pre></div>
+
+<p>Restart the Docker or containerd service:</p>
+<div class="highlight"><pre>sudo systemctl restart docker
+sudo systemctl restart containerd
+</pre></div>
+
+<p>Reapply the NVIDIA device plugin YAML file:</p>
+<p><div class="highlight"><pre>kubectl delete -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.13.0/nvidia-device-plugin.yml
+kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.13.0/nvidia-device-plugin.yml
+</pre></div>
+After completing these steps, the NVIDIA device plugin pod should be able to start successfully. </p>
+<h3 id="step-1-to-be-run-on-gpu-node">Step 1 [to be run on GPU node ]<a class="headerlink" href="#step-1-to-be-run-on-gpu-node" title="Permanent link"></a></h3>
+<ul>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/kubernetes/install-k8s.html#option-2-installing-kubernetes-using-kubeadm">Install Kubernetes</a> </li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator">install nvidia GPU operator</a></li>
+</ul>
+<p>Add the node to the cluster we made earlier with the generated join command. </p>
+<h3 id="step-3-to-be-run-on-the-cpu-server">Step 3 [to be run on the CPU Server]<a class="headerlink" href="#step-3-to-be-run-on-the-cpu-server" title="Permanent link"></a></h3>
+<p>our new node name is <code>dgx</code> we can confirm it is joined correctly with</p>
+<div class="highlight"><pre> kubectl get nodes
+</pre></div>
+
+<p>To disable operands from getting deployed on a GPU worker node, label the node with nvidia.com/gpu.deploy.operands=false.</p>
+<div class="highlight"><pre>kubectl label nodes dgx  nvidia.com/gpu.deploy.operands=false
+</pre></div>
+
+<div class="highlight"><pre>kubectl describe node dgx
+kubectl get nodes
+</pre></div>
+
+<p>Then follow the instruction in the <a href="https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_deployment.html">API deployment</a> section of the document. </p>
+<p>checks:</p>
+<p>Once you run the helm chart you can check <code>/mnt</code> directory. The tao presistant volume will be mounted something like <code>/mnt/nfs_share/default-tao-toolkit-api-pvc-pvc-*</code> in the GPU node. </p>
+<div class="highlight"><pre>kubectl get pods -n default
+NAME                                            READY   STATUS    RESTARTS      AGE
+ingress-nginx-controller-c69664497-bqzfl        1/1     Running   1 (70s ago)   15h
+tao-toolkit-api-app-pod-6c88476548-65sg7        0/1     Pending   0             10s
+tao-toolkit-api-workflow-pod-5d57cbf7c5-tv76w   0/1     Pending   0             10s
+</pre></div>
+
+<p>to check the status of PVC(PersistentVolumeClaims)</p>
+<div class="highlight"><pre>kubectl get pvc
+</pre></div>
+
+<p>answer </p>
+<p><div class="highlight"><pre>kubectl get pvc
+NAME                  STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+tao-toolkit-api-pvc   Pending                                      local          5s
+</pre></div>
+This means the <strong>PVC</strong> not yet fulfilled</p>
+<p>then we check if there are any Persistent volumes present in our cluster at all.</p>
+<div class="highlight"><pre>kubectl get pv
+</pre></div>
+
+<p>result
+<div class="highlight"><pre>kubectl get pv
+No resources found
+</pre></div></p>
+<div class="highlight"><pre>kubectl describe pvc tao-toolkit-api-pvc
+</pre></div>
+
+<p>I had to create a pv, and bind with the pvc claim manually</p>
+<p>once bound I can see</p>
+<div class="highlight"><pre>kubectl get pv
+NAME    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                         STORAGECLASS        REASON   AGE
+my-pv   100Gi      RWX            Retain           Bound    default/tao-toolkit-api-pvc   local-storage-dgx            82m
+</pre></div>
+
+<p>status check </p>
+<div class="highlight"><pre>kubectl describe pv my-pv
+Name:              my-pv
+Labels:            &lt;none&gt;
+Annotations:       pv.kubernetes.io/bound-by-controller: yes
+Finalizers:        [kubernetes.io/pv-protection]
+StorageClass:      local-storage-dgx
+Status:            Bound
+Claim:             default/tao-toolkit-api-pvc
+Reclaim Policy:    Retain
+Access Modes:      RWX
+VolumeMode:        Filesystem
+Capacity:          100Gi
+Node Affinity:     
+  Required Terms:  
+    Term 0:        kubernetes.io/hostname in [dgx]
+Message:           
+Source:
+    Type:          HostPath (bare host directory volume)
+    Path:          /mnt/k8-local-storage-dgx
+    HostPathType:  
+Events:            &lt;none&gt;
+</pre></div>
+
+<p>check 1 </p>
+<div class="highlight"><pre>kubectl get pods -n default
+NAME                                            READY   STATUS    RESTARTS       AGE
+ingress-nginx-controller-c69664497-bqzfl        1/1     Running   1 (5h2m ago)   20h
+tao-toolkit-api-app-pod-6c88476548-2fknz        1/1     Running   0              3m31s
+tao-toolkit-api-workflow-pod-5d57cbf7c5-l7dtm   1/1     Running   0              3m31s
+</pre></div>
+
+<p>check 2 </p>
+<p><div class="highlight"><pre>kubectl describe pods tao-toolkit-api -n default
+Name:             tao-toolkit-api-app-pod-6c88476548-2fknz
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Tue, 21 Mar 2023 16:37:41 +0000
+Labels:           name=tao-toolkit-api-app-pod
+                  pod-template-hash=6c88476548
+Annotations:      cni.projectcalico.org/containerID: bf379fa8e6c16ba9aad764cb98b8e949d52a8611cc13e745b71c8ffbf75fc849
+                  cni.projectcalico.org/podIP: 192.168.251.146/32
+                  cni.projectcalico.org/podIPs: 192.168.251.146/32
+Status:           Running
+IP:               192.168.251.146
+IPs:
+  IP:           192.168.251.146
+Controlled By:  ReplicaSet/tao-toolkit-api-app-pod-6c88476548
+Containers:
+  tao-toolkit-api-app:
+    Container ID:   containerd://5a8e0ed5702e797bbbc3c86785f19cdaf6e55051a16613c105a01735b7f04205
+    Image:          nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:       nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:           8000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 21 Mar 2023 16:37:44 +0000
+    Ready:          True
+    Restart Count:  0
+    Liveness:       http-get http://:8000/api/v1/health/liveness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:8000/api/v1/health/readiness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Environment:
+      NAMESPACE:        default
+      CLAIMNAME:        tao-toolkit-api-pvc
+      IMAGEPULLSECRET:  imagepullsecret
+      AUTH_CLIENT_ID:   bnSePYullXlG-504nOZeNAXemGF6DhoCdYR8ysm088w
+      NUM_GPUS:         1
+      BACKEND:          local-k8s
+      IMAGE_TF:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:       nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:    nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-b2t7v (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-b2t7v:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              &lt;none&gt;
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age                  From               Message
+  ----     ------            ----                 ----               -------
+  Warning  FailedScheduling  63s (x2 over 3m58s)  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: 2 No preemption victims found for incoming pod..
+  Normal   Scheduled         60s                  default-scheduler  Successfully assigned default/tao-toolkit-api-app-pod-6c88476548-2fknz to dgx
+  Normal   Pulling           59s                  kubelet            Pulling image &quot;nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api&quot;
+  Normal   Pulled            57s                  kubelet            Successfully pulled image &quot;nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api&quot; in 1.395595053s (2.628318726s including waiting)
+  Normal   Created           57s                  kubelet            Created container tao-toolkit-api-app
+  Normal   Started           57s                  kubelet            Started container tao-toolkit-api-app
+
+Name:             tao-toolkit-api-workflow-pod-5d57cbf7c5-l7dtm
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Tue, 21 Mar 2023 16:37:41 +0000
+Labels:           name=tao-toolkit-api-workflow-pod
+                  pod-template-hash=5d57cbf7c5
+Annotations:      cni.projectcalico.org/containerID: ff93c8258d6844a9bac87536313a6be1387e3d222862359baf6d3acd6ce9c88e
+                  cni.projectcalico.org/podIP: 192.168.251.145/32
+                  cni.projectcalico.org/podIPs: 192.168.251.145/32
+Status:           Running
+IP:               192.168.251.145
+IPs:
+  IP:           192.168.251.145
+Controlled By:  ReplicaSet/tao-toolkit-api-workflow-pod-5d57cbf7c5
+Containers:
+  tao-toolkit-api-workflow:
+    Container ID:  containerd://4ed04613f857314d649a7eec9661ab23007e9d93e9fc8a4484759e7fa59eec91
+    Image:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:      nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:          &lt;none&gt;
+    Host Port:     &lt;none&gt;
+    Command:
+      /bin/bash
+      workflow_start.sh
+    State:          Running
+      Started:      Tue, 21 Mar 2023 16:37:43 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:               default
+      CLAIMNAME:               tao-toolkit-api-pvc
+      IMAGEPULLSECRET:         imagepullsecret
+      NUM_GPUS:                1
+      TELEMETRY_OPT_OUT:       no
+      BACKEND:                 local-k8s
+      IMAGE_TF:                nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:              nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:           nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+      WANDB_API_KEY:           
+      CLEARML_WEB_HOST:        https://app.clear.ml
+      CLEARML_API_HOST:        https://api.clear.ml
+      CLEARML_FILES_HOST:      https://files.clear.ml
+      CLEARML_API_ACCESS_KEY:  
+      CLEARML_API_SECRET_KEY:  
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-w6d8r (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-w6d8r:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              &lt;none&gt;
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age                  From               Message
+  ----     ------            ----                 ----               -------
+  Warning  FailedScheduling  63s (x2 over 3m58s)  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: 2 No preemption victims found for incoming pod..
+  Normal   Scheduled         60s                  default-scheduler  Successfully assigned default/tao-toolkit-api-workflow-pod-5d57cbf7c5-l7dtm to dgx
+  Normal   Pulling           59s                  kubelet            Pulling image &quot;nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api&quot;
+  Normal   Pulled            58s                  kubelet            Successfully pulled image &quot;nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api&quot; in 1.278229741s (1.278312255s including waiting)
+  Normal   Created           58s                  kubelet            Created container tao-toolkit-api-workflow
+  Normal   Started           58s                  kubelet            Started container tao-toolkit-api-workflow
+</pre></div>
+files needed:</p>
+<ol>
+<li>custom-volume-definition.yaml</li>
+</ol>
+<div class="highlight"><pre>apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  storageClassName: custom-local-storage
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/k8-local-storage-dgx
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - dgx
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+</pre></div>
+
+<ol start="2">
+<li>local-storage-declaration.yaml</li>
+</ol>
+<div class="highlight"><pre>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: custom-local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+parameters:
+  type: local-storage
+</pre></div>
+
+<ol start="2">
+<li>values.yaml(modified)</li>
+</ol>
+<div class="highlight"><pre># TAO Toolkit API container info
+image: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+imagePullSecret: imagepullsecret
+imagePullPolicy: Always 
+
+# Optional HTTPS settings for ingress controller
+#host: mydomain.com
+#tlsSecret: tls-secret
+#corsOrigin: https://mydomain.com
+
+# Shared storage info
+storageClassName: custom-local-storage
+storageAccessMode: ReadWriteMany
+storageSize: 100Gi
+ephemeral-storage: 8Gi
+limits.ephemeral-storage: 8Gi
+requests.ephemeral-storage: 4Gi
+
+# Optional NVIDIA Starfleet authentication
+#authClientId: bnSePYullXlG-504nOZeNAXemGF6DhoCdYR8ysm088w
+
+# Starting TAO Toolkit jobs info
+backend: local-k8s
+numGpus: 1
+imageTf: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imagePyt: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+imageDnv2: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imageDefault: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+</pre></div>
+
+<p>At this point <a href="https://docs.nvidia.com/tao/tao-toolkit/text/tao_toolkit_api/api_rest_api.html#user-authentication">user authentication</a> should work and in the mount point you will see newly downloaded artifacts check with (<code>sudo du /mnt/k8-local-storage-dgx/ -h -d 3</code>)</p>
+<p>P.S.</p>
+<p>helm install with overrides (note: the README file in the tao-toolkit-api folder is very insightful)
+<div class="highlight"><pre>helm install tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
+</pre></div></p>
+<p>if you want to later modify the values yaml (change number of GPUs given to the node) you can update the file and run</p>
+<div class="highlight"><pre>helm upgrade tao-toolkit-api tao-toolkit-api/ --namespace default --values tao-toolkit-api/values.yaml
+</pre></div>
+
+<p>get pvc uid 
+<div class="highlight"><pre>kubectl get pvc my-pvc -o jsonpath=&#39;{.metadata.uid}&#39;
+</pre></div></p>
+<p>manually bind volume
+<div class="highlight"><pre>kubectl patch pv my-pv -p &#39;{&quot;spec&quot;:{&quot;claimRef&quot;:{&quot;name&quot;:&quot;tao-toolkit-api-pvc&quot;,&quot;namespace&quot;:&quot;default&quot;,&quot;uid&quot;:&quot;c231660c-5e36-4417-b304-f0b4a1198a7c&quot;}}}&#39;
+</pre></div></p>
+<p>check on the tao-toolkit-api pod sometimes (after restarting nodes)</p>
+<div class="highlight"><pre>kubectl describe pods tao-toolkit-api -n default
+</pre></div>
+
+<p>when in working state </p>
+<div class="highlight"><pre> tao-toolkit-api-app-pod-6c88476548-kq6s8
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Wed, 22 Mar 2023 09:18:16 +0000
+Labels:           name=tao-toolkit-api-app-pod
+                  pod-template-hash=6c88476548
+Annotations:      cni.projectcalico.org/containerID: 97a61c7c741239e15c002a6f37e869f8a59004a65e967599878a89e42fa4d66a
+                  cni.projectcalico.org/podIP: 192.168.251.150/32
+                  cni.projectcalico.org/podIPs: 192.168.251.150/32
+Status:           Running
+IP:               192.168.251.150
+IPs:
+  IP:           192.168.251.150
+Controlled By:  ReplicaSet/tao-toolkit-api-app-pod-6c88476548
+Containers:
+  tao-toolkit-api-app:
+    Container ID:   containerd://84b801d4e9b6112ad773a9898639aec73f2681627faaad6388369a08c59df245
+    Image:          nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:       nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:           8000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 22 Mar 2023 09:18:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Liveness:       http-get http://:8000/api/v1/health/liveness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:8000/api/v1/health/readiness delay=3s timeout=3s period=10s #success=1 #failure=3
+    Environment:
+      NAMESPACE:        default
+      CLAIMNAME:        tao-toolkit-api-pvc
+      IMAGEPULLSECRET:  imagepullsecret
+      AUTH_CLIENT_ID:   bnSePYullXlG-504nOZeNAXemGF6DhoCdYR8ysm088w
+      NUM_GPUS:         1
+      BACKEND:          local-k8s
+      IMAGE_TF:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:       nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:    nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:        nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-bmrks (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-bmrks:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              &lt;none&gt;
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      &lt;none&gt;
+
+Name:             tao-toolkit-api-workflow-pod-5d57cbf7c5-g6qkg
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             dgx/172.16.3.2
+Start Time:       Wed, 22 Mar 2023 09:18:16 +0000
+Labels:           name=tao-toolkit-api-workflow-pod
+                  pod-template-hash=5d57cbf7c5
+Annotations:      cni.projectcalico.org/containerID: 420e01c113963d0b464711f03c82856e3e838c7ddfbdd8e363e6af406ed348c4
+                  cni.projectcalico.org/podIP: 192.168.251.148/32
+                  cni.projectcalico.org/podIPs: 192.168.251.148/32
+Status:           Running
+IP:               192.168.251.148
+IPs:
+  IP:           192.168.251.148
+Controlled By:  ReplicaSet/tao-toolkit-api-workflow-pod-5d57cbf7c5
+Containers:
+  tao-toolkit-api-workflow:
+    Container ID:  containerd://fa4265108f685da2b57a648d8625c762cdcc1b8836c2618f388039dfa99d32fa
+    Image:         nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+    Image ID:      nvcr.io/nvidia/tao/tao-toolkit@sha256:db5890fbe2c720ac679a5c1167c495159e4e2bd05cf022f5fbe58bd5c8ad0d8a
+    Port:          &lt;none&gt;
+    Host Port:     &lt;none&gt;
+    Command:
+      /bin/bash
+      workflow_start.sh
+    State:          Running
+      Started:      Wed, 22 Mar 2023 09:18:53 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      NAMESPACE:               default
+      CLAIMNAME:               tao-toolkit-api-pvc
+      IMAGEPULLSECRET:         imagepullsecret
+      NUM_GPUS:                1
+      TELEMETRY_OPT_OUT:       no
+      BACKEND:                 local-k8s
+      IMAGE_TF:                nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_PYT:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+      IMAGE_DNV2:              nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_DEFAULT:           nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+      IMAGE_API:               nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+      WANDB_API_KEY:           
+      CLEARML_WEB_HOST:        https://app.clear.ml
+      CLEARML_API_HOST:        https://api.clear.ml
+      CLEARML_FILES_HOST:      https://files.clear.ml
+      CLEARML_API_ACCESS_KEY:  
+      CLEARML_API_SECRET_KEY:  
+    Mounts:
+      /shared from shared-data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rgtwc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  shared-data:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  tao-toolkit-api-pvc
+    ReadOnly:   false
+  kube-api-access-rgtwc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              &lt;none&gt;
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:                      &lt;none&gt;
+</pre></div>
+
+<h6 id="pvc-and-pv">############### PVC and PV<a class="headerlink" href="#pvc-and-pv" title="Permanent link"></a></h6>
+<h6 id="untested-territory">################# UNTESTED TERRITORY<a class="headerlink" href="#untested-territory" title="Permanent link"></a></h6>
+<p>giving an external IP to the loadbalancer manually</p>
+<p><div class="highlight"><pre>kubectl edit service &lt;name-of-load-balancer-service&gt;
+</pre></div>
+This will open the service definition in your default editor. Add the following line under the <code>spec</code> section:</p>
+<div class="highlight"><pre>loadBalancerIP: &lt;your-external-ip-address&gt;
+</pre></div>
+
+<p>also you can force it with </p>
+<div class="highlight"><pre>kubectl patch svc ingress-nginx-controller -p &#39;{&quot;spec&quot;: {&quot;externalIPs&quot;: [&quot;172.16.1.29&quot;]}}&#39;
+</pre></div>
+
+<p>remember to give it a unique IP (e.g. not the IP of the node)</p>
+<p>here is the updated file</p>
+<div class="highlight"><pre># Please edit the object below. Lines beginning with a &#39;#&#39; will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: ingress-nginx
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: &quot;2023-03-20T19:43:17Z&quot;
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.6.4
+    helm.sh/chart: ingress-nginx-4.5.2
+  name: ingress-nginx-controller
+  namespace: default
+  resourceVersion: &quot;26951&quot;
+  uid: 65a97b3b-6587-4f59-8536-375d22efbe42
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.98.133.19
+  clusterIPs:
+  - 10.98.133.19
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  loadBalancerIP: 172.16.1.29
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - appProtocol: http
+    name: http
+    nodePort: 31856
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    nodePort: 32682
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+~                   
+</pre></div>
+
+<p>command to check handshake </p>
+<div class="highlight"><pre>openssl s_client -connect aisrv.gnet.lan:32682 -servername aisrv.gnet.lan
+</pre></div>
+
+<p>command to get the certificate from the handshake </p>
+<div class="highlight"><pre>openssl s_client -connect aisrv.gnet.lan:32682 -servername aisrv.gnet.lan &lt;/dev/null | sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &gt; target_server_certificate.crt
+</pre></div>
+
+<p>command to install the certificate </p>
+<div class="highlight"><pre>sudo cp /path/to/saved/certificate.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+</pre></div>
+
+<p>to get the fake certificate used by the ingress-nginx-controller-**</p>
+<div class="highlight"><pre>kubectl exec -n default ingress-nginx-controller-c69664497-mgbtd -- cat /etc/ingress-controller/ssl/default-fake-certificate.pem
+</pre></div>
+
+<p>add a secret (after creating the necessary files)</p>
+<div class="highlight"><pre>kubectl create secret tls aisrv-gnet-secret --cert=./aisrv.gnet.lan.pem --key=./aisrv.gnet.lan.key -n default --dry-run=client -o yaml | kubectl apply -f -
+</pre></div>
+
+<p>get status of ingress controller </p>
+<p>kubectl &ndash;namespace ingress-nginx get services -o wide -w ingress-nginx-controller</p>
+<h3 id="creating-certificates-for-tao">Creating certificates for TAO<a class="headerlink" href="#creating-certificates-for-tao" title="Permanent link"></a></h3>
+<ol>
+<li>Create a rootCA</li>
+</ol>
+<div class="highlight"><pre>openssl genrsa -out rootCA.key 4096
+openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt -subj &quot;/CN=RootCA&quot;
+</pre></div>
+
+<ol start="2">
+<li>Create a server key and certificate signing request (CSR):</li>
+</ol>
+<div class="highlight"><pre>openssl genrsa -out aisrv.gnet.lan.key 2048
+openssl req -new -key aisrv.gnet.lan.key -out aisrv.gnet.lan.csr -subj &quot;/CN=aisrv.gnet.lan&quot;
+</pre></div>
+
+<ol start="3">
+<li>Create a configuration file for the server certificate (aisrv.gnet.lan.cnf), with the following content.</li>
+</ol>
+<div class="highlight"><pre>[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+CN = aisrv.gnet.lan
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = aisrv.gnet.lan
+DNS.2 = ingress.local
+</pre></div>
+
+<ol start="4">
+<li>Generate the server certificate using the configuration file:</li>
+</ol>
+<div class="highlight"><pre>openssl x509 -req -in aisrv.gnet.lan.csr -CA rootCA.crt -CAkey rootCA.key -CAcreateserial -out aisrv.gnet.lan.crt -days 365 -sha256 -extfile aisrv.gnet.lan.cnf -extensions v3_req
+</pre></div>
+
+<ol start="5">
+<li>Combine the server certificate and the root CA certificate into a single file:</li>
+</ol>
+<div class="highlight"><pre>cat aisrv.gnet.lan.crt rootCA.crt &gt; combined_cert.pem
+</pre></div>
+
+<ol start="6">
+<li>delete existing kubernets secret (this is the same secret mentioned in the values.yaml when were installing the helm chart)</li>
+</ol>
+<p>snippet of the relevant section of the values.yaml
+<div class="highlight"><pre>#Optional HTTPS settings for ingress controller
+host: aisrv.gnet.lan
+tlsSecret: aisrv-gnet-secret
+# in production we can use CORS Origin to filter out requests from unwanted origins
+# corsOrigin: &quot;*&quot;
+</pre></div></p>
+<div class="highlight"><pre>kubectl delete secret aisrv-gnet-secret
+</pre></div>
+
+<ol start="7">
+<li>Then, create the secret again with the updated certificate and key files:</li>
+</ol>
+<div class="highlight"><pre>kubectl create secret tls aisrv-gnet-secret --cert=aisrv.gnet.lan.crt --key=aisrv.gnet.lan.key
+</pre></div>
+
+<ol start="8">
+<li>then copy the <code>combined_cert.pem</code> and the <code>RootCA.crt</code> (if you want to install the root certificate as well) to the user PC, then from the user pc 
+add the certificates to the trusted store </li>
+</ol>
+<p>note: if adding the <code>.pem</code> file doesnt work rename to <code>.crt</code> and retry </p>
+<div class="highlight"><pre>sudo cp ~/combined_cert.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+</pre></div>
+
+<p>you can check the handshake with (you need to find the port number by examining the ingress service!)</p>
+<div class="highlight"><pre>openssl s_client -connect aisrv.gnet.lan:31549 -servername aisrv.gnet.lan -CAfile RootCA.crt -verify_return_error
+
+ot try
+
+curl --cacert aisrv.gnet.lan_ca.crt https://aisrv.gnet.lan:31549/api/v1/login/&lt;API&gt;
+</pre></div>
+
+<p><br /></p>
+<p><span style="background-color:LightYellow"> Check the <a href="/home/ganindu/Workspace/docs_repo/deepnotes/topics/pytorch_walkthrough#Starting-Development-with-PyTorch"><strong>next topic</strong></a>  </span></p>
+<hr />
+<p><em>Click <a href="https://github.com/ganindu7/deepnotes/issues">here</a> to report Errors, make Suggestions or Comments!</em></p>
+<!-- Latex in markdown -->
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<!-- $$ \nabla_\boldsymbol{x} J(\boldsymbol{x}) $$ --></article></body></html>
