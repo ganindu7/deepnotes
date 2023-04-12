@@ -821,6 +821,20 @@ kubectl patch pv my-pv -p '{"spec":{"claimRef":{"name":"tao-toolkit-api-pvc","na
 ~                                                                                                                                                             
 
 
+####################### Ingress Controller  ##########################
+
+Now the API is working you will see there are ingresses (`kubectl get ingress -A ` will show this) to use them you need an ingress controller
+
+I used NGNIX 
+
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
+
+install the `ingress-nginx` chart with a custom name 
+
+
 
 ####################### UNTESTED TERRITORY #########################
 
@@ -945,8 +959,9 @@ kubectl create secret tls aisrv-gnet-secret --cert=./aisrv.gnet.lan.pem --key=./
 
 get status of ingress controller 
 
+```
 kubectl --namespace ingress-nginx get services -o wide -w ingress-nginx-controller
-
+```
 
 ### Creating certificates for TAO 
 
@@ -1026,6 +1041,12 @@ kubectl delete secret aisrv-gnet-secret
 kubectl create secret tls aisrv-gnet-secret --cert=aisrv.gnet.lan.crt --key=aisrv.gnet.lan.key
 
 ```
+
+if there is a namespace use the namespace too
+```
+ kubectl create secret tls aisrv-gnet-secret --cert=aisrv.gnet.lan.crt --key=aisrv.gnet.lan.key --namespace=tao-gnet
+```
+
 
 8. then copy the `combined_cert.pem` and the `RootCA.crt` (if you want to install the root certificate as well) to the user PC, then from the user pc 
 add the certificates to the trusted store 
