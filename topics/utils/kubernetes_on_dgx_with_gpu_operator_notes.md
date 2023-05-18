@@ -6,10 +6,10 @@ nav_order: 2
 parent: Utilities
 ---
 
-## Installing Kubernetes on DGX using Kubeadm [PyTorch][NVIDIA-REF-1]
+## Installing Kubernetes on DGX using Kubeadm 
 <span style="background-color:LightGreen">
 Created : 09/03/2023 | on Linux dgx 5.4.0-144-generic #161-Ubuntu SMP Fri Feb 3 14:49:04 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux <br />
-Updated : 09/03/2032 | on Linux dgx 5.4.0-144-generic #161-Ubuntu SMP Fri Feb 3 14:49:04 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux <br />
+Updated : 18/05/2032 | on Linux dgx 5.4.0-144-generic #161-Ubuntu SMP Fri Feb 3 14:49:04 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux <br />
 Status: Draft
 </span>
 
@@ -31,7 +31,7 @@ sudo kubeadm reset --cri-socket=unix:///var/run/cri-dockerd.sock
 rest changes to networking
 
 ```
-rm -rf /etc/cni/net.d
+sudo rm -rf /etc/cni/net.d
 rm -rf $HOME/.kube
 
 sudo iptables -P INPUT ACCEPT
@@ -46,6 +46,7 @@ sudo iptables -X
 
 ### Fresh install 
 
+run the command in the master node (control plane)
 ```
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
 
@@ -62,6 +63,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 setup network stuff 
 
 [install calico](https://docs.tigera.io/calico/latest/getting-started/kubernetes/helm)
+
+
+install calico and the install calicoctl 
+
 
 note: 
 
@@ -136,6 +141,12 @@ check the IP pool
 kubectl calico ipam show
 ```
 
+or if the cluster and calicoctl versions do not match
+
+```
+kubectl-calico ipam show --allow-version-mismatch
+```
+
 you will get something like 
 
 ```
@@ -167,7 +178,7 @@ if it was previously used ssh into that and run
 sudo kubeadm reset
 ```
 
-to rest the node, then clean up networking configs 
+to reset the node, then clean up networking configs 
 
 ```
 sudo rm -rf /etc/cni/net.d
@@ -200,7 +211,17 @@ sudo reboot and try kubeadm reset again
 
 ```
 
-modified  `/etc/containerd/config.toml`
+
+Then get a join token from the master node and apply to the user node  
+
+```
+kubeadm token create --print-join-command
+```
+
+to be able to use `kubectl` from the worker node copy the `$HOME/.kube/config` to the worker (optional)
+
+
+modified  `/etc/containerd/config.toml` (to be able to use the gpu operator)
 
 
 ```
