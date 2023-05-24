@@ -271,6 +271,17 @@ controller:
   ingressClass: tao-get-ingress
 
 ```
+or
+
+```
+controller:
+  logLevel: 2
+  ingressClass: tao-gnet-ingress
+  defaultTLS:
+    secret: tao-gnet/tao-aisrv-gnet-secret
+```
+
+Note: That the ingress controller needs to be configured by our ingress class and the TLS secret. 
 
 
 **Troubleshooting**
@@ -296,9 +307,302 @@ kubectl get ingressclasses
 
 #### Persistent Volume (Manual)
 
+The tao toolkit needs some persistent volume.
+
+below is an example of a candidate persistent volume, tha tis locally mounted. 
+Note that the `accessModes` is set to `ReadWriteOnce`
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-local-tao-pv
+spec:
+  storageClassName: local-storage-class
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/k8-local-storage-path
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node2
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem                              
+```
+
+the accompanying values.yaml will look like (remember to match the `storageclass` of the pvc to the one that is provided by the pv, if storage class is not specified the default storage class will be used, if in doubt open the pvc in `describe` or `edit` mode to verify, AFIK `pv`s can;t be changed on the fly. so you'll have to delete and re create the `pv` if needed)
+
+```
+# TAO Toolkit API container info
+image: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+imagePullSecret: imagepullsecret
+imagePullPolicy: Always 
+
+# Optional HTTPS settings for ingress controller
+host: aisrv.gnet.lan
+tlsSecret: tao-aisrv-gnet-secret
+
+ingress_class: "tao-gnet-ingress"
+
+storageAccessMode: ReadWriteOnce
+storageSize: 100Gi
+ephemeral-storage: 8Gi
+limits.ephemeral-storage: 50Gi
+requests.ephemeral-storage: 10Gi
+
+# Optional NVIDIA Starfleet authentication
+#authClientId: bnSePYullXlG-504nOZn0pEDhoCdYR8ysm088w
+
+# Starting TAO Toolkit jobs info
+backend: local-k8s
+numGpus: 4
+imageTf: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imagePyt: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+imageDnv2: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imageDefault: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+
+# To opt out of providing anonymous telemetry data to NVIDIA
+telemetryOptOut: no
+
+# Optional MLOPS setting for Weights And Biases
+wandbApiKey: local-9a024cn0TthEap1kEy3e3ae706
+
+# Optional MLOPS setting for ClearML
+clearMlWebHost: http://clearml.gnet.lan:30080
+clearMlApiHost: http://clearml.gnet.lan:30008
+clearMlFilesHost: http://clearml.gnet.lan:30081
+clearMlApiAccessKey: PQ7X90N0tTheKeyF4N4
+clearMlApiSecretKey: 6LVrMvSn0TthesEcre7nHUv
+
+```
+
 #### Persistent Volume (Through Storage Provisioner)
 
+
+TL;DR
+
+```console
+$ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+$ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    --set nfs.server=x.x.x.x \
+    --set nfs.path=/exported/path
+```
+
+
+ Note: the default `storageclass` provided by the nfs-provisoner is `nfs-client` when `pvc`s do not a specify a `storageclass` it is assumed that they are using the default `storageclass`
+
+
+ the command below will make `nfs-client` your default storage class'
+
+ ```
+ kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+ ```  
+
+ you can verify this with a test pv and a pvc!
+
+
+datailed writeup 
+
+In this case rather than manually spinning up pvs we have opted to using a storage provisioner 
+here my server ip is `172.16.1.22` and the mount path is `/k8pv1`
+
+```
+ helm upgrade --install -n k8-storage --create-namespace nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=172.16.1.22 --set nfs.path=/k8pv1
+```
+
+this can be done with a `values.yaml` instead explicit parameters too. 
+
+```
+nfs:
+  server: 172.16.1.22
+  path: /k8pv1
+```
+
+
+
+```
+# TAO Toolkit API container info
+image: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-api
+imagePullSecret: imagepullsecret
+imagePullPolicy: Always 
+
+# Optional HTTPS settings for ingress controller
+host: aisrv.gnet.lan
+tlsSecret: tao-aisrv-gnet-secret
+
+ingress_class: "tao-gnet-ingress"
+
+storageAccessMode: ReadWriteMany
+storageSize: 100Gi
+ephemeral-storage: 8Gi
+limits.ephemeral-storage: 50Gi
+requests.ephemeral-storage: 10Gi
+
+# Optional NVIDIA Starfleet authentication
+#authClientId: bnSePYullXlG-504nOZn0pEDhoCdYR8ysm088w
+
+# Starting TAO Toolkit jobs info
+backend: local-k8s
+numGpus: 4
+imageTf: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imagePyt: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-pyt
+imageDnv2: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+imageDefault: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
+
+# To opt out of providing anonymous telemetry data to NVIDIA
+telemetryOptOut: no
+
+# Optional MLOPS setting for Weights And Biases
+wandbApiKey: local-9a024cn0TthEap1kEy3e3ae706
+
+# Optional MLOPS setting for ClearML
+clearMlWebHost: http://clearml.gnet.lan:30080
+clearMlApiHost: http://clearml.gnet.lan:30008
+clearMlFilesHost: http://clearml.gnet.lan:30081
+clearMlApiAccessKey: PQ7X90N0tTheKeyF4N4
+clearMlApiSecretKey: 6LVrMvSn0TthesEcre7nHUv
+
+```
+
+
 #### Changes to the `values.yaml` and ingress templates
+
+
+to make the toolkit work with our custom ingress we had to add the following line to our `values.yaml` 
+
+```
+ingress_class: "tao-gnet-ingress"
+```
+
+What this mean is for our endpoints we are directing the ingress to use the custom ingress class we created (which will then use our ingress controller and ingress class).
+however this change needs to flow downstream to our ingress templates in the `templates` directory. for that we had to modify the `ingress.class field` in `ingress.yaml` and `ingress-auth.yaml` with 
+
+```
+kubernetes.io/ingress.class: {{ .Values.ingress_class }}
+```
+
+the modified ingress.yaml now looks like 
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress_class }}
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/v1/login/$2
+{{- if .Values.corsOrigin }}
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: {{ .Values.corsOrigin }}
+{{- end }}
+spec:
+{{- if .Values.tlsSecret }}
+  tls:
+  - secretName: {{ .Values.tlsSecret }}
+{{- if .Values.host }}
+    hosts:
+    - {{ .Values.host }}
+{{- end }}
+{{- end }}
+  rules:
+  - http:
+      paths:
+      - path: /{{ .Release.Namespace }}/api/v1/login(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-service
+            port:
+              number: 8000
+{{- if eq .Release.Namespace "default" }}
+      - path: /api/v1/login(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-service
+            port:
+              number: 8000
+{{- end }}
+{{- if and .Values.host }}
+    host: {{ .Values.host }}
+{{- end }}
+```
+
+`ingress-auth.yaml`
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress-auth
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress_class }}
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /api/v1/user/$2
+    nginx.ingress.kubernetes.io/auth-url: http://{{ .Release.Name }}-service.{{ .Release.Namespace }}.svc.cluster.local:8000/api/v1/auth
+    nginx.ingress.kubernetes.io/client-max-body-size: 0m
+    nginx.ingress.kubernetes.io/proxy-body-size: 0m
+    nginx.ingress.kubernetes.io/body-size: 0m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 50m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 8k
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+{{- if .Values.corsOrigin }}
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: {{ .Values.corsOrigin }}
+    nginx.ingress.kubernetes.io/cors-expose-headers: "X-Pagination-Total"
+{{- end }}
+spec:
+{{- if .Values.tlsSecret }}
+  tls:
+  - secretName: {{ .Values.tlsSecret }}
+{{- if .Values.host }}
+    hosts:
+    - {{ .Values.host }}
+{{- end }}
+{{- end }}
+  rules:
+  - http:
+      paths:
+      - path: /{{ .Release.Namespace }}/api/v1/user(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-service
+            port:
+              number: 8000
+{{- if eq .Release.Namespace "default" }}
+      - path: /api/v1/user(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-service
+            port:
+              number: 8000
+{{- end }}
+```
+
+you can check if these templates render correctly with the command 
+
+```
+helm template my-release mychart --values values.yaml --output-dir rendered
+```
+
+
+**Troubleshooting** 
+
+Make sure the created ingresses have the correct ingress class. if they don't you can fix that by editing or with a `helm upgrade command` even when installing the tao-toolkit api try to use the `helm upgrade --install pattern` (this I have not tested yet)   
 
 
 
