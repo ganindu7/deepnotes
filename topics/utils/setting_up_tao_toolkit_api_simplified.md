@@ -13,28 +13,39 @@ Status: Draft
 </span>
 
 
-### Writeup
+Sure, here is the proofread and improved version of your document:
 
+---
+# Deploying the TAO API on Kubernetes (K8s)
 
-Setting up TAO toolkit in a kubernetes cluster is slightly different from the single node setup given in the nvidia examples. As in a Lab cluster there will be multiple things running at the same time. The following writeup is a summary of the steps needed to create a first deployment. 
+<div style="background-color:LightGreen">
+Document Created: 18/05/2032 | Environment: Linux dgx 5.4.0-144-generic #161-Ubuntu SMP Fri Feb 3 14:49:04 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux<br />
+Document Status: Draft
+</div>
 
-#### Network certificates, TLS and kubernetes secret 
+## Introduction
 
-TLS certificates and Kubernetes secrets are used to secure communication between the TAO REST API service and it's clients. The TLS certificate is used to authenticate the service to the client, and the Kubernetes secret is used to store the private key for the certificate. This ensures that only authorized clients can access the service. 
+Deploying the TAO toolkit on a Kubernetes cluster presents some differences compared to a single node setup, as shown in the NVIDIA examples. Within a lab cluster, there will be multiple processes running simultaneously. This document outlines the steps required to create a primary deployment. 
 
-in this section we will create CA private key, a .cnf file and then a CA certificate. The through a certificate signing request we will create a server certificate that will be incorporated into a kubernetes TLS secret. 
+## Network Certificates, TLS, and Kubernetes Secret
 
+TLS certificates and Kubernetes secrets ensure secure communication between the TAO REST API service and its clients. The TLS certificate authenticates the service to the client, while the Kubernetes secret safeguards the private key for the certificate, allowing only authorized clients to access the service.
 
-**Create the CA private key**
+In this section, we will create a CA private key, a .cnf file, and a CA certificate. Through a Certificate Signing Request (CSR), we will generate a server certificate that will be incorporated into a Kubernetes TLS secret.
 
-```
+### Creating the CA Private Key
+
+Run the following command:
+
+```bash
 openssl genrsa -out rootCA.key 2048
 ```
 
+### Creating a .cnf File
 
-Create a .cnf file
+Input the following content into a new .cnf file:
 
-```
+```bash
 [ req ]
 default_bits        = 2048
 default_keyfile     = rootCA.key
@@ -120,49 +131,55 @@ DNS.5 = name4.gnet.lan
 IP.1 = 172.16.1.20
 IP.2 = 172.16.3.2
 IP.3 = 172.16.1.19
-
-
 ```
 
-Create a CA Certificate
+### Creating a CA Certificate
 
-```
+To create a CA certificate, run:
+
+```bash
 openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1825 -out rootCA.pem -config myorg.gnet.lan.cnf
 ```
 
-**Generate a private key for the server certificate** 
+### Generating a Private Key for the Server Certificate
 
-```
+Execute the command:
+
+```bash
 openssl genrsa -out myorg.gnet.lan.key 2048
 ```
 
-**Create a certificate signing request (CSR) for the server certificate.**
+### Creating a Certificate Signing Request (CSR) for the Server Certificate
 
-```
+To create a CSR for the server certificate, execute:
+
+```bash
 openssl req -new -key myorg.gnet.lan.key -out myorg.gnet.lan.csr -config myorg.gnet.lan.cnf
 ```
 
-**Sign the server CSR with the rootCA key and create the server certificate**
+### Signing the Server CSR with the rootCA Key and Creating the Server Certificate
 
-```
+To sign the server CSR and create the server certificate, run:
+
+```bash
 openssl x509 -req -in myorg.gnet.lan.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out myorg.gnet.lan.crt -days 825 -sha256 -extfile myorg.gnet.lan.cnf -extensions server_cert
 ```
 
-**Incoperating the certificate and key with the kubernetes secret** 
+### Incorporating the Certificate and Key with the Kubernetes Secret
 
-Encode the certificate and key files
+Encode the certificate and key files with these commands:
 
-```
+```bash
 cat myorg.gnet.lan.crt | base64 > certificate_base64.txt
 cat myorg.gnet.lan.key | base64 > private-key_base64.txt
-
 ```
 
-**update the secret** 
 
-Replace the values of tls.crt and tls.key with the base64-encoded strings from certificate_base64.txt and private-key_base64.txt files.
+**Updating the Secret**
 
-```
+Replace the values of `tls.crt` and `tls.key` with the base64-encoded strings extracted from the `certificate_base64.txt` and `private-key_base64.txt` files, respectively.
+
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -171,19 +188,17 @@ metadata:
   namespace: tao-gnet
 type: kubernetes.io/tls
 data:
-  tls.crt: <content from certificate_base64.txt>
-  tls.key: <content from private-key_base64.txt>
+  tls.crt: <Content from certificate_base64.txt>
+  tls.key: <Content from private-key_base64.txt>
 ```
 
+For example:
 
-It can look that this:
-
-
-```
+```yaml
 apiVersion: v1
 data:
-  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVuekNDQTRlZ0F3SUJBZ0lVVXRUeXJ0MjR2c1Q0MEdjOGpUSC95UWRTSXlzd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2dac3hIekFkQmdOVkJBc01Gazl5WjJGdWFYcGhkR2x2Ym1Gc1ZXNXBkRTVoYldVeEd6QVpCZ2txaGtpRwo5dzBCQ1FFV0RFVnRZVR6QU5CZ05WQkFnTUJsTjFjbkpsCmVURVFNQTRHQTFVRUJ3d0hSRzl5YTJsdVp6RVnottheactualcertNQkFHQTFVRUNnd0pRblZqYUdWeUlFRkpNUmN3RlFZRFZRUUQKREE1aGFY2VUNlBYUHRmZnZmZTdrSFlwVC9Wb0FUbSsrSU9SR3JaaElaUy9oRUxINDVHZDUKb1lXUUk4S1ZKaTFRbTBxbHY4ejlMdUxOSjhGampsdjRjRmJINWRIK0RTdDhtU1pzUU9kYnZaSHJBRi9jdC9vSgp1L2ZvTmxJbStEYVc5bjNNMkdrRDJmczhTejk0aWlRaWRxL2Rha1FVQS8zSjh3ZEl4R3E3WmFqalBIQWFHUWM2ClZ1NU1meVFzNXJGS3I5YkZvUGhGL3JaRFlWc0czR1dyczFXM25YbXJqcDcxY1JFPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2UUlCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktjd2dnU2pBZ0VBQW9JQkFRRFRnTlpwMWpxVTdOamUKNFJlVWhXREdzcWhkdW93cVEwME5JYTFZM3k4RVZ0SHMxMlZyYlZoQU1TajU3d0xiVjdqZXAwbHJXOFVHZVJCWQpEODhFSjZOYthis1sn0tmYkeyw0TEpjbEJFNjlXV1FGcWpycTNwNUowCmk4MFkzbTBHNENpMzBrUklkZWVkRjZWRFdHNTkwRmxHUHhUcS95aHhSV0ZJZXRGZjdlM0RDT3NtZGhydGNJnMUpOSzdaZWI0U3FOMUFvR0FVOUpieGpjTkRDaFUwTUFZSEJmTgoyWDZnR2prVUtlTStSYzJVWjZHbDl3MTMyNitvVVNjeEprMEw0Qk9DUFQ4U3NkS0d4Ym9aYzFnNE52TVcwQXBBCmphd3o5a2RPUGIyd25Eemp4cExiYlhVVDIxbHFabzFvQzRMcGs2MWZJelJnVXZRWlRyM01ld0tmZnNNaG8rMUkKMlFLU2pSQUZyWGlFWStuUkRFQm5QWm89Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0t...
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0t...
 kind: Secret
 metadata:
   creationTimestamp: "2023-04-25T18:02:14Z"
@@ -194,70 +209,67 @@ metadata:
 type: kubernetes.io/tls
 ```
 
+**Apply the Updated Secret to the K8 Cluster**
 
-**Apply the updated secret to the K8 cluster**
-
-```
+```bash
 kubectl apply -f aisrv-gnet-secret.yaml
 ```
 
-Summary:
+**Summary:**
 
-###Create a self-signed CA:
-a. Create the CA private key
-b. Create a .cnf file
-c. Create a CA Certificate
-
-###Generate a server certificate signed by the self-signed CA:
-a. Generate a private key for the server certificate
-b. Create a certificate signing request (CSR) for the server certificate
-c. Sign the server CSR with the rootCA key and create the server certificate
-
-###Incorporate the certificate and key with the Kubernetes secret:
-a. Encode the certificate and key files
-b. Update the secret
-c. Apply the updated secret to the K8 cluster
+1. Create a self-signed CA:
+   - Create the CA private key
+   - Create a .cnf file
+   - Create a CA Certificate
+2. Generate a server certificate signed by the self-signed CA:
+   - Generate a private key for the server certificate
+   - Create a certificate signing request (CSR) for the server certificate
+   - Sign the server CSR with the rootCA key and create the server certificate
+3. Incorporate the certificate and key with the Kubernetes secret:
+   - Encode the certificate and key files
+   - Update the secret
+   - Apply the updated secret to the K8 cluster
 
 
-#### Ingress Controller and Ingress class 
+#### Ingress Controller and Ingress Class 
 
-When a cluster has more than one ingress controller, it is necessary to use a custom ingress controller and an ingress class pair to control which ingress controller handles requests for a given path. This is because each ingress controller can have its own configuration and capabilities, and it is important to be able to select the ingress controller that is best suited for a given request.
+In a Kubernetes cluster with multiple Ingress Controllers, the use of a custom Ingress Controller and an Ingress Class pair is necessary. This allows precise control over which Ingress Controller manages requests for specific paths. Each Ingress Controller may have unique configurations and capabilities, so it's essential to select the appropriate one for a given request.
 
-By using a custom ingress controller and an ingress class pair, it is possible to control which ingress controller handles requests for a given path. This allows for more flexibility and control over how requests are handled in a cluster with multiple ingress controllers.
+By using a custom Ingress Controller and Ingress Class pair, one can flexibly control which Ingress Controller manages specific path requests, enhancing cluster management with multiple Ingress Controllers.
 
 
-## install ingress-ngnix (not that the tao-gnet interface has to be present)
+## Installing Ingress-NGINX (Note: The `tao-gnet` namespace must be present)
 
-Create an ingress namespace
+First, create an Ingress namespace:
 
-```
+```bash
 kubectl create namespace tao-gnet-ingress
 ```
 
+Next, prepare a YAML configuration file for the Ingress class:
 
-
-*tao-ingress-class.yaml*
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   name: tao-gnet-ingress
 spec:
   controller: k8s.io/ingress-nginx
-
 ```
 
-run `kubectl apply -f tao-ingress-class.yaml` to create the custom ingress class `tao-gnet-ingress` so we can have multiple ingress controllers
+Apply the YAML file to create the custom Ingress class `tao-gnet-ingress`:
 
+```bash
+kubectl apply -f tao-ingress-class.yaml
 ```
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-```
+
+Update your Helm repositories and install the Ingress-Nginx:
+
 
 Note: the name "ingress-nginx-controller" and the namespace being the same as the tao toolkit is important because the validating webhook configuration
 is set to `https://ingress-nginx-controller-admission.tao-gnet.svc:443`
 
-```
+```bash
 helm install ingress-nginx ingress-nginx/ingress-nginx --namespace tao-gnet --set controller.ingressClass=tao-gnet-ingress
 helm install ingress-nginx ingress-nginx/ingress-nginx --namespace tao-gnet --values values.yaml
 helm upgrade  ingress-nginx ingress-nginx/ingress-nginx --namespace tao-gnet --values values.yaml
@@ -305,12 +317,13 @@ kubectl get ingressclasses
 ```
 
 
+
 #### Persistent Volume (Manual)
 
-The tao toolkit needs some persistent volume.
+The TAO Toolkit requires some persistent volume.
 
-below is an example of a candidate persistent volume, tha tis locally mounted. 
-Note that the `accessModes` is set to `ReadWriteOnce`
+Below is an example of a candidate persistent volume that is locally mounted. 
+Note that the `accessModes` is set to `ReadWriteOnce`.
 
 ```
 apiVersion: v1
@@ -337,7 +350,7 @@ spec:
   volumeMode: Filesystem                              
 ```
 
-the accompanying values.yaml will look like (remember to match the `storageclass` of the pvc to the one that is provided by the pv, if storage class is not specified the default storage class will be used, if in doubt open the pvc in `describe` or `edit` mode to verify, AFIK `pv`s can;t be changed on the fly. so you'll have to delete and re create the `pv` if needed)
+The accompanying values.yaml will look as follows. Remember to match the `storageclass` of the PersistentVolumeClaim (PVC) to the one provided by the PersistentVolume (PV). If a storage class is not specified, the default storage class will be used. If in doubt, open the PVC in `describe` or `edit` mode to verify. As far as I know, PVs can't be changed on the fly. You'll have to delete and recreate the PV if necessary.
 
 ```
 # TAO Toolkit API container info
@@ -371,10 +384,10 @@ imageDefault: nvcr.io/nvidia/tao/tao-toolkit:4.0.0-tf1.15.5
 # To opt out of providing anonymous telemetry data to NVIDIA
 telemetryOptOut: no
 
-# Optional MLOPS setting for Weights And Biases
+# Optional MLOps settings for Weights And Biases
 wandbApiKey: local-9a024cn0TthEap1kEy3e3ae706
 
-# Optional MLOPS setting for ClearML
+# Optional MLOps settings for ClearML
 clearMlWebHost: http://clearml.gnet.lan:30080
 clearMlApiHost: http://clearml.gnet.lan:30008
 clearMlFilesHost: http://clearml.gnet.lan:30081
@@ -382,6 +395,7 @@ clearMlApiAccessKey: PQ7X90N0tTheKeyF4N4
 clearMlApiSecretKey: 6LVrMvSn0TthesEcre7nHUv
 
 ```
+
 
 #### Persistent Volume (Through Storage Provisioner)
 
@@ -396,28 +410,25 @@ $ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/n
 ```
 
 
- Note: the default `storageclass` provided by the nfs-provisoner is `nfs-client` when `pvc`s do not a specify a `storageclass` it is assumed that they are using the default `storageclass`
+Note: The default storageclass provided by the nfs-provisioner is nfs-client. When PersistentVolumeClaims (PVCs) do not specify a storageclass, it is assumed that they are using the default storageclass.
 
-
- the command below will make `nfs-client` your default storage class'
+The following command will set nfs-client as your default storage class:
 
  ```
  kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
  ```  
 
- you can verify this with a test pv and a pvc!
+You can verify the proper setup with a test PV and PVC!
 
-
-datailed writeup 
-
-In this case rather than manually spinning up pvs we have opted to using a storage provisioner 
-here my server ip is `172.16.1.22` and the mount path is `/k8pv1`
+Detailed Walkthrough
+Rather than manually creating Persistent Volumes (PVs), we opt for using a storage provisioner. Here, my server IP is 172.16.1.22 and the mount path is /k8pv1
 
 ```
  helm upgrade --install -n k8-storage --create-namespace nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=172.16.1.22 --set nfs.path=/k8pv1
 ```
 
-this can be done with a `values.yaml` instead explicit parameters too. 
+You can also use a values.yaml file instead of explicit parameters:
+
 
 ```
 nfs:
@@ -425,7 +436,7 @@ nfs:
   path: /k8pv1
 ```
 
-
+The following values.yaml file shows how you can configure the TAO Toolkit API container, optional HTTPS settings for the ingress controller, optional NVIDIA Starfleet authentication, starting TAO Toolkit jobs info, and optional MLOps settings for Weights and Biases and ClearML:
 
 ```
 # TAO Toolkit API container info
@@ -475,20 +486,20 @@ clearMlApiSecretKey: 6LVrMvSn0TthesEcre7nHUv
 #### Changes to the `values.yaml` and ingress templates
 
 
-to make the toolkit work with our custom ingress we had to add the following line to our `values.yaml` 
+To configure the toolkit to work with our custom ingress, we had to introduce the following line to our values.yaml file:
 
 ```
 ingress_class: "tao-gnet-ingress"
 ```
 
-What this mean is for our endpoints we are directing the ingress to use the custom ingress class we created (which will then use our ingress controller and ingress class).
-however this change needs to flow downstream to our ingress templates in the `templates` directory. for that we had to modify the `ingress.class field` in `ingress.yaml` and `ingress-auth.yaml` with 
+This line instructs our endpoints to use the custom ingress class we've created. Consequently, our ingress controller and ingress class are being employed. This change, however, must be propagated to our ingress templates located in the templates directory. As a result, we had to modify the ingress.class field in ingress.yaml and ingress-auth.yaml as follows: 
 
 ```
 kubernetes.io/ingress.class: {{ .Values.ingress_class }}
 ```
 
-the modified ingress.yaml now looks like 
+The updated ingress.yaml now looks as follows:
+ 
 
 ```
 apiVersion: networking.k8s.io/v1
