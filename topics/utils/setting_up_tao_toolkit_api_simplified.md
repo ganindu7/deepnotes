@@ -75,8 +75,8 @@ prompt              = no
 [ req_distinguished_name ]
 countryName                     = UK
 stateOrProvinceName             = Surrey
-localityName                    = MyOrg
-organizationName                = Bucher AI
+localityName                    = MyVillage
+organizationName                = AI Corp
 commonName                      = myorg.gnet.lan
 
 [ ca ]
@@ -480,6 +480,13 @@ clearMlFilesHost: http://clearml.gnet.lan:30081
 clearMlApiAccessKey: PQ7X90N0tTheKeyF4N4
 clearMlApiSecretKey: 6LVrMvSn0TthesEcre7nHUv
 
+```
+
+Note:
+
+use the following command to find the mount locations
+```
+showmount -e ip.of.NFS.server
 ```
 
 
