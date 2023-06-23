@@ -50,7 +50,10 @@ sudo iptables -X
 
 run the command in the master node (control plane)
 ```
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock 
+
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock --kubernetes-version=v1.23.5
+
 
 ```
 setup 
@@ -490,7 +493,13 @@ version = 2
 
 
 ```
+## Install the gpu operator 
 
+follow [these instructions](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html#bare-metal-passthrough-with-pre-installed-drivers-and-nvidia-container-toolkit) to install gpu-operator. 
+
+make sure to wait unitl the node is in ready state beforehand and wait for gpu-operator pods to install in all the nodes. 
+
+hint: if networking pods throw error e.g. "kubernetes-worker-node-is-notready-due-to-cni-plugin-not-initialized" restart the containerd or dockerd status with e.g. `sudo systemctl restart   containerd`
 
 ## Installing the k8 metrics server 
 
