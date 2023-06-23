@@ -1,6 +1,6 @@
 ---
 layout: default
-title: simplified k8 install instructions 
+title: simplified cvat k8 install instructions 
 nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
@@ -8,7 +8,7 @@ parent: Utilities
 
 ## Installing Kubernetes on DGX using Kubeadm 
 <span style="background-color:LightGreen">
-Created : 18/05/2023 <br />
+Created : 26/05/2022 <br />
 Status: Draft
 </span>
 

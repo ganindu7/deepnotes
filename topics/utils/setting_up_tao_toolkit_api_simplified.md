@@ -8,7 +8,7 @@ parent: Utilities
 
 ## Setting up the TAO API on K8 
 <span style="background-color:LightGreen">
-Created : 18/05/2032 | on Linux dgx 5.4.0-144-generic #161-Ubuntu SMP Fri Feb 3 14:49:04 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux <br />
+Created : 18/05/2023 <br />
 Status: Draft
 </span>
 
