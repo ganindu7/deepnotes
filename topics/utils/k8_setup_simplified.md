@@ -56,6 +56,9 @@ sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run
 
 
 ```
+
+Note: cri-dockered is not compatible with version 1.23 
+
 setup 
 
 ```
