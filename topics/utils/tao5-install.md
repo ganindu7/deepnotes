@@ -41,8 +41,23 @@ TEST SUITE: None
 
 ```
 
-check for various probes 
+I got following warnings (from the second install)
 
+```
+Release "tao-toolkit-api" does not exist. Installing it now.
+W0808 08:29:30.920884 2848700 warnings.go:70] path /tao-gnet/api/v1/user(/|$)(.*) cannot be used with pathType Prefix
+W0808 08:29:30.920962 2848700 warnings.go:70] path /tao-gnet/openapi.yaml cannot be used with pathType Prefix
+W0808 08:29:30.953083 2848700 warnings.go:70] path /tao-gnet/api/v1/login(/|$)(.*) cannot be used with pathType Prefix
+W0808 08:29:30.954079 2848700 warnings.go:70] path /tao-gnet/openapi.json cannot be used with pathType Prefix
+NAME: tao-toolkit-api
+LAST DEPLOYED: Tue Aug  8 08:29:30 2023
+NAMESPACE: tao-gnet
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
+check for various probes 
 
 
 liveness probe:
@@ -57,6 +72,17 @@ readiness
 
 ```
 curl -X GET "http://localhost:8000/api/v1/health/readiness
+```
+
+-------------------
+Errors:
+
+Whenever I restart the k8 master The API login fails by timing out:  I keep getting this in error logs
+
+```
+Unauthorized: Credentials error: HTTPSConnectionPool(host='authn.nvidia.com', port=443): Max retries exceeded with url: /token?service=ngc (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f9605168a90>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution'))
+Wed Aug  9 11:10:55 2023 - SIGPIPE: writing to a closed pipe/socket/fd (probably the client disconnected) on request /api/v1/login/LOL (ip 192.168.251.163) !!!
+Wed Aug  9 11:10:55 2023 - uwsgi_response_writev_headers_and_body_do(): Broken pipe [core/writer.c line 306] during GET /api/v1/login/LOL (192.168.251.163)
 ```
 
 
@@ -101,4 +127,3 @@ I wanted to modify the yaml templates that take overriding values from the `valu
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 <!-- $$ \nabla_\boldsymbol{x} J(\boldsymbol{x}) $$ -->
 <!-- kubectl create secret tls aisrv-gnet-secret --cert=./aisrv.gnet.lan.crt --key=./aisrv.gnet.lan.key -n default --dry-run=client -o yaml | kubectl apply -f - -->
-
