@@ -42,6 +42,8 @@ After adding
 /dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
 ```
 
+Note: The directory (mount point) has to be present and empty 
+
 Afterwards you can use `sudo mount -a ` to test these changes
 
 ## Note: 
@@ -81,9 +83,17 @@ sudo groupadd new.group
 add users to the group 
 
 ```
-sudo usermod -aG sudo $NEW_USER
+sudo usermod -aG sudo $USER
 
 ```
+
+to check memebers in a group use `getent`
+e.g. 
+```
+getent group adm
+```
+
+
 
 then change group of the directory
 
