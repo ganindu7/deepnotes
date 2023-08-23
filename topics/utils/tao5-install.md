@@ -1,7 +1,7 @@
 ---
 layout: default
 title: tao5 install notes 
-nav_order: 2 
+# nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
 ---
@@ -78,6 +78,27 @@ curl -X GET "http://localhost:8000/api/v1/health/readiness
 Errors:
 
 Whenever I restart the k8 master The API login fails by timing out:  I keep getting this in error logs
+
+potential fix 
+
+use the stable version of ingress nginx 
+
+helm uninstall ingress-nginx -n tao-gnet
+helm repo list
+remove ingress-nginx 
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm install ingress-nginx nginx-stable/nginx-ingress -n tao-gnet
+
+
+-----------------
+TAO files: 
+
+[TAO Notebooks](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/tao/resources/tao-getting-started/files)
+
+
+
+-----------------
+
 
 ```
 Unauthorized: Credentials error: HTTPSConnectionPool(host='authn.nvidia.com', port=443): Max retries exceeded with url: /token?service=ngc (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f9605168a90>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution'))
