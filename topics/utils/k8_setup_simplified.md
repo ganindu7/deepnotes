@@ -18,6 +18,13 @@ Status: Draft
 
 These are simplified instructions to install k8 and services 
 
+my installed k8 version 
+
+```
+sudo apt-get install -y kubelet=1.24.2-1.1 kubeadm=1.24.2-1.1  kubectl=1.24.2-1.1
+
+```
+
 ### If you had previous installations 
 
 ```
@@ -185,7 +192,7 @@ Cluster Version:   v3.25.1
 Cluster Type:      typha,kdd,k8s,operator,bgp,kubeadm
 ```
 
-### in the worker node 
+### in the worker node (do this before resetting the master)
 
 if it was previously used ssh into that and run 
 
@@ -197,37 +204,68 @@ to reset the node, then clean up networking configs
 
 ```
 sudo rm -rf /etc/cni/net.d
-```
-
-once it is all clean, reset kubeadm 
-
-```
-sudo kubeadm reset
+rm -rf ~/.kube
 ```
 
 if that fails 
 
+1. stop the services 
 ```
 sudo systemctl stop kubelet
 sudo systemctl stop <container-runtime-service> (containerd or dockerd)
+```
 
+delete settings 
+```
 sudo rm -rf /etc/kubernetes
 sudo rm -rf /var/lib/kubelet
 sudo rm -rf /var/lib/etcd
 sudo rm -rf /var/lib/cni
 sudo rm -rf /etc/cni/net.d
 sudo rm -rf /var/run/kubernetes
+```
+
+clear iptables 
+```
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -F
+sudo iptables -X
+```
+
+list the containers (view running containers)
+```
+sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -a
+```
+
+list only the container IDs (list running contianer IDS)
+```
+sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -aq
+```
+delete all containers (one liner, this is not tested enough) 
+```
+sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -aq | xargs -r -I {} sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock rm {}
+```
+
+if everything above fails try 
+
+clear downloaded containers (this step is not really needed)
+```
 sudo rm -rf /var/lib/docker
 sudo rm -rf /var/lib/containerd
+```
 
 then 
 
+```
 sudo reboot and try kubeadm reset again
-
 ```
 
 
-Then get a join token from the master node and apply to the user node  
+Onve the node is properly resetted get a join token from the master node and apply to the user node  
 
 ```
 kubeadm token create --print-join-command
