@@ -6,7 +6,7 @@ nav_order: 2
 parent: Utilities
 ---
 
-## Installing Kubernetes on DGX using Kubeadm 
+## Installing Kubernetes on DGX using Kubeadm (Updated for TAO 5.0.0)
 <span style="background-color:LightGreen">
 Created : 18/05/2023 <br />
 Status: Draft
@@ -21,8 +21,51 @@ These are simplified instructions to install k8 and services
 my installed k8 version 
 
 ```
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.24/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+apt-cache policy kubectl 
 sudo apt-get install -y kubelet=1.24.2-1.1 kubeadm=1.24.2-1.1  kubectl=1.24.2-1.1
+sudo apt-mark hold kubelet kubeadm kubectl
 
+```
+
+
+install 1.23.5-00
+
+1. add key (this method may be depricated)
+
+```
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+```
+2. update souces list 
+
+```
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+```
+
+3. update packakge list and check apt cache to make sure we have the version we are looking for 
+
+```
+sudo apt update
+apt-cache policy kubeadm
+```
+
+when you scroll down you'll see 
+
+```
+1.23.5-00 500
+        500 https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
+
+```
+
+
+3. install 
+
+```
+sudo apt-get install -y kubelet=1.24.14-00 kubeadm=1.24.14-00 kubectl=1.24.14-00 --allow-downgrades --allow-change-held-packages
+
+sudo apt-get install -y kubelet=1.23.5-00 kubeadm=1.23.5-00 kubectl=1.23.5-00 --allow-downgrades --allow-change-held-packages
 ```
 
 ### If you had previous installations 
