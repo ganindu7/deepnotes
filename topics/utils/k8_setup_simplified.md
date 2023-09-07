@@ -86,15 +86,33 @@ rest changes to networking
 sudo rm -rf /etc/cni/net.d
 rm -rf $HOME/.kube
 
+```
+
+clear IP tables 
+
+```
+# Set default policies
 sudo iptables -P INPUT ACCEPT
 sudo iptables -P FORWARD ACCEPT
 sudo iptables -P OUTPUT ACCEPT
+
+# Flush all rules
+sudo iptables -t filter -F
 sudo iptables -t nat -F
 sudo iptables -t mangle -F
-sudo iptables -F
-sudo iptables -X
+sudo iptables -t raw -F
+sudo iptables -t security -F
+
+# Delete all non-default chains
+sudo iptables -t filter -X
+sudo iptables -t nat -X
+sudo iptables -t mangle -X
+sudo iptables -t raw -X
+sudo iptables -t security -X
 
 ```
+
+
 
 ### Fresh install 
 
@@ -268,15 +286,22 @@ sudo rm -rf /etc/cni/net.d
 sudo rm -rf /var/run/kubernetes
 ```
 
-clear iptables 
+clear iptables and firewall
+
 ```
 sudo iptables -P INPUT ACCEPT
 sudo iptables -P FORWARD ACCEPT
 sudo iptables -P OUTPUT ACCEPT
+sudo iptables -t filter -F
 sudo iptables -t nat -F
 sudo iptables -t mangle -F
-sudo iptables -F
-sudo iptables -X
+sudo iptables -t raw -F
+sudo iptables -t security -F
+sudo iptables -t filter -X
+sudo iptables -t nat -X
+sudo iptables -t mangle -X
+sudo iptables -t raw -X
+sudo iptables -t security -X
 ```
 
 list the containers (view running containers)
