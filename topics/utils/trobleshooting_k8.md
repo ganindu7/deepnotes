@@ -1,7 +1,7 @@
 ---
 layout: default
-title: simplified k8 install instructions 
-nav_order: 2 
+title: trobleshooting k8
+# nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
 ---
@@ -13,379 +13,172 @@ Status: Draft
 </span>
 
 
-### Writeup
+## DNS within the K8 cluster not working for a node.
 
 
-These are simplified instructions to install k8 and services 
+## Setting up a new cluster 
 
-my installed k8 version 
-
-```
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.24/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
-apt-cache policy kubectl 
-sudo apt-get install -y kubelet=1.24.2-1.1 kubeadm=1.24.2-1.1  kubectl=1.24.2-1.1
-sudo apt-mark hold kubelet kubeadm kubectl
+If you experience container crash loops after the initial cluster installation or after installing a CNI, the containerd configuration provided with the package might contain incompatible configuration parameters. Consider resetting the containerd configuration with <br/> <br/>`containerd config default > /etc/containerd/config.toml` <br/><br/>as specified in this [getting-started.md](https://github.com/containerd/containerd/blob/main/docs/getting-started.md#advanced-topics) and then set the configuration parameters specified above accordingly.
 
 ```
+sudo sh -c 'containerd config default > /etc/containerd/config.toml'
+```
 
-
-install 1.23.5-00
-
-1. add key (this method may be depricated)
+get logs for the unit containerd.
 
 ```
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+journalctl -xeu containerd
 ```
-2. update souces list 
+
+## [Forwarding IPv4 and letting iptables see bridged traffic](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#forwarding-ipv4-and-letting-iptables-see-bridged-traffic)
 
 ```
-cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
 EOF
 ```
 
-3. update packakge list and check apt cache to make sure we have the version we are looking for 
-
-```
-sudo apt update
-apt-cache policy kubeadm
-```
-
-when you scroll down you'll see 
-
-```
-1.23.5-00 500
-        500 https://apt.kubernetes.io kubernetes-xenial/main amd64 Packages
-
-```
-
-
-3. install 
-
-```
-sudo apt-get install -y kubelet=1.24.14-00 kubeadm=1.24.14-00 kubectl=1.24.14-00 --allow-downgrades --allow-change-held-packages
-
-sudo apt-get install -y kubelet=1.23.5-00 kubeadm=1.23.5-00 kubectl=1.23.5-00 --allow-downgrades --allow-change-held-packages
-```
-
-### If you had previous installations 
-
-official guidance can be found here [here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#tear-down)
-
-```
-drain all nodes 
-```
-
-reset kubeadm
-
-
-normal setup
-
-
-```
-sudo kubeadm reset 
-```
-
-specifiying the CRI socket 
-
-```
-sudo kubeadm reset --cri-socket=unix:///var/run/cri-dockerd.sock
-```
-
-
-rest changes to networking
-
-```
-sudo rm -rf /etc/cni/net.d
-rm -rf $HOME/.kube
-
-```
-
-### Clear IP tables 
-
-
-basic command
-
 ```
-sudo iptables -F 
-sudo iptables -t nat -F  
-sudo iptables -t mangle -F 
-sudo iptables -X
-
-```
-
-if it doesn't work
-
-
-#### Set default policies
-```
-sudo iptables -P INPUT ACCEPT
-sudo iptables -P FORWARD ACCEPT
-sudo iptables -P OUTPUT ACCEPT
-```
-
-#### Flush all rules
-```
-sudo iptables -t filter -F
-sudo iptables -t nat -F
-sudo iptables -t mangle -F
-sudo iptables -t raw -F
-sudo iptables -t security -F
-```
-
-#### Delete all non-default chains
-```
-sudo iptables -t filter -X
-sudo iptables -t nat -X
-sudo iptables -t mangle -X
-sudo iptables -t raw -X
-sudo iptables -t security -X
-
+sudo modprobe overlay
+sudo modprobe br_netfilter
 ```
-
 
+sysctl params required by setup, params persist across reboots
 
-### Fresh install 
-
-run the command in the master node (control plane)
-
-without specifying the socket
-
 ```
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16 
-
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
 ```
 
-with specifying the socket 
-
-```
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock 
+Apply sysctl params without reboot
 
 ```
-
-for a specific k8 version try:
-
-
+sudo sysctl --system
 ```
 
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=v1.23.5
+Verify that the br_netfilter, overlay modules are loaded by running the following commands:
 
-
 ```
-
-Note: cri-dockered is not compatible with version 1.23 
-
-setup 
-
+lsmod | grep br_netfilter
+lsmod | grep overlay
 ```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+Verify that the net.bridge.bridge-nf-call-iptables, net.bridge.bridge-nf-call-ip6tables, and net.ipv4.ip_forward system variables are set to 1 in your sysctl config by running the following command:
 ```
-
-setup network stuff 
-
-[install calico](https://docs.tigera.io/calico/latest/getting-started/kubernetes/helm)
-
-
-install calico and the install calicoctl 
-
-
-note: 
-
-my values.yaml
-
+sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
 ```
-imagePullSecrets: {}
-
-installation:
-  enabled: true
-  kubernetesProvider:
-  cni:
-    type: Calico
-
-apiServer:
-  enabled: true
-
-certs:
-  node:
-    key:
-    cert:
-    commonName:
-  typha:
-    key:
-    cert:
-    commonName:
-    caBundle:
-
-resources: {}
-
-tolerations:
-- effect: NoExecute
-  operator: Exists
-- effect: NoSchedule
-  operator: Exists
-
-nodeSelector:
-  kubernetes.io/os: linux
 
-podAnnotations: {}
 
-podLabels: {}
 
-tigeraOperator:
-  image: tigera/operator
-  version: v1.29.3
-  registry: quay.io
-calicoctl:
-  image: docker.io/calico/ctl
-  tag: v3.25.1
+## [Configuring docker with nvidia container runtime](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker) 
 
-calicoNetwork:
-  bgp: Enabled
-  ipPools:
-  - cidr: 192.168.0.0/16
-    encapsulation: VXLAN
-    natOutgoing: Enabled
-    nodeSelector: all()
 
-```
-
-
-confirm all pods are working 
-
-```
-watch kubectl get pods -n calico-system
-```
-
-check the IP pool 
+This command below will automatically modify the `/etc/docker/daemon.json` file to include 
 
 ```
-kubectl calico ipam show
+{
+    "runtimes": {
+        "nvidia": {
+            "args": [],
+            "path": "nvidia-container-runtime",
+        }
+    }
+}
 ```
 
-or if the cluster and calicoctl versions do not match
+Command: `sudo nvidia-ctk runtime configure --runtime=docker`
 
-```
-kubectl-calico ipam show --allow-version-mismatch
-```
 
-you will get something like 
+## configuring containerd 
 
 ```
-+----------+----------------+-----------+------------+--------------+
-| GROUPING |      CIDR      | IPS TOTAL | IPS IN USE |   IPS FREE   |
-+----------+----------------+-----------+------------+--------------+
-| IP Pool  | 192.168.0.0/16 |     65536 | 7 (0%)     | 65529 (100%) |
-+----------+----------------+-----------+------------+--------------+
+sudo nvidia-ctk runtime configure --runtime=containerd
 ```
-
-get calicotl version pods with `kubectl-calico version` or `calicoctl version`
 
+## Manual configuration
 
-The aim is to make sure the cluster and the client have the same version I get something
+As shown in this [nvidia guide](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html#bare-metal-passthrough-with-pre-installed-drivers-and-nvidia-container-toolkit) we can manually do the steps above by modifying the `/etc/docker/daemon.json`
 
 ```
-kubectl-calico version
-Client Version:    v3.25.1
-Git commit:        82dadbce1
-Cluster Version:   v3.25.1
-Cluster Type:      typha,kdd,k8s,operator,bgp,kubeadm
+{
+    "default-runtime": "nvidia",
+    "runtimes": {
+        "nvidia": {
+            "args": [],
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
 ```
 
-### in the worker node (do this before resetting the master)
+restart the docker daemon 
 
-if it was previously used ssh into that and run 
-
 ```
-sudo kubeadm reset
+sudo systemctl restart docker
 ```
 
-to reset the node, then clean up networking configs 
+and update `/etc/containerd/config.toml ` with 
 
-```
-sudo rm -rf /etc/cni/net.d
-rm -rf ~/.kube
 ```
+version = 2
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "nvidia"
 
-if that fails 
-
-1. stop the services 
-```
-sudo systemctl stop kubelet
-sudo systemctl stop <container-runtime-service> (containerd or dockerd)
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+          privileged_without_host_devices = false
+          runtime_engine = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+            BinaryName = "/usr/bin/nvidia-container-runtime"
 ```
 
-delete settings 
-```
-sudo rm -rf /etc/kubernetes
-sudo rm -rf /var/lib/kubelet
-sudo rm -rf /var/lib/etcd
-sudo rm -rf /var/lib/cni
-sudo rm -rf /etc/cni/net.d
-sudo rm -rf /var/run/kubernetes
-```
+## [Configuring the systemd cgroup driver](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd-systemd)
 
-clear iptables and firewall
+To use the `systemd` cgroup driver in `/etc/containerd/config.toml` with `nvidia`, set
 
 ```
-sudo iptables -P INPUT ACCEPT
-sudo iptables -P FORWARD ACCEPT
-sudo iptables -P OUTPUT ACCEPT
-sudo iptables -t filter -F
-sudo iptables -t nat -F
-sudo iptables -t mangle -F
-sudo iptables -t raw -F
-sudo iptables -t security -F
-sudo iptables -t filter -X
-sudo iptables -t nat -X
-sudo iptables -t mangle -X
-sudo iptables -t raw -X
-sudo iptables -t security -X
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+  ...
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+    SystemdCgroup = true
 ```
 
-list the containers (view running containers)
-```
-sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -a
-```
+set `SystemdCgroup = true` in runc options
 
-list only the container IDs (list running contianer IDS)
-```
-sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -aq
-```
-delete all containers (one liner, this is not tested enough) 
-```
-sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock ps -aq | xargs -r -I {} sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock rm {}
 ```
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = ""
+            CriuImagePath = ""
+            CriuPath = ""
+            CriuWorkPath = ""
+            IoGid = 0
+            IoUid = 0
+            NoNewKeyring = false
+            NoPivotRoot = false
+            Root = ""
+            ShimCgroup = ""
+            SystemdCgroup = true
 
-if everything above fails try 
-
-clear downloaded containers (this step is not really needed)
 ```
-sudo rm -rf /var/lib/docker
-sudo rm -rf /var/lib/containerd
-```
 
-then 
 
-```
-sudo reboot and try kubeadm reset again
-```
 
 
-Onve the node is properly resetted get a join token from the master node and apply to the user node  
+restart containerd daemon 
 
 ```
-kubeadm token create --print-join-command
+sudo systemctl restart containerd
 ```
-
-to be able to use `kubectl` from the worker node copy the `$HOME/.kube/config` to the worker (optional)
-
-
-modified  `/etc/containerd/config.toml` (to be able to use the gpu operator)
 
-cexample can alo be found at [thenvidia repo](https://raw.githubusercontent.com/NVIDIA/cloud-native-stack/master/playbooks/files/config.toml)
 
 
 ```
@@ -486,19 +279,20 @@ version = 2
         runtime_root = ""
         runtime_type = ""
 
-      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
-        privileged_without_host_devices = false
-        runtime_engine = ""
-        runtime_root = ""
-    runtime_type = "io.containerd.runc.v2"
-      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-    BinaryName = "/usr/bin/nvidia-container-runtime"
-    SystemdCgroup = true
-      
-
         [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime.options]
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+
+	[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+          privileged_without_host_devices = false
+          runtime_engine = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+            BinaryName = "/usr/bin/nvidia-container-runtime"
+            # SystemdCgroup = true
+
 
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
           base_runtime_spec = ""
@@ -649,88 +443,7 @@ version = 2
   address = ""
   gid = 0
   uid = 0
-
-
 ```
-## Install the gpu operator 
-
-follow [these instructions](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html#bare-metal-passthrough-with-pre-installed-drivers-and-nvidia-container-toolkit) to install gpu-operator. 
-
-
-
-make sure to wait unitl the node is in ready state beforehand and wait for gpu-operator pods to install in all the nodes. 
-
-hint: if networking pods throw error e.g. "kubernetes-worker-node-is-notready-due-to-cni-plugin-not-initialized" restart the containerd or dockerd status with e.g. `sudo systemctl restart   containerd`
-
-
-```
-helm install --wait --generate-name \
-     -n gpu-operator --create-namespace \
-      nvidia/gpu-operator \
-      --set driver.enabled=false \
-      --set toolkit.enabled=false
-```
-
-## Installing the k8 metrics server 
-
-```
-helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-helm upgrade --install metrics-server metrics-server/metrics-server --namespace k8-metrics --create-namespace
-```
-
-once installed make sure the api-service is running:
-
-```
-kubectl get apiservices
-```
-
-if it is not: edit the deployment and add the following 
-
-```
- - --kubelet-insecure-tls
-```
-
-the deployment will then look like 
-
-```
-
-  containers:
-      - args:
-        - --secure-port=10250
-        - --cert-dir=/tmp
-        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-        - --kubelet-use-node-status-port
-        - --metric-resolution=15s
-        - --kubelet-insecure-tls
-
-```
-      
-
-
-## installing the k8 dashboard 
-
-```
-helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --namespace kubernetes-dashboard -f valus.yaml --create-namespace
-```
-
-this `values.yaml` will create a NodePort service that can be accessed via the port, token TTL is for the lifetime of the auth token. When the existing token expires 
-you can use `kubectl -n kubernetes-dashboard create token admin-user` to create a new token. 
-
-```
-service:
-  type: NodePort
-  nodePort: 30001 # You can change the port number according to your needs
-  tokenTTL: 28800
-
-ingress:
-  enabled: false
-```
-
---------------------
-
-Notes:
-
-I wanted to modify the yaml templates that take overriding values from the `values.yaml` so i made a backup file (e.g. ingress.yaml to ingress.yaml.backup) But I noticed that the created ingresses had the incorrect class name. then i renamed the backup to `ingress-yaml.backup` then it all worked. this means it only looks for the filename.yaml tag 
 
 
 <br />

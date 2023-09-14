@@ -7,6 +7,15 @@ permalink: /topics/utils/disk_mounting
 # nav_order: 2
 ---
 
+
+# Mounting disks in host computers 
+
+There are multiple ways of automating disk mounting. We will discuss disk mounting using the /etc/fstab file and a mountfs daemon service 
+
+
+### fstab method 
+
+
 This is a /etc/fstab file 
 
 I added 
@@ -16,6 +25,7 @@ I added
 # this via `gnome-disks`
 /dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
 ```
+
 
 
 After adding 
@@ -126,6 +136,100 @@ sudo find /path/to/the/directory -type f -exec chmod ug+rwx {} \;
 ```
 
 [source](https://superuser.com/questions/19318/how-can-i-give-write-access-of-a-folder-to-all-users-in-linux)
+
+
+
+### Service daemon method 
+
+Service Daemons are background processes that can be defined by the user and managed by the operating system. In this example our mount is a network share, our goal is to mount this 
+as a file accessible as a mounted folder in a systm resource optimal way. 
+
+
+resource: `172.16.1.39:/DS/myshare`  <br/>
+target: `/mnt/my_share_mount`
+<br/>
+
+create a file named `mnt-my_share_mount.mount` in the `/etc/systemd/system` directory. <br/>
+
+Note the naming of the file in respect to the directory (forward slashes convert to dashes)
+
+
+```
+[Unit]
+Description=Mount NFS Share at boot
+
+[Mount]
+What=172.16.1.39:/DS/myshare
+Where=/mnt/my_share_mount
+Type=nfs
+Options=defaults
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Move the file to `/etc/systemd/system` with <br/>
+
+`sudo mv mnt-my_share_mount.mount /etc/systemd/system/`
+
+Reload the daemon
+
+```
+sudo systemctl daemon-reload
+```
+
+Enable and srart the service
+
+```
+sudo systemctl enable mnt-my_share_mount.mount
+sudo systemctl start mnt-my_share_mount.mount
+```
+
+
+output of `sudo systemctl enable mnt-my_share_mount.mount`
+```
+Created symlink /etc/systemd/system/multi-user.target.wants/mnt-my_share_mount.mount → /etc/systemd/system/mnt-my_share_mount.mount.
+```
+
+
+
+Check status with `sudo systemctl status mnt-qnap_ganindu.mount` <br/>
+
+you will see something simlilar as the response if everything went well
+
+```
+● mnt-qnap_ganindu.mount - Mount NFS Share at boot
+     Loaded: loaded (/etc/systemd/system/mnt-my_share_mount.mount; enabled; vendor preset: enabled)
+     Active: active (mounted) since Mon 2023-09-11 17:00:39 BST; 4s ago
+      Where: /mnt/my_share_mount
+       What: 172.16.1.39:/DS/myshare
+      Tasks: 0 (limit: 618847)
+     Memory: 140.0K
+        CPU: 5ms
+     CGroup: /system.slice/mnt-my_share_mount.mount
+
+Sep 11 17:00:38 dgx systemd[1]: Mounting Mount NFS Share at boot...
+Sep 11 17:00:39 dgx systemd[1]: Mounted Mount NFS Share at boot.
+```
+
+
+you can check it further with 
+
+```
+df -h
+```
+
+or the `mount` command
+
+
+
+
+
+ 
+
+
+
+
 
 
 ### Further reading
