@@ -120,7 +120,37 @@ sudo ./nvfw-dgxstationa100_22.2.1_220209.run update_fw VBIOS
 
 
 
+## [tail] view dynamic logs 
 
+Tail looks like a very basic tool with limited functinality but it nicely format logfiles and make it easier to view dynamic log files.
+
+The command below follows a logfile wile showing the complete log file.
+ 
+
+
+```
+tail -n +1 -f logs/4e51108a-693e-423d-a7f9-94f2b8a5cd82.txt 
+```
+
+o see the last 100 lines of a log while following it, you can use the following tail command:
+```
+tail -n 100 -f log_file.txt
+```
+This command will start at the end of the log file and display the last 100 lines. As new lines are added to the log file, tail will continue to display them. To stop following the log file, press Ctrl+C.
+
+Here is an example of how to use the tail command to follow the last 100 lines of a system log file:
+```
+tail -n 100 -f /var/log/syslog
+```
+This command will display the last 100 lines of the system log file, and will continue to display new lines as they are added to the log file.
+
+You can also use the tail command to follow the last 100 lines of a log file that is being compressed in real time. To do this, you can use the following command:
+```
+tail -n 100 -f <(zcat log_file.txt.gz)
+```
+This command will decompress the log file on the fly and display the last 100 lines. As new lines are added to the log file and compressed, tail will continue to display them.
+
+The tail command is a very powerful tool for monitoring log files in real time. It is especially useful for troubleshooting problems or tracking the progress of long-running tasks.
 
 
 ---
