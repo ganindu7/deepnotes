@@ -52,6 +52,40 @@ After adding
 /dev/disk/by-uuid/E4C75361C8523252 /media/WD_USB_HD auto nosuid,nodev,nofail,x-gvfs-show 0 0
 ```
 
+or use `UUID=...`
+
+```
+UUID=fd7766e7-96b5-49d6-9603-b63db21359b2 /mnt/SD_CARD_1 ext4           x-gvfs-show              0 0
+```
+
+
+sometimes you can just mount the path directory. Below is a case where I have just used the `fdisk` utility to 
+1. Delete existing partitions. (with option `d`)
+2. Crerate a new GNU partitiaon table. (with option `g`)
+3. Create a new partition. (option `n` )
+4. Set partition type to linux (with option 't')
+5. write changes (with `w`)
+6. then format the new partition to `ext4`  
+*Note that I have used partiton 1*
+```
+sudo mkfs.ext4 /dev/nvme0n1p1
+
+```
+7. edit fastab to auto muountthe partition.
+```
+/dev/nvme0n1p1 /mnt/ssd-disk/ ext4 defaults 0 0
+
+```
+
+
+You can check mounts with `sudo mount -av`
+```
+ganindu@ubuntu:/mnt/SD_CARD_1$ sudo mount -av
+/                        : ignored
+/mnt/SD_CARD_1           : successfully mounted
+ganindu@ubuntu:/mnt/SD_CARD_1$ sudo vim /etc/fstab 
+```
+
 Note: The directory (mount point) has to be present and empty 
 
 Afterwards you can use `sudo mount -a ` to test these changes
