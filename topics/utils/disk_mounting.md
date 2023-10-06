@@ -66,21 +66,22 @@ sometimes you can just mount the path directory. Below is a case where I have ju
 4. Set partition type to linux (with option 't')
 5. write changes (with `w`)
 6. then format the new partition to `ext4`  
+7. edit fastab to auto muountthe partition.
+
 *Note that I have used partiton 1*
 
+formatting the partition
 ```
 sudo mkfs.ext4 /dev/nvme0n1p1
-
 ```
 
-7. edit fastab to auto muountthe partition.
+updates to fstab
 ```
 /dev/nvme0n1p1 /mnt/ssd-disk/ ext4 defaults 0 0
-
 ```
 
+checking if mounts work
 
-You can check mounts with `sudo mount -av`
 ```
 ganindu@ubuntu:/mnt/SD_CARD_1$ sudo mount -av
 /                        : ignored
