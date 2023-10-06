@@ -67,10 +67,12 @@ sometimes you can just mount the path directory. Below is a case where I have ju
 5. write changes (with `w`)
 6. then format the new partition to `ext4`  
 *Note that I have used partiton 1*
+
 ```
 sudo mkfs.ext4 /dev/nvme0n1p1
 
 ```
+
 7. edit fastab to auto muountthe partition.
 ```
 /dev/nvme0n1p1 /mnt/ssd-disk/ ext4 defaults 0 0
