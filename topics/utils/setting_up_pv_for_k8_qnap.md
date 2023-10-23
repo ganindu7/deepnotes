@@ -1,6 +1,6 @@
 ---
 layout: default
-title: simplified k8 install instructions 
+title: setting up PV for K8 
 nav_order: 2 
 # permalink: /topics/utils/target_execute
 parent: Utilities
