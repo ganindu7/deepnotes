@@ -103,7 +103,10 @@ sudo ./nvfw-dgxstationa100_22.2.1_220209.run update_fw VBIOS
 
 1. create a group e,g. tms.bucher
     * `sudo groupadd tms.bucher`
-2. then run `sudo chown -R  $(id -u):tms.bucher path/to/dir/`
+    * `sudo usermod -aG tms.bucher user1`
+    * `sudo usermod -aG tms.bucher user2`
+
+2. then run `sudo chown -R  $(id -u):tms.bucher path/to/dir/` 
 
 
 
