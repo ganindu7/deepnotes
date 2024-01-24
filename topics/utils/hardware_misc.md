@@ -7,7 +7,7 @@ parent: Utilities
 ---
 
 ## Tips for hardware
-this is for stuff related to setting up device drivers for MIPI-CSI cameras with a FPD-Link-III hub 
+this is for stuff related to setting up device drivers for MIPI-CSI cameras with a FPD-Link/GMSL hub 
 
 ## determining which ports are connected to a camera 
 
@@ -36,9 +36,9 @@ tegra-camrtc-capture-vi tegra-capture-vi: subdev d3-imx390 33-0021 bound
 tegra-camrtc-capture-vi tegra-capture-vi: subdev d3-imx390 43-0021 bound
 ```
 
-the entries 33-0021 may refer to the SerDes ic and the port in the IC.  
+the entries `33-0021` may refer to the SerDes ic and the port in the IC.  
 
-Now let's see how these device tree bindings are associated with the familiar /dev/VideoN interfaces we may use to assign cameras programmaaticly to our foftware functionalities. in this case we can use the `v4l2-ctl --list-devices` command.
+Now let's see how these device tree bindings are associated with the familiar `/dev/VideoN` interfaces we may use to assign cameras programmaaticly to our foftware functionalities. in this case we can use the `v4l2-ctl --list-devices` command.
 
 
 ```
@@ -56,7 +56,7 @@ vi-output, d3-imx390 33-0021 (platform:tegra-capture-vi:5):
 
 here you can see that the device tree element
 
-43-0021 is connected to /dev/video1 interface and vice versa. 
+`43-0021` is connected to `/dev/video1` interface and vice versa. 
 
 
 
