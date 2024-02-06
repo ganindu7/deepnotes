@@ -160,6 +160,72 @@ gst-launch-1.0 udpsrc address=$STREAM_IP port=$STREAM_PORT ! h264parse ! avdec_h
 ```
 
 
+## Streaming and accessing remote devices.
+
+sometimes you can be in a network configured by a network switch and you want to send a stream to a device that you just hooked up to the dumb switch on your desk. The device might have an ip that is not in the subnet of the network. 
+
+let's say the devoce that you have introduced to the network has in ip 192.168.10.73 and you want to send a stream to that device. first your pc (or the node you dialed into (in the same network as the stream desination device)) needs to have an ip that can coounicate with it .
+
+give it a statip ip with (here `enp0s31f7` is you networ interface)
+
+```
+sudo ip addr add 192.168.10.45/24 dev enp0s31f7
+```
+
+now you can lau ch a pipeline from your device to the other device (the device not on your subnet)
+
+This pipeline assume the device has a waylandsink and is accepating a h264 stream
+
+```
+gst-launch-1.0 videotestsrc ! tee name=t \
+    t. ! queue ! videoconvert ! videoscale ! 'video/x-raw,width=320,height=240,format=I420' ! capsfilter caps="video/x-raw,width=320,height=240,format=I420" ! v4l2h264enc ! rtph264pay ! queue leaky=downstream ! udpsink port=5001 host=192.168.10.45 \
+    t. ! queue ! waylandsink
+
+```
+
+a jpeg concoded stream
+
+
+```
+gst-launch-1.0 videotestsrc ! nvvideoconvert ! 'video/x-raw,format=I420,width=320,height=240,framerate=30/1' ! jpegenc ! rtpjpegpay ! udpsink port=5001 host=192.168.10.15
+```
+
+JPEG streaming using nvidia hardware accelerated `nvvideoconvert` element. (here we use a nvvideoconvert element with a capsfilter)
+```
+gst-launch-1.0 videotestsrc ! nvvideoconvert ! 'video/x-raw,format=I420,width=320,height=240,framerate=30/1' ! jpegenc ! rtpjpegpay ! udpsink port=5001 host=192.168.10.15
+```
+
+send from node tp pc
+```
+gst-launch-1.0 videotestsrc ! videoconvert !  videoscale ! 'video/x-raw,width=320,height=240,format=I420' !  capsfilter caps="video/x-raw,width=320,height=240,format=I420" ! v4l2h264enc !  rtph264pay ! udpsink port=5001 host=192.168.10.45
+```
+
+reciving a jpeg encoded stream 
+
+```
+gst-launch-1.0 udpsrc port=5001 ! application/x-rtp, encoding-name=JPEG,payload=26 ! rtpjpegdepay ! jpegdec ! videoconvert ! waylandsink
+```
+
+playing a udp strream
+
+```
+gst-launch-1.0 udpsrc  port=5001 caps="application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264" ! rtph264depay ! v4l2h264dec ! videoconvert ! waylandsink
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
