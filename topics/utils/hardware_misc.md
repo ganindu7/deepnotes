@@ -38,6 +38,8 @@ tegra-camrtc-capture-vi tegra-capture-vi: subdev d3-imx390 43-0021 bound
 
 the entries `33-0021` may refer to the SerDes ic and the port in the IC.  
 
+### use `v4l2-utils`
+
 Now let's see how these device tree bindings are associated with the familiar `/dev/VideoN` interfaces we may use to assign cameras programmaaticly to our foftware functionalities. in this case we can use the `v4l2-ctl --list-devices` command.
 
 
@@ -60,6 +62,38 @@ here you can see that the device tree element
 
 
 
+### use `udevadm info`
 
+we can use `devadm info /dev/videoN` too!
 
+```
+P: /devices/platform/tegra-capture-vi/video4linux/video0
+N: video0
+L: 0
+S: v4l/by-path/platform-tegra-capture-vi-video-index0
+E: DEVPATH=/devices/platform/tegra-capture-vi/video4linux/video0
+E: DEVNAME=/dev/video0
+E: MAJOR=81
+E: MINOR=0
+E: SUBSYSTEM=video4linux
+E: USEC_INITIALIZED=18145115
+E: ID_V4L_VERSION=2
+E: ID_V4L_PRODUCT=vi-output, d3-imx390 33-0021
+E: ID_V4L_CAPABILITIES=:capture:
+E: ID_PATH=platform-tegra-capture-vi
+E: ID_PATH_TAG=platform-tegra-capture-vi
+E: ID_FOR_SEAT=video4linux-platform-tegra-capture-vi
+E: COLORD_DEVICE=1
+E: COLORD_KIND=camera
+E: DEVLINKS=/dev/v4l/by-path/platform-tegra-capture-vi-video-index0
+E: TAGS=:uaccess:seat:
 
+```
+
+in cases where virtual channels are used (one serdes IC/hub has multiple channels) the `udvadm` method may be more suitable. 
+
+Summary:
+
+A camera can be connected to a Deserialiser via a virtual channel so for `N` number of deserialisers with `M` number of virtual channels for each deserialiser there can be `M.N` device tree entries. 
+
+  
