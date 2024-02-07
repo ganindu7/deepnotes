@@ -123,21 +123,24 @@ gives execute permissions
 sudo chmod -R g+rwx path/to/dir/
 ```
 ### TLDR
-in Unix and Linux file systems, permissions are represented both symbolically (e.g., rwxr-xr-x) and numerically (e.g., 755). The numeric representation is a three-digit octal number, with each digit representing a different set of users: the owner, the group, and others, in that order.
+in Unix and Linux file systems, permissions are represented both symbolically (e.g., `rwxr-xr-x`) and numerically (e.g., `755`). The numeric representation is a three-digit octal number, with each digit representing a different set of users: the owner, the group, and others, in that order.
 
 Each digit is the sum of its component bits in the following way:
 
+```
 Read (r) permission is 4.
 Write (w) permission is 2.
 Execute (x) permission is 1.
+```
 To form a digit for each user category, sum the permissions you want to grant. For example:
 
-g+rx means you're adding read (4) and execute (1) permissions for the group, which sums up to 5. Since we're focusing on the group permissions, this corresponds to setting the group's permission digit to 5. If we consider default permissions for the owner as read, write, and execute (7) and no permissions for others (0), this would numerically be represented as 750.
+`g+rx` means you're adding `read (4)` and execute `(1)` permissions for the group, which sums up to `5`. Since we're focusing on the group permissions, this corresponds to setting the group's permission digit to `5`. If we consider default permissions for the owner as read, write, and `execute (7)` and no permissions for others `(0)`, this would numerically be represented as `750`.
 
-g+rwx means you're adding read (4), write (2), and execute (1) permissions for the group, summing up to 7. Again, assuming full permissions for the owner (7) and none for others (0), this would be 770 numerically.
+`g+rwx` means you're adding `read (4)`, `write (2)`, and `execute (1)` permissions for the group, summing up to `7`. Again, assuming full permissions for the owner `(7)` and none for others `(0)`, this would be `770` numerically.
 
 Here's a breakdown of how the octal representation maps to symbolic permissions:
 
+```
 0 = ---
 1 = --x
 2 = -w-
@@ -146,6 +149,8 @@ Here's a breakdown of how the octal representation maps to symbolic permissions:
 5 = r-x
 6 = rw-
 7 = rwx
+```
+
 So, to apply these permissions using chmod with numerical values:
 
 To give the group read and execute permissions, without changing the owner's permissions (assuming they're full) and ensuring others have no permissions, you would use:
@@ -159,7 +164,7 @@ To give the group read, write, and execute permissions (full permissions), again
 sudo chmod 770 path/to/dir/
 ```
 
-These commands apply the permissions directly to the path/to/dir/ directory. If you want to apply them recursively to all contents within the directory as well, add the -R option to chmod, like chmod -R 750 path/to/dir/ or chmod -R 770 path/to/dir/.
+These commands apply the permissions directly to the `path/to/dir/` directory. If you want to apply them recursively to all contents within the directory as well, add the `-R` option to chmod, like `chmod -R 750 path/to/dir/` or `chmod -R 770 path/to/dir/`.
 
 
 
