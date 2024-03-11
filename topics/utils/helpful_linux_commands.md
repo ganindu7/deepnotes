@@ -207,6 +207,25 @@ This command will decompress the log file on the fly and display the last 100 li
 The tail command is a very powerful tool for monitoring log files in real time. It is especially useful for troubleshooting problems or tracking the progress of long-running tasks.
 
 
+# serial over lan (SOL) 
+
+If a computer you are using has SOL capability, serial over lan you can activate a sol session over lan, this is sometimes useful when debugging startup stuff.
+
+for this you need to set up things first, 
+
+```
+sudo ipmitool  -I lanplus -H <address of the target> -U <username> -L OPERATOR  -P <password> sol activate
+```
+
+you can couple with the bmc startup command over the netwoek and inspect the serial output, 
+
+you cna also deactivate it 
+
+```
+sudo ipmitool  -I lanplus -H <address of the target> -U <username> -L OPERATOR  -P <password> sol deactivate
+```
+
+
 ---
 *Click [here][ERRORS-SUGGESTIONS] to report Errors, make Suggestions or Comments!*
 
