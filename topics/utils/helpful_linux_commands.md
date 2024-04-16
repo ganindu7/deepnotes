@@ -46,6 +46,64 @@ Options used in the example above:
 -X : preserve extended attributes
 ```
 
+## [`nmcli`][NMCLI]
+
+set upa a `IPV4`  connection
+
+DHCP
+```
+nmcli con add con-name "eth0-DHCP" ifname eth0 type ethernet autoconnect yes ipv4.method auto
+```
+
+STATIC
+
+```
+nmcli con add con-name "eth0-static" ifname eth0 type ethernet autoconnect yes ipv4.method manual ipv4.addresses 172.16.1.232/24
+```
+
+
+
+
+
+
+### setting up static ip a;longside DHCP (Jetson with Network Manager)
+
+1. Use `nmcli con show` to know what are the avaialble connections
+
+```
+NAME     UUID                                  TYPE      DEVICE  
+DHCP     20037dd6-2486-412a-94f9-caa1c7fbf458  ethernet  lan1    
+docker0  d0a3f9eb-f91d-4214-9076-5d121e9717c3  bridge    docker0 
+```
+
+2. Set up aa new connection 
+
+here we are setting up 172.16.1.233
+
+```
+sudo nmcli con add type ethernet con-name "ONBOARD_STATIC" ifname lan1 ip4 172.16.1.233/24 gw4 0.0.0.0
+sudo nmcli con mod "ONBOARD_STATIC" ipv4.dns "8.8.8.8,8.8.4.4"
+sudo nmcli con mod "ONBOARD_STATIC" ipv4.method manual
+```
+
+activate connection with 
+
+```
+sudo nmcli con up "ONBOARD_STATIC"
+```
+
+deactivate connection, when the MANUAL static connectiomn is down the DHCP connection will work  
+
+
+```
+sudo nmcli con down "ONBOARD_STATIC" or
+sudo nmcli con up "DHCP"
+```
+
+
+
+
+
 <br />
  
 
@@ -231,6 +289,8 @@ sudo ipmitool  -I lanplus -H <address of the target> -U <username> -L OPERATOR  
 
 [WATCH]: https://man7.org/linux/man-pages/man1/watch.1.html
 [RSYNC]: https://man7.org/linux/man-pages/man1/rsync.1.html
+
+[NMCLI]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_ip_networking_with_nmcli
 
 
 [ERRORS-SUGGESTIONS]: https://github.com/ganindu7/deepnotes/issues
