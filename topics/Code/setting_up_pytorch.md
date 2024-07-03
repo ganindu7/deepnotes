@@ -51,6 +51,63 @@ pip install pip install numpy torch-1.9.0-cp36-cp36m-linux_aarch64.whl torchvide
 if you have numpy 1.19.5 and get a runtime error please try referring to this [forum answer](https://forums.developer.nvidia.com/t/illegal-instruction-core-dumped/165488/16) athat suggests adding `export OPENBLAS_CORETYPE=ARMV8` to your `.bashrc` file
 
 
+#### Using Docker 
+
+Dockerfile 
+```
+FROM nvcr.io/nvidia/pytorch:24.04-py3
+
+# Create user and group 'ganindu'
+RUN groupadd -g 1000 ganindu && \
+    useradd -rm -d /home/ganindu -s /bin/bash -g ganindu -G sudo -u 1000 ganindu
+
+# Set the default user for the container
+USER ganindu
+WORKDIR /home/ganindu
+```
+
+Compose file 
+```
+version: '3.8'
+
+services:
+  inference:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    # image: custom-pytorch:24.04-py3  # Updated to use the locally built image
+    container_name: docker-pytorch
+    stdin_open: true  # Equivalent to -i (interactive)
+    tty: true          # Equivalent to -t (terminal)
+    hostname: docker.dgx
+    runtime: nvidia
+    ipc: host
+    # shm_size: '8gb'
+    network_mode: "bridge"  # Using bridge network for networking
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROOTDIR=/RDR/Home/data
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: $HOME/.Xauthority
+        target: /root/.Xauthority
+        read_only: false
+      - type: bind
+        source: ./dws
+        target: /home/ganindu/workspace/dws  
+      - type: bind
+        source: $PWD
+        target: /home/ganindu/workspace
+
+```
+
+
 [JETSON-URL]: https://developer.nvidia.com/embedded/jetson-agx-xavier-developer-kit
 [PYTORCH]: https://pytorch.org
 [NVIDIA-PYTORCH-GUIDE]: https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-9-0-now-available/72048
