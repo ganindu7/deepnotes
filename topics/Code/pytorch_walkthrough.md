@@ -27,11 +27,9 @@ The pipeline of a typical Neural Network follows a well-defined flow:
 
 4. Output Formulation: Finally, we formulate the output of our network, which could be a classification label, a regression value, or any other desired prediction.
 
-It's important to note that the nonlinearities between layers play a crucial role in preventing purely aesthetic transformations that offer no substantial change. These nonlinearities discourage the network from simply combining multiple linear transformations into a single operation.
+It's important to note that the nonlinearities between layers play a crucial role in preventing purely aesthetic transformations that offer no substantial change. These nonlinearities discourage the network from having multiple redundant layers, where combining the transformations in those layers would be mathematically equivalent to a single matrix operation requiring only a single set of learnable parameters.
 
-As we progress further, we will explore more intriguing concepts, such as networks with jump interconnects. 
-
-
+As we progress further, we will explore more intriguing concepts, such as networks with jump interconnects where layers are not connected in a strict linear progression.
 
 ### Data
 PyTorch has two primitives to work with data, these are:
