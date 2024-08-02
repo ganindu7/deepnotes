@@ -15,6 +15,20 @@ Status: Draft
 
 <span style="background-color:LightYellow"> Check Installing and configuring PyTorch sections if you haven't already </span>
 
+In this section we will learn how to create a model using the tools provided by pytorch. We will do this by first looking into the data management side first and network architectcture semantics afterwards. 
+
+Typical Neural Network pipeline flows in this fashion.
+
+1. Data formation.
+2. Data preparation.
+3. Data propergation.
+4. Output formulation.
+
+A typical layer in a neural network applies a transformation to the incoming data and pass the results over to the subsequent layer. this transformation could be a new learnt representaion and/or a geometric transformation that is due to the shape of the next layer. The nonlinearities between layers are designed to discourage purely asthetic transforms that offer no matrtial change (transforms that could be lumped together into a single linear transform mathematically). 
+
+In networks with jump interconnects these concepts gets more intersting and we will get to them as they come up.
+
+
 ### Data
 PyTorch has two primitives to work with data, these are:
 1. `torch.utils.Dataset`
