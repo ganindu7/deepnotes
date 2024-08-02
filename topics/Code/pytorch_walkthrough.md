@@ -15,18 +15,22 @@ Status: Draft
 
 <span style="background-color:LightYellow"> Check Installing and configuring PyTorch sections if you haven't already </span>
 
-In this section we will learn how to create a model using the tools provided by pytorch. We will do this by first looking into the data management side first and network architectcture semantics afterwards. 
+In this section, we will delve into the process of creating a model using the powerful tools provided by PyTorch. Our journey begins by exploring the crucial aspects of data management, followed by understanding the semantics of network architecture.
 
-Typical Neural Network pipeline flows in this fashion.
+The pipeline of a typical Neural Network follows a well-defined flow:
 
-1. Data formation.
-2. Data preparation.
-3. Data propergation.
-4. Output formulation.
+1. Data Formation: We start by organizing our data in a suitable format that aligns with our model's requirements.
 
-A typical layer in a neural network applies a transformation to the incoming data and pass the results over to the subsequent layer. this transformation could be a new learnt representaion and/or a geometric transformation that is due to the shape of the next layer. The nonlinearities between layers are designed to discourage purely asthetic transforms that offer no matrtial change (transforms that could be lumped together into a single linear transform mathematically). 
+2. Data Preparation: Next, we prepare our data by performing necessary preprocessing steps such as normalization, augmentation, or feature extraction.
 
-In networks with jump interconnects these concepts gets more intersting and we will get to them as they come up.
+3. Data Propagation: Once our data is ready, we propagate it through the layers of our network. Each layer applies a transformation to the incoming data, which could be a learned representation or a geometric transformation based on the shape of the subsequent layer.
+
+4. Output Formulation: Finally, we formulate the output of our network, which could be a classification label, a regression value, or any other desired prediction.
+
+It's important to note that the nonlinearities between layers play a crucial role in preventing purely aesthetic transformations that offer no substantial change. These nonlinearities discourage the network from simply combining multiple linear transformations into a single operation.
+
+As we progress further, we will explore more intriguing concepts, such as networks with jump interconnects. 
+
 
 
 ### Data
