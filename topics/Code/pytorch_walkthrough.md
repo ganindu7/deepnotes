@@ -27,9 +27,11 @@ The pipeline of a typical Neural Network follows a well-defined flow:
 
 4. Output Formulation: Finally, we formulate the output of our network, which could be a classification label, a regression value, or any other desired prediction.
 
-It's important to note that the nonlinearities between layers play a crucial role in preventing purely aesthetic transformations that offer no substantial change. These nonlinearities discourage the network from having multiple redundant layers, where combining the transformations in those layers would be mathematically equivalent to a single matrix operation requiring only a single set of learnable parameters.
+It's important to note that the nonlinearities between layers play a crucial role in preventing purely aesthetic transformations that offer no substantial change to the values that are being passed through. These nonlinearities discourage the network from having multiple redundant layers, where combining the transformations in those layers would be mathematically equivalent to a single matrix operation requiring only a single set of learnable parameters.
 
 As we progress further, we will explore more intriguing concepts, such as networks with jump interconnects where layers are not connected in a strict linear progression.
+
+I will now the topics on data, model creation and model execution (training in thiis instance) in seperate subsections and in the end put everything together (and include test state to evaulate the effect of training). 
 
 ### Data
 PyTorch has two primitives to work with data, these are:
@@ -39,7 +41,7 @@ PyTorch has two primitives to work with data, these are:
 *Dataset* stores samples and the corresponding labels while the *DataLoader* wraps an iterable over the *Dataset*. Once a
 *DataLoader* wraps over the *Dataset* it can support automated batching, sampling shuffling and multiprocess data loading. 
 
-The code below downloads the FashionMNIST dataset, notice the `train=True` this means what is downloaded (training data in this instance). To get test data 
+e.g. The code below downloads the FashionMNIST dataset, notice the `train=True` this means what is downloaded (training data in this instance). To not retrive training data 
 we can set `train=False` 
 
 ```python
@@ -60,13 +62,27 @@ batch_size=64
 train_dataloader = DataLoader(training_data, batch_size=batch_size)
 ```
 
-### Creating Models
-To define a Neural Network in PyTorch. We need to
+### Creating Nural Network Models
+
+To define a custom Neural Network in PyTorch. We need to fetch the required modules and assemble the blueprint of our Network.
+We can do that by following the steps below.
 
 1. Create a Class that inherits the `nn.module`.
 2. Define the Layers in the `__init__` method of the class defined in the step above.
 3. Specify the Data flow in the `forward` method of the class.
 4. Move the NN to the GPU if the resource is available to us. 
+
+#### Imports 
+
+```python
+
+import torch
+from torch import nn # import the nn module
+from torch.utils.data import DataLoader # import DataLoader to itertively load dataset in batched form into the model
+from torchvision import datasets # get visual processing datasets 
+from torchvision.transforms import ToTensor # convert images to tensors 
+```
+
 
 #### Class Definition
 
