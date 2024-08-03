@@ -158,7 +158,9 @@ In the following
 
 <script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=loading_models.py"></script>
 
+nn_refresher.ipynb
 
+<script src="https://gist.github.com/ganindu7/351906087bd899193c9115c2be8b9187.js?file=nn_refresher.ipynb"></script>
 
 Source: [PyTorch Tutorial][PyTorch-Tutorial]
 
