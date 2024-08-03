@@ -15,15 +15,15 @@ Status: Draft
 
 <span style="background-color:LightYellow"> Check Installing and configuring PyTorch sections if you haven't already </span>
 
-In this section, we will delve into the process of creating a model using the powerful tools provided by PyTorch. Our journey begins by exploring the crucial aspects of data management, followed by understanding the semantics of network architecture.
+In this section, we will delve into the process of creating usable a model using PyTorch. We will start from data, build a simple model according to our use case and look at the outputs and how to interprit them. 
 
 The pipeline of a typical Neural Network follows a well-defined flow:
 
 1. Data Formation: We start by organizing our data in a suitable format that aligns with our model's requirements.
 
-2. Data Preparation: Next, we prepare our data by performing necessary preprocessing steps such as normalization, augmentation, or feature extraction.
+2. Data Preparation: Next, we prepare our data by performing necessary preprocessing steps to be able to interface with the model.
 
-3. Data Propagation: Once our data is ready, we propagate it through the layers of our network. Each layer applies a transformation to the incoming data, which could be a learned representation or a geometric transformation based on the shape of the subsequent layer.
+3. Data Propagation: Once our data is ready and prerpared, we propagate it through the layers of our network. Each layer applies a transformation to the incoming data, which could be a learned representation or a geometric transformation based on the shape of the subsequent layer.
 
 4. Output Formulation: Finally, we formulate the output of our network, which could be a classification label, a regression value, or any other desired prediction.
 
@@ -31,7 +31,7 @@ It's important to note that the nonlinearities between layers play a crucial rol
 
 As we progress further, we will explore more intriguing concepts, such as networks with jump interconnects where layers are not connected in a strict linear progression.
 
-I will now the topics on data, model creation and model execution (training in thiis instance) in seperate subsections and in the end put everything together (and include test state to evaulate the effect of training). 
+I will now address the topics on data, model creation and model execution (training in thiis instance) in seperate subsections and in the end put everything together with some model output testing. 
 
 ### Data
 PyTorch has two primitives to work with data, these are:
@@ -39,7 +39,7 @@ PyTorch has two primitives to work with data, these are:
 2. `torch.utils.DataLoader`
 
 *Dataset* stores samples and the corresponding labels while the *DataLoader* wraps an iterable over the *Dataset*. Once a
-*DataLoader* wraps over the *Dataset* it can support automated batching, sampling shuffling and multiprocess data loading. 
+*DataLoader* wraps over the *Dataset* it can support automated batching, sampling, shuffling and multiprocess data loading. 
 
 e.g. The code below downloads the FashionMNIST dataset, notice the `train=True` this means what is downloaded (training data in this instance). To not retrive training data 
 we can set `train=False` 
