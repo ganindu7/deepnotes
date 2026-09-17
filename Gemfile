@@ -1,9 +1,7 @@
 source 'https://rubygems.org'
 
-gem "jekyll", "~> 4.3" # installed by `gem jekyll`
-# gem "webrick"        # required when using Ruby >= 3 and Jekyll <= 4.2.2
+gem "jekyll", "~> 4.4"
 
-gem "just-the-docs", "0.4.0.rc4" # currently the latest pre-release
-# gem "just-the-docs", "0.4.0.rc3" # currently the latest pre-release
-# gem "just-the-docs"            # the latest release - currently 0.3.3
-# gem "jekyll-default-layout"
+# Just the Docs theme, pinned to a release series as recommended by the theme:
+# https://just-the-docs.com/MIGRATION/#pinning-the-theme-version
+gem "just-the-docs", "~> 0.12.0"

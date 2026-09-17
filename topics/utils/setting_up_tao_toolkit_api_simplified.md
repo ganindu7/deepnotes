@@ -501,13 +501,16 @@ ingress_class: "tao-gnet-ingress"
 
 This line instructs our endpoints to use the custom ingress class we've created. Consequently, our ingress controller and ingress class are being employed. This change, however, must be propagated to our ingress templates located in the templates directory. As a result, we had to modify the ingress.class field in ingress.yaml and ingress-auth.yaml as follows: 
 
+{% raw %}
 ```
 kubernetes.io/ingress.class: {{ .Values.ingress_class }}
 ```
+{% endraw %}
 
 The updated ingress.yaml now looks as follows:
  
 
+{% raw %}
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -554,9 +557,11 @@ spec:
     host: {{ .Values.host }}
 {{- end }}
 ```
+{% endraw %}
 
 `ingress-auth.yaml`
 
+{% raw %}
 ```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -610,6 +615,7 @@ spec:
               number: 8000
 {{- end }}
 ```
+{% endraw %}
 
 you can check if these templates render correctly with the command 
 

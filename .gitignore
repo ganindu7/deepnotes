@@ -13,3 +13,6 @@ index.html
 topics/utils/sys*
 .ruby-version
 
+.DS_Store
+.bundle/
+vendor/
