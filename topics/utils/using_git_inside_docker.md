@@ -27,6 +27,8 @@ ssh-keygen -t ed25519 -C "will@example.com"
 ssh-add ~/.ssh/id_ed25519   # macOS: ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 ```
 
+Give the key a passphrase. The agent remembers it, so you type it once per laptop session, and a copied key file is useless without it.
+
 If you have a FIDO2 hardware key, `ssh-keygen -t ed25519-sk` makes a key that also needs a touch for every use, which is the strongest option here.
 
 Then copy the *public* half (`cat ~/.ssh/id_ed25519.pub`) into the GitHub UI under Settings, SSH and GPG keys:
@@ -78,11 +80,11 @@ git config --global user.email "will@example.com"
 
 ### 4. The compose override: hand the socket directory to the container
 
-Next to the project's compose file add `compose.override.yaml` (or `docker-compose.override.yml`, matching the base file's naming). Compose merges it automatically, so the shared compose file stays untouched and everyone can keep their own override.
+Next to the project's compose file add an override, e.g. `/home/will/wills-sandbox/docker-compose.override.yaml` (name it `compose.override.yaml` if the base file is `compose.yaml`). Compose loads it automatically, no `-f` needed, so the shared compose file stays untouched and everyone can keep their own override.
 
 ```yaml
 services:
-  dev:   # the service name from the base compose file
+  wills-sandbox:   # the service name from the base compose file
     volumes:
       - ${HOME}/.ssh-agent:/run/ssh-agent
       - ${HOME}/.gitconfig:/etc/gitconfig:ro
@@ -96,7 +98,7 @@ The container can be long-lived:
 
 ```shell
 docker compose up -d
-docker compose exec dev bash
+docker compose exec wills-sandbox bash
 ```
 
 Inside the container:
