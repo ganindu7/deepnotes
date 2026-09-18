@@ -5,7 +5,10 @@ website url: https://ganindu7.github.io/deepnotes/
 The site is built with [Jekyll](https://jekyllrb.com/docs/) and the
 [Just the Docs](https://just-the-docs.com/) theme. Pushing to the `gh-pages`
 branch runs `.github/workflows/pages.yml`, which builds the site and deploys
-it to GitHub Pages.
+it to GitHub Pages. The repository's Pages source must stay set to
+"GitHub Actions" (Settings, Pages). With "Deploy from a branch" GitHub also
+runs its own Jekyll 3 builder on every push, which cannot use this Gemfile
+and sends a failure email each time.
 
 ## Important 
 For this to work locally internet connectivity is needed
