@@ -1,0 +1,68 @@
+{
+  "color": {
+    "page": "#F6F4EF",
+    "surface": "#FFFFFF",
+    "ink": "#1F1E1C",
+    "muted": "#5E5A53",
+    "faint": "#767676",
+    "line": "#D6D3CC",
+    "key_neutral_fill": "#FFFFFF",
+    "key_trigger_fill": "#1F1E1C",
+    "key_dual_fill": "#EEECE7",
+    "category": {
+      "bracket": {
+        "fill": "#E4ECF6",
+        "ink": "#2F5F94"
+      },
+      "operator": {
+        "fill": "#FBE7D6",
+        "ink": "#B0531C"
+      },
+      "other": {
+        "fill": "#E3EFE2",
+        "ink": "#356B3A"
+      },
+      "number": {
+        "fill": "#1F1E1C",
+        "ink": "#FFFFFF"
+      }
+    }
+  },
+  "font": {
+    "body": "'IBM Plex Sans', sans-serif (400, 700)",
+    "mono": "'JetBrains Mono', monospace (700) \u2014 key symbols",
+    "google_fonts_url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&family=JetBrains+Mono:wght@700&display=swap"
+  },
+  "type_scale_px": {
+    "h1": 28,
+    "h2": 18,
+    "body": 15,
+    "small": 13,
+    "caption": 12,
+    "key_symbol": 26,
+    "key_number": 22,
+    "key_letter": 12
+  },
+  "radius_px": {
+    "panel": 14,
+    "key": 8,
+    "chip": 6
+  },
+  "space_px": {
+    "page_padding": 40,
+    "panel_gap": 16,
+    "panel_padding": "16 20",
+    "key_gap": 6
+  },
+  "key_size_px": {
+    "unit": 60,
+    "tab": 90,
+    "caps": 105,
+    "shift": 135,
+    "compact_unit": 46
+  },
+  "border": {
+    "key": "1.5px solid",
+    "panel": "1px solid #D6D3CC"
+  }
+}

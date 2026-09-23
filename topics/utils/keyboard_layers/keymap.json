@@ -1,0 +1,251 @@
+{
+  "layers": [
+    {
+      "id": "symbols",
+      "name": "Symbol layer",
+      "trigger": {
+        "key": "tab",
+        "hold": "activates layer",
+        "tap": "Tab"
+      },
+      "note": "UK (British) input source: Tab+E sends Option+3 so it still types #.",
+      "mappings": [
+        {
+          "key": "w",
+          "output": "@",
+          "category": "other"
+        },
+        {
+          "key": "e",
+          "output": "#",
+          "category": "other"
+        },
+        {
+          "key": "r",
+          "output": "$",
+          "category": "other"
+        },
+        {
+          "key": "t",
+          "output": "%",
+          "category": "operator"
+        },
+        {
+          "key": "y",
+          "output": "\\",
+          "category": "other"
+        },
+        {
+          "key": "u",
+          "output": "^",
+          "category": "operator"
+        },
+        {
+          "key": "i",
+          "output": "&",
+          "category": "operator"
+        },
+        {
+          "key": "o",
+          "output": "*",
+          "category": "operator"
+        },
+        {
+          "key": "p",
+          "output": "|",
+          "category": "operator"
+        },
+        {
+          "key": "d",
+          "output": "+",
+          "category": "operator"
+        },
+        {
+          "key": "f",
+          "output": "!",
+          "category": "operator"
+        },
+        {
+          "key": "g",
+          "output": "~",
+          "category": "other"
+        },
+        {
+          "key": "h",
+          "output": "_",
+          "category": "other"
+        },
+        {
+          "key": "j",
+          "output": "(",
+          "category": "bracket"
+        },
+        {
+          "key": "k",
+          "output": ")",
+          "category": "bracket"
+        },
+        {
+          "key": "l",
+          "output": "{",
+          "category": "bracket"
+        },
+        {
+          "key": ";",
+          "output": "}",
+          "category": "bracket"
+        },
+        {
+          "key": "b",
+          "output": "`",
+          "category": "other"
+        },
+        {
+          "key": "n",
+          "output": "=",
+          "category": "operator"
+        },
+        {
+          "key": "m",
+          "output": "[",
+          "category": "bracket"
+        },
+        {
+          "key": ",",
+          "output": "]",
+          "category": "bracket"
+        },
+        {
+          "key": ".",
+          "output": "<",
+          "category": "bracket"
+        },
+        {
+          "key": "/",
+          "output": ">",
+          "category": "bracket"
+        }
+      ]
+    },
+    {
+      "id": "numbers",
+      "name": "Number layer",
+      "trigger": {
+        "key": "right_option",
+        "hold": "activates layer"
+      },
+      "mappings": [
+        {
+          "key": "a",
+          "output": "1",
+          "category": "number"
+        },
+        {
+          "key": "s",
+          "output": "2",
+          "category": "number"
+        },
+        {
+          "key": "d",
+          "output": "3",
+          "category": "number"
+        },
+        {
+          "key": "f",
+          "output": "4",
+          "category": "number"
+        },
+        {
+          "key": "g",
+          "output": "5",
+          "category": "number"
+        },
+        {
+          "key": "h",
+          "output": "6",
+          "category": "number"
+        },
+        {
+          "key": "j",
+          "output": "7",
+          "category": "number"
+        },
+        {
+          "key": "k",
+          "output": "8",
+          "category": "number"
+        },
+        {
+          "key": "m",
+          "output": "9",
+          "category": "number"
+        },
+        {
+          "key": ",",
+          "output": "0",
+          "category": "number"
+        }
+      ]
+    },
+    {
+      "id": "dual_role",
+      "name": "Tap / hold keys",
+      "mappings": [
+        {
+          "key": "caps_lock",
+          "tap": "Escape",
+          "hold": "Control"
+        },
+        {
+          "key": "tab",
+          "tap": "Tab",
+          "hold": "Symbol layer"
+        }
+      ]
+    }
+  ],
+  "physical_rows": {
+    "row1": [
+      "tab",
+      "q",
+      "w",
+      "e",
+      "r",
+      "t",
+      "y",
+      "u",
+      "i",
+      "o",
+      "p",
+      "[",
+      "]"
+    ],
+    "row2": [
+      "caps_lock",
+      "a",
+      "s",
+      "d",
+      "f",
+      "g",
+      "h",
+      "j",
+      "k",
+      "l",
+      ";",
+      "'"
+    ],
+    "row3": [
+      "shift",
+      "z",
+      "x",
+      "c",
+      "v",
+      "b",
+      "n",
+      "m",
+      ",",
+      ".",
+      "/"
+    ]
+  }
+}
