@@ -1,0 +1,330 @@
+{
+  "prefix": {
+    "keys": "C-f",
+    "replaces": "C-b",
+    "send_prefix": "C-f C-f",
+    "note": "Caps Lock is Ctrl via Karabiner on the Mac, so Caps Lock + f is a home-row chord"
+  },
+  "custom": [
+    {
+      "keys": "h j k l",
+      "action": "select-pane -L/-D/-U/-R",
+      "repeat": false,
+      "overrides": {
+        "l": "last-window"
+      }
+    },
+    {
+      "keys": "H J K L",
+      "action": "resize-pane -L/-D/-U/-R 5",
+      "repeat": true,
+      "overrides": {
+        "L": "switch-client -l (last session)"
+      }
+    },
+    {
+      "table": "copy-mode-vi",
+      "keys": "v",
+      "action": "begin-selection"
+    },
+    {
+      "table": "copy-mode-vi",
+      "keys": "y",
+      "action": "copy-selection-and-cancel"
+    }
+  ],
+  "tables": {
+    "panes": [
+      {
+        "keys": [
+          "\""
+        ],
+        "action": "split below"
+      },
+      {
+        "keys": [
+          "%"
+        ],
+        "action": "split right"
+      },
+      {
+        "keys": [
+          "z"
+        ],
+        "action": "zoom pane in / out"
+      },
+      {
+        "keys": [
+          "x"
+        ],
+        "action": "kill pane (asks y/n)"
+      },
+      {
+        "keys": [
+          "o"
+        ],
+        "action": "next pane"
+      },
+      {
+        "keys": [
+          ";"
+        ],
+        "action": "back to last pane"
+      },
+      {
+        "keys": [
+          "q"
+        ],
+        "action": "show pane numbers, type one"
+      },
+      {
+        "keys": [
+          "Space"
+        ],
+        "action": "cycle layouts"
+      },
+      {
+        "keys": [
+          "{",
+          "}"
+        ],
+        "action": "swap with previous / next"
+      },
+      {
+        "keys": [
+          "!"
+        ],
+        "action": "break pane into a window"
+      },
+      {
+        "keys": [
+          "←",
+          "↓",
+          "↑",
+          "→"
+        ],
+        "action": "also move (repeatable)"
+      }
+    ],
+    "windows": [
+      {
+        "keys": [
+          "c"
+        ],
+        "action": "new window"
+      },
+      {
+        "keys": [
+          "n",
+          "p"
+        ],
+        "action": "next / previous"
+      },
+      {
+        "keys": [
+          "1",
+          "9"
+        ],
+        "action": "jump by number (from 1)"
+      },
+      {
+        "keys": [
+          "w"
+        ],
+        "action": "pick from a list"
+      },
+      {
+        "keys": [
+          ","
+        ],
+        "action": "rename"
+      },
+      {
+        "keys": [
+          "&"
+        ],
+        "action": "kill window (asks y/n)"
+      },
+      {
+        "keys": [
+          "."
+        ],
+        "action": "move to index"
+      },
+      {
+        "keys": [
+          "f"
+        ],
+        "action": "find by name"
+      },
+      {
+        "keys": [
+          "l"
+        ],
+        "action": "taken by pane-right; use w or a number"
+      }
+    ],
+    "sessions": [
+      {
+        "keys": [
+          "d"
+        ],
+        "action": "detach, session keeps running"
+      },
+      {
+        "keys": [
+          "s"
+        ],
+        "action": "pick session from a list"
+      },
+      {
+        "keys": [
+          "$"
+        ],
+        "action": "rename session"
+      },
+      {
+        "keys": [
+          "(",
+          ")"
+        ],
+        "action": "previous / next session"
+      },
+      {
+        "keys": [
+          "L"
+        ],
+        "action": "taken by resize-right; use s"
+      }
+    ],
+    "copy_mode": [
+      {
+        "keys": [
+          "["
+        ],
+        "action": "enter (or wheel-scroll up)"
+      },
+      {
+        "keys": [
+          "v",
+          "V",
+          "C-v"
+        ],
+        "action": "select: chars / lines / block"
+      },
+      {
+        "keys": [
+          "y"
+        ],
+        "action": "copy and leave"
+      },
+      {
+        "keys": [
+          "]"
+        ],
+        "action": "paste"
+      },
+      {
+        "keys": [
+          "q"
+        ],
+        "action": "leave without copying"
+      },
+      {
+        "keys": [
+          "?"
+        ],
+        "action": "search down / up"
+      },
+      {
+        "keys": [
+          "n",
+          "N"
+        ],
+        "action": "next / previous match"
+      },
+      {
+        "keys": [
+          "g",
+          "G"
+        ],
+        "action": "top / bottom of scrollback"
+      },
+      {
+        "keys": [
+          "C-u",
+          "C-d"
+        ],
+        "action": "half page up / down"
+      }
+    ],
+    "misc": [
+      {
+        "keys": [
+          "?"
+        ],
+        "action": "all bindings"
+      },
+      {
+        "keys": [
+          ":"
+        ],
+        "action": "command prompt"
+      },
+      {
+        "keys": [
+          "t"
+        ],
+        "action": "clock"
+      }
+    ]
+  },
+  "shell": [
+    {
+      "command": "tmux new -A -s main",
+      "action": "attach, or create"
+    },
+    {
+      "command": "tmux ls",
+      "action": "list sessions"
+    },
+    {
+      "command": "tmux a -t main",
+      "action": "attach to one"
+    },
+    {
+      "command": "tmux kill-session -t main",
+      "action": "end one"
+    }
+  ],
+  "mouse": "Mouse: click selects a pane, drag a border to resize, wheel scrolls into copy mode. iTerm2: hold Option to select with the terminal.",
+  "options": {
+    "history-limit": 102400,
+    "base-index": 1,
+    "pane-base-index": 1,
+    "renumber-windows": "on",
+    "escape-time": 10,
+    "repeat-time": 500,
+    "status-keys": "emacs",
+    "mode-keys": "vi",
+    "mouse": "on"
+  },
+  "categories": {
+    "pane": {
+      "fill": "#E4ECF6",
+      "ink": "#2F5F94"
+    },
+    "window": {
+      "fill": "#FBE7D6",
+      "ink": "#B0531C"
+    },
+    "session": {
+      "fill": "#E3EFE2",
+      "ink": "#356B3A"
+    },
+    "copy": {
+      "fill": "#1F1E1C",
+      "ink": "#FFFFFF"
+    }
+  }
+}
