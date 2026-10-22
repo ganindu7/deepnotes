@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlusCal and TLA+ cheat sheet</title>
+<!-- Fixed 1123x794 px A4-landscape page in the keyboard-layers / tmux cheat-sheet style (design tokens in
+     ../../utils/keyboard_layers/design-tokens.json). cheat-sheet.png and cheat-sheet.pdf are rendered from this
+     file with headless Chrome: --window-size=1123,794 --force-device-scale-factor=2 --screenshot, and
+     --print-to-pdf with --no-pdf-header-footer; the exact commands are on the page under "Files in this folder".
+     Needs internet for the Google Fonts. -->
+<style>@page{size:A4 landscape;margin:0}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:#F6F4EF;color:#1F1E1C}
+a{color:#2F5F94}a:hover{color:#1F4570}
+.page{width:1123px;height:794px;padding:40px;background:#F6F4EF;display:flex;flex-direction:column;gap:16px}
+header{display:flex;justify-content:space-between;align-items:flex-end;height:48px}
+header .t{display:flex;flex-direction:column;gap:2px}
+h1{margin:0;font-size:28px;line-height:32px;font-weight:700;letter-spacing:-0.02em;color:#1F1E1C}
+.sub{font-size:13px;color:#5E5A53}
+.legend{display:flex;gap:16px}
+.legend div{display:flex;align-items:center;gap:6px;font-size:13px;color:#5E5A53}
+.sw{width:14px;height:14px;border-radius:4px;border:1.5px solid}
+.row{display:flex;gap:16px}
+section{background:#FFFFFF;border:1px solid #D6D3CC;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;overflow:hidden;flex-shrink:0}
+section.grow{flex:1;min-width:0}
+.hd{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+h2{margin:0;font-size:18px;line-height:22px;font-weight:700;color:#1F1E1C}
+.hd span{font-size:13px;color:#5E5A53}
+.hr{border-top:1px solid #D6D3CC}
+/* colour families: PlusCal = blue, TLA+ = orange, TLC and .cfg = green, watch out = dark */
+.pc{background:#E4ECF6;color:#2F5F94}
+.tla{background:#FBE7D6;color:#B0531C}
+.tlc{background:#E3EFE2;color:#356B3A}
+.warn{background:#1F1E1C;color:#FFFFFF}
+.n{background:#EEECE7;color:#1F1E1C}
+/* real ASCII everywhere: no == |-> => ligatures on a syntax sheet */
+.k,.code,.ops .m,.msg .m,code{font-family:'JetBrains Mono',monospace;font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.k{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 6px;border-radius:6px;font-size:11px;font-weight:700;line-height:1;white-space:nowrap;flex-shrink:0}
+.r{display:flex;align-items:center;gap:8px;height:21px;font-size:12px;color:#5E5A53;white-space:nowrap}
+.r b{color:#1F1E1C;font-weight:700}
+.code{font-size:11px;line-height:13.5px;color:#1F1E1C;display:flex;flex-direction:column}
+.code .l{display:flex;white-space:pre;align-items:center;height:13.5px}
+.code .c{min-width:236px}
+.code .a{font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;color:#5E5A53;white-space:nowrap}
+.code .kw{font-weight:700}
+.code .cm{color:#767676}
+.t{font-size:12px;line-height:15px;color:#5E5A53}
+.t b{color:#1F1E1C}
+.t code,.r code,.fair code{font-size:10.5px;font-weight:700;color:#1F1E1C}
+.ops{display:grid;grid-template-columns:72px minmax(0,1fr);column-gap:8px;row-gap:4px;align-items:start}
+.ops .m{min-width:0}
+.ops .lb{font-size:11px;line-height:14px;color:#767676;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.ops .m{font-size:11px;font-weight:700;line-height:14px;color:#1F1E1C;white-space:pre}
+.ops .m i{font-style:normal;font-family:'IBM Plex Sans',sans-serif;font-weight:400;font-size:11px;color:#767676}
+.fairs{display:flex;flex-direction:column;gap:5px}
+.fair{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:15px;color:#5E5A53}
+.fair .k{margin-top:-2px}
+.fair b{color:#1F1E1C}
+.msgs{display:flex;flex-direction:column;gap:2px}
+.msg{display:flex;flex-direction:column;height:26px}
+.msg .m{font-size:11px;font-weight:700;line-height:13px;white-space:nowrap}
+.msg .d{font-size:11.5px;line-height:13px;color:#5E5A53;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="t">
+    <h1>PlusCal</h1>
+    <span class="sub">P-syntax inside a TLA+ module · Parse translates, TLC checks · everything between two labels is one atomic step</span>
+  </div>
+  <div class="legend">
+    <div><span class="sw" style="background:#E4ECF6;border-color:#2F5F94"></span>PlusCal</div>
+    <div><span class="sw" style="background:#FBE7D6;border-color:#B0531C"></span>TLA+</div>
+    <div><span class="sw" style="background:#E3EFE2;border-color:#356B3A"></span>TLC and .cfg</div>
+    <div><span class="sw" style="background:#1F1E1C;border-color:#FFFFFF"></span>Watch out</div>
+  </div>
+</header>
+
+<div class="row" style="height:309px">
+  <section style="width:430px">
+    <div class="hd"><h2>Module shape</h2><span>Name.tla, with the algorithm in a comment</span></div>
+    <div class="code">
+      <div class="l"><span class="c">---- MODULE Name ----</span><span class="a">the file must be Name.tla</span></div>
+      <div class="l"><span class="c"><span class="kw">EXTENDS</span> Naturals, Sequences, TLC</span><span class="a">TLC gives assert and print</span></div>
+      <div class="l"><span class="c"><span class="kw">CONSTANTS</span> N</span><span class="a">value comes from Name.cfg</span></div>
+      <div class="l"><span class="c">Op(x) == x + 1</span><span class="a">cannot see the variables</span></div>
+      <div class="l"><span class="c"><span class="cm">(*</span> <span class="kw">--algorithm</span> Name</span><span class="a">or --fair algorithm</span></div>
+      <div class="l"><span class="c"><span class="kw">variables</span> x = 0, s \in {1, 2};</span><span class="a">\in: TLC tries each value</span></div>
+      <div class="l"><span class="c"><span class="kw">define</span> Inv == x &gt;= 0 <span class="kw">end define</span>;</span><span class="a">sees the variables and pc</span></div>
+      <div class="l"><span class="c"><span class="kw">macro</span> Inc(v) <span class="kw">begin</span> v := v + 1; <span class="kw">end macro</span>;</span></div>
+      <div class="l"><span class="c"><span class="kw">process</span> p \in 1..N</span><span class="a">set of processes, self = id</span></div>
+      <div class="l"><span class="c">  <span class="kw">variables</span> mine = 0;</span><span class="a">per-process variable</span></div>
+      <div class="l"><span class="c"><span class="kw">begin</span></span></div>
+      <div class="l"><span class="c">  L1: <span class="kw">while</span> TRUE <span class="kw">do</span> ... <span class="kw">end while</span>;</span><span class="a">label here, and every while</span></div>
+      <div class="l"><span class="c"><span class="kw">end process</span>;</span></div>
+      <div class="l"><span class="c"><span class="kw">process</span> q = "logger" <span class="kw">begin</span> L: skip; <span class="kw">end process</span>;</span></div>
+      <div class="l"><span class="c"><span class="kw">end algorithm</span>; <span class="cm">*)</span></span></div>
+      <div class="l"><span class="c"><span class="cm">\* BEGIN TRANSLATION</span></span><span class="a">generated: Init, Next, Spec</span></div>
+      <div class="l"><span class="c"><span class="cm">\* END TRANSLATION</span></span><span class="a"><span class="k warn" style="height:13px;font-size:10px;padding:0 5px">never edit this region</span></span></div>
+      <div class="l"><span class="c">====</span></div>
+    </div>
+  </section>
+
+  <section style="width:350px">
+    <div class="hd"><h2>Statements</h2><span>end every one with ;</span></div>
+    <div style="display:flex;flex-direction:column">
+      <div class="r"><span class="k pc">x := e;</span>assign; = compares, := assigns</div>
+      <div class="r"><span class="k pc">f[1] := a || f[2] := b;</span>two writes, one step</div>
+      <div class="r"><span class="k pc">if c then … else … end if;</span>elsif c then … too</div>
+      <div class="r"><span class="k pc">while c do … end while;</span>always needs a label</div>
+      <div class="r"><span class="k pc">either … or … end either;</span>TLC tries every arm</div>
+      <div class="r"><span class="k pc">with v \in S do … end with;</span>each v; or v = e</div>
+      <div class="r"><span class="k pc">await c;</span>step blocked until c (also <code>when</code>)</div>
+      <div class="r"><span class="k pc">skip;</span><span class="k pc">goto L;</span>nothing / jump, ends the step</div>
+      <div class="r"><span class="k pc">assert e;</span>TLC error if false (EXTENDS TLC)</div>
+      <div class="r"><span class="k pc">print e;</span>to TLC's output</div>
+      <div class="r"><span class="k pc">call P(a);</span><span class="k pc">return;</span>procedure; ends the step</div>
+    </div>
+  </section>
+
+  <section class="grow">
+    <div class="hd"><h2>Labels</h2><span>where a step begins</span></div>
+    <div class="t">One label to the next is <b>one atomic step</b>; other processes run only at a label. Too few labels hide bugs, too many add states but stay sound.</div>
+    <div class="t"><b>Required</b>: the first statement of the body, each process, each procedure; every <code>while</code>; after <code>goto</code>, <code>call</code>, <code>return</code>; a second write to a variable in a step (or use <code>||</code>); after an <code>if</code> / <code>either</code> containing a label.</div>
+    <div class="t"><b>Forbidden</b> inside <code>with</code> and a macro. All are reported as <span class="k warn" style="height:16px;font-size:10px">Missing label at …</span> with a line and column.</div>
+  </section>
+</div>
+
+<div class="row" style="height:325px">
+  <section style="width:330px">
+    <div class="hd"><h2>Properties</h2><span>liveness needs fairness</span></div>
+    <div style="display:flex;flex-direction:column">
+      <div class="r"><span class="k tlc">INVARIANTS</span><b>invariant:</b> holds in every state</div>
+      <div class="r"><span class="k tlc">PROPERTIES</span><b>temporal:</b> holds on every behaviour</div>
+      <div class="r"><span class="k tla">[]P</span>always<span class="k tla">&lt;&gt;P</span>eventually</div>
+      <div class="r"><span class="k tla">P ~&gt; Q</span>leads to: whenever P, Q then or later</div>
+      <div class="r"><span class="k tla">[]&lt;&gt;P</span>infinitely often<span class="k tla">&lt;&gt;[]P</span>eventually forever</div>
+    </div>
+    <div class="hr"></div>
+    <div class="fairs">
+      <div class="fair"><span class="k pc">fair process</span><span>weak (<b>WF</b>): a step enabled continuously is eventually taken.</span></div>
+      <div class="fair"><span class="k pc">fair+ process</span><span>strong (<b>SF</b>): enabled infinitely often, gaps allowed, is taken.</span></div>
+      <div class="fair"><span class="k pc">--fair algorithm</span><span>WF of all Next: one process only; else <b>fair process</b>.</span></div>
+    </div>
+    <div class="t"><b>No fairness</b>: safety checks, liveness fails.</div>
+  </section>
+
+  <section style="width:410px">
+    <div class="hd"><h2>TLA+ inside PlusCal</h2><span>expressions, define, invariants</span></div>
+    <div class="ops">
+      <div class="lb">logic</div><div class="m">/\ \/ ~ =&gt; &lt;=&gt; = #   IF c THEN a ELSE b</div>
+      <div class="lb">numbers</div><div class="m">+ - *  \div  %  &lt; &lt;= &gt; &gt;=  1..N</div>
+      <div class="lb">sets</div><div class="m">{1, 2}  \in  \notin  \cup  \cap  S \ T
+\subseteq SUBSET S Cardinality(S) <i>FiniteSets</i>
+{x \in S : P(x)} <i>filter</i>
+{e(x) : x \in S} <i>map</i></div>
+      <div class="lb">quantifiers</div><div class="m">\A x \in S : P    \E x \in S : P
+CHOOSE x \in S : P <i>deterministic pick</i></div>
+      <div class="lb">functions</div><div class="m">[i \in S |-&gt; e]  f[i]  DOMAIN f  [S -&gt; T]
+f[i] := e <i>in PlusCal is</i> [f EXCEPT ![i] = e]</div>
+      <div class="lb">records</div><div class="m">[a |-&gt; 1, b |-&gt; 2]   r.a   r.a := 3
+[a : S, b : T] <i>set of records</i></div>
+      <div class="lb">sequences</div><div class="m">&lt;&lt; &gt;&gt;  &lt;&lt;1, 2&gt;&gt;  Append(s, e)  Seq(S)
+Head(s)  Tail(s)  Len(s)  s \o t  s[i]
+SubSeq(s, m, n) <i>strings are just values</i></div>
+    </div>
+  </section>
+
+  <section class="grow">
+    <div class="hd"><h2>Name.cfg</h2><span>TLC's input and output</span></div>
+    <div class="code">
+      <div class="l"><span class="kw">CONSTANTS</span></div>
+      <div class="l">  N = 3</div>
+      <div class="l">  Procs = {p1, p2} <span class="cm">\* model values</span></div>
+      <div class="l"><span class="kw">SPECIFICATION</span> Spec</div>
+      <div class="l"><span class="kw">INVARIANTS</span> TypeOK Safe</div>
+      <div class="l"><span class="kw">PROPERTIES</span> Termination Live</div>
+      <div class="l"><span class="kw">CHECK_DEADLOCK</span> FALSE <span class="cm">\* if wanted</span></div>
+    </div>
+    <div class="hr"></div>
+    <div class="msgs">
+      <div class="msg"><span class="m" style="color:#356B3A">No error has been found.</span><span class="d">states generated / distinct / depth</span></div>
+      <div class="msg"><span class="m" style="color:#B0531C">Invariant X is violated.</span><span class="d">trace State 1 … State n: follow pc</span></div>
+      <div class="msg"><span class="m" style="color:#B0531C">Temporal properties were violated.</span><span class="d">ends in Back to state k, or Stuttering</span></div>
+      <div class="msg"><span class="m" style="color:#B0531C">Deadlock reached.</span><span class="d">nothing enabled and not every process Done</span></div>
+      <div class="msg"><span class="m" style="color:#1F1E1C">The operator X is not defined</span><span class="d">a .cfg name with no definition in the module</span></div>
+    </div>
+  </section>
+</div>
+</div>
+</body>
+</html>
