@@ -109,6 +109,27 @@ ssh somehost -t 'tmux new -A -s main'   # attach-or-create on a remote box
 | Ctrl+u / Ctrl+d | Half a page up / down | |
 | `h` `j` `k` `l` `w` `b` `0` `$` | Move as in vim | |
 
+## Copying from vim inside tmux
+
+On the Mac, vim copies straight to the macOS clipboard through the `*` register. Type the keys one after another: a double quote, an asterisk, then the command. Nothing shows on screen until the last key.
+
+| Keys | Action | Note |
+|:--|:--|:--|
+| `"*yy` | Copy the current line to the Mac clipboard | Four keys: `"` `*` `y` `y`. |
+| `"*5yy` | Copy 5 lines starting at the cursor | Any count works. |
+| `V`, move, `"*y` | Copy the selected lines | One `y` only: the selection already says what to copy. |
+| `"*yG` / `"*ygg` | Copy to the end / top of the file | |
+| `:10,20y *` | Copy lines 10 to 20 | |
+| `"*p` | Paste from the Mac clipboard | |
+
+A plain `y` only fills vim's own register. This vimrc line makes plain `y` and `p` use the clipboard; the guard keeps tiny vim builds quiet:
+
+```vim
+if has('clipboard') | set clipboard=unnamed | endif
+```
+
+On a remote box (benches, trucks) vim cannot reach the Mac clipboard, and the bench vim has no clipboard support. Use tmux copy mode instead: prefix `[`, move to the first line, `V`, extend with `j` / `k`, then `y`. tmux sends the text to the terminal over OSC 52, which iTerm2 accepts once **Settings → General → Selection → Applications in terminal may access clipboard** is ticked; then Cmd+V on the Mac. Fallback anywhere: hold Option, drag, Cmd+C.
+
 ## Settings
 
 | Option | Value | Why |
