@@ -96,6 +96,11 @@
           "category": "bracket"
         },
         {
+          "key": "'",
+          "output": "\"",
+          "category": "other"
+        },
+        {
           "key": "b",
           "output": "`",
           "category": "other"

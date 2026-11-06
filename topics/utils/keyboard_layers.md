@@ -18,7 +18,7 @@ Three behaviours, all implemented as Karabiner-Elements complex modifications:
 2. **Hold Right Option** for numbers on the home row.
 3. **Caps Lock** taps as Escape and holds as Control.
 
-Source of truth for the rules is the [karabiner-symbol-layer](https://github.com/ganindu7/karabiner-symbol-layer) repo. The files below are a snapshot of the design package from 23 Sep 2026.
+Source of truth for the rules is the [karabiner-symbol-layer](https://github.com/ganindu7/karabiner-symbol-layer) repo. The files below are a snapshot of the design package from 23 Sep 2026, updated 6 Nov 2026 to add `"` on Tab+'.
 
 ## Cheat sheet
 
@@ -34,7 +34,7 @@ Source of truth for the rules is the [karabiner-symbol-layer](https://github.com
 | Top | W | `@` | E | `#` | R | `$` | T | `%` | Y | `\` |
 |  | U | `^` | I | `&` | O | `*` | P | <code>&#124;</code> |  |  |
 | Home | D | `+` | F | `!` | G | `~` | H | `_` | J | `(` |
-|  | K | `)` | L | `{` | ; | `}` |  |  |  |  |
+|  | K | `)` | L | `{` | ; | `}` | ' | `"` |  |  |
 | Bottom | B | `` ` `` | N | `=` | M | `[` | , | `]` | . | `<` |
 |  | / | `>` |  |  |  |  |  |  |  |  |
 
@@ -42,7 +42,9 @@ Grouped by category, as on the cheat sheet:
 
 - **Brackets**: J `(` · K `)` · L `{` · ; `}` · M `[` · , `]` · . `<` · / `>`
 - **Operators**: N `=` · D `+` · F `!` · I `&` · P `|` · U `^` · O `*` · T `%`
-- **Other**: W `@` · E `#` · R `$` · Y `\` · H `_` · G `~` · B `` ` ``
+- **Other**: W `@` · E `#` · R `$` · Y `\` · H `_` · G `~` · B `` ` `` · ' `"`
+
+`"` is on Tab+' *and* still on Shift+', so `("…")`, `["key"]` and `{"a": 1}` can be typed without letting go of Tab. The trade-off: Tab+' no longer types `'`, so for `('x')` let go of Tab for the quote.
 
 On the UK (British) input source, Tab+E sends Option+3 so it still types `#`. The rules cover both UK and US layouts.
 

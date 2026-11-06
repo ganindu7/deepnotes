@@ -294,6 +294,32 @@
           "type": "basic"
         },
         {
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "symbol_layer",
+              "value": 1
+            }
+          ],
+          "from": {
+            "key_code": "quote",
+            "modifiers": {
+              "optional": [
+                "caps_lock"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "quote",
+              "modifiers": [
+                "left_shift"
+              ]
+            }
+          ]
+        },
+        {
           "conditions": [
             {
               "name": "symbol_layer",
